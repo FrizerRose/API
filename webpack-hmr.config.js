@@ -1,6 +1,7 @@
-
 // eslint-disable-next-line
 const webpack = require('webpack');
+// eslint-disable-next-line
+const nodeExternals = require('webpack-node-externals');
 // eslint-disable-next-line
 const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
 // eslint-disable-next-line
@@ -17,7 +18,9 @@ module.exports = function(options) {
     plugins: [
       ...options.plugins,
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.WatchIgnorePlugin([/\.js$/, /\.d\.ts$/]),
+      new webpack.WatchIgnorePlugin({
+        paths: [/\.js$/, /\.d\.ts$/]
+      }),
       new RunScriptWebpackPlugin({ name: options.output.filename }),
     ],
   };

@@ -16,7 +16,16 @@ async function bootstrap() {
   // });
 
   app.setGlobalPrefix(process.env.APP_PREFIX || 'api');
-  app.use(helmet());
+  app.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: [`'self'`],
+        styleSrc: [`'self'`, `'unsafe-inline'`],
+        imgSrc: [`'self'`, 'data:', 'validator.swagger.io'],
+        scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
+      },
+    }
+  }));
   app.enableCors();
 
   if(process.env.APP_RATE_LIMIT_WINDOW && process.env.APP_RATE_LIMIT_REQUESTS) {
@@ -30,7 +39,7 @@ async function bootstrap() {
 
   if(process.env.CACHE_PORT && process.env.SESSION_SECRET) {
     const RedisStore = store(session);
-    const redisClient = redis.createClient(+process.env.CACHE_PORT, 'postgres_container');
+    const redisClient = redis.createClient(+process.env.CACHE_PORT, 'redis_container');
     app.use(
       session({
         store: new RedisStore({ client: redisClient, ttl: process.env.SESSION_TTL }),

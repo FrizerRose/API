@@ -40,7 +40,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         store: redisStore,
-        host: 'postgres_container',
+        host: 'redis_container',
         port: configService.get<string>('cache.port'),
         ttl: configService.get<string>('cache.ttl'),
       }),
