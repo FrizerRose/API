@@ -1,0 +1,78 @@
+version: "3.3"
+
+services:
+  api:
+    container_name: api
+    build:
+      context: api
+      dockerfile: docker/dev/Dockerfile-api
+    volumes:
+      - ./api:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+      - 9229:9229
+    command: npm run start:debug
+    networks:
+      - api_network
+    env_file: .env
+    depends_on:
+      - redis
+      - postgres
+  nginx:
+    container_name: nginx
+    build:
+      context: api
+      dockerfile: docker/dev/Dockerfile-nginx
+    ports:
+      - 80:80
+    environment:
+      APP_SERVER_NAME: ${APP_SERVER_NAME}
+      APP_PREFIX: ${APP_PREFIX}
+      APP_PORT: ${APP_PORT}
+    networks:
+      - api_network
+    depends_on:
+      - api
+  redis:
+    container_name: redis
+    image: redis:5
+    networks:
+      - api_network
+  postgres:
+    container_name: postgres
+    image: postgres:12
+    networks:
+      - api_network
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025 # smtp server
+      - 8025:8025 # web ui
+    networks:
+      - api_network
+  scope:
+    image: weaveworks/scope:1.13.0
+    network_mode: "host"
+    pid: "host"
+    privileged: true
+    labels:
+      - "works.weave.role=system"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:rw"
+    command:
+      - "--probe.docker=true"
+networks:
+  api_network:
+    driver: bridge
+volumes:
+  pgdata: {}
