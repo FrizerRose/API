@@ -32,6 +32,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
         synchronize: configService.get<boolean>('database.synchronize'),
         autoLoadEntities: true,
         logging: true,
+        keepConnectionAlive: true,
       }),
     }),
     CacheModule.registerAsync({
@@ -39,7 +40,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         store: redisStore,
-        host: 'redis',
+        host: 'postgres_container',
         port: configService.get<string>('cache.port'),
         ttl: configService.get<string>('cache.ttl'),
       }),

@@ -30,7 +30,7 @@ async function bootstrap() {
 
   if(process.env.CACHE_PORT && process.env.SESSION_SECRET) {
     const RedisStore = store(session);
-    const redisClient = redis.createClient(+process.env.CACHE_PORT, 'redis');
+    const redisClient = redis.createClient(+process.env.CACHE_PORT, 'postgres_container');
     app.use(
       session({
         store: new RedisStore({ client: redisClient, ttl: process.env.SESSION_TTL }),

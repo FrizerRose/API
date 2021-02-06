@@ -6,21 +6,21 @@ export class ContactCreateDto {
     required: true,
   })
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @ApiProperty({
     required: true,
   })
   @IsEmail()
-  email: string;
+  email!: string;
 
   @ApiProperty({
     required: true,
   })
-  body: string;
+  body!: string;
 
   @ApiProperty({
     required: false,
   })
-  clinic: number;
+  clinic!: number;
 }

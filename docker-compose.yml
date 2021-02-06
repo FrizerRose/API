@@ -1,8 +1,8 @@
 version: "3.3"
 
 services:
-  api:
-    container_name: api
+  api_container:
+    container_name: api_container
     build:
       context: .
       dockerfile: docker/dev/Dockerfile-api
@@ -17,10 +17,10 @@ services:
       - api_network
     env_file: .env
     depends_on:
-      - redis
-      - postgres
-  nginx:
-    container_name: nginx
+      - redis_container
+      - postgres_container
+  nginx_container:
+    container_name: nginx_container
     build:
       context: .
       dockerfile: docker/dev/Dockerfile-nginx
@@ -33,14 +33,14 @@ services:
     networks:
       - api_network
     depends_on:
-      - api
-  redis:
-    container_name: redis
+      - api_container
+  redis_container:
+    container_name: redis_container
     image: redis:5
     networks:
       - api_network
-  postgres:
-    container_name: postgres
+  postgres_container:
+    container_name: postgres_container
     image: postgres:12
     networks:
       - api_network
@@ -53,7 +53,7 @@ services:
       - ${DB_PORT}:${DB_PORT}
     volumes:
       - pgdata:/var/lib/postgresql/data
-  mailhog:
+  mailhog_container:
     image: mailhog/mailhog
     ports:
       - 1025:1025 # smtp server
