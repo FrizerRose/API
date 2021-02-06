@@ -3,6 +3,7 @@ import * as multer from 'multer';
 import * as AWS from 'aws-sdk';
 import * as multerS3 from 'multer-s3';
 import { ConfigService } from '@nestjs/config';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class ImageUploadService {
@@ -19,7 +20,7 @@ export class ImageUploadService {
         region: 'eu-central-1',
         signatureVersion: 'v4',
       }),
-      bucket: this.configService.get<string>('aws.bucket'),
+      bucket: this.configService.get<string>('aws.bucket') || 'frizerrose-images',
       acl: 'public-read',
       key: function (request, file, cb) {
         cb(null, `${Date.now().toString()} - ${file.originalname}`);
@@ -27,7 +28,7 @@ export class ImageUploadService {
     });
   }
 
-  async fileUpload(@Req() request, @Res() response): Promise<any> {
+  async fileUpload(@Req() request: Request, @Res() response: Response): Promise<any> {
     return new Promise((resolve, reject) => {
       try {
         const upload = multer({
@@ -56,9 +57,10 @@ export class ImageUploadService {
    * @param file 
    * @param cb 
    */
-  protected imageFilter(request, file, cb) {
+  protected imageFilter(request: Request, file: Express.Multer.File, cb: multer.FileFilterCallback): void{
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-      return cb(new Error('Only image files are allowed!'), false);
+      // null should be new Error('Only image files are allowed!')
+      return cb(null, false);
     }
     cb(null, true);
   }

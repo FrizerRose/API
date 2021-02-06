@@ -1,12 +1,10 @@
 import { CacheModule, Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import * as redisStore from 'cache-manager-redis-store';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { ClinicsModule } from './clinics/clinics.module';
 import { CommonModule } from './common/common.module';
 import configuration from './config';
 import { UsersModule } from './users/users.module';
@@ -62,12 +60,10 @@ import { MailerModule } from '@nestjs-modules/mailer';
         },
       }),
     }),
-    // PrometheusModule.register(),
     CommonModule,
     ImageUploadModule,
     AuthModule,
     UsersModule,
-    ClinicsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

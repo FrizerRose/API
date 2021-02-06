@@ -2,7 +2,7 @@ import { CacheStore, CACHE_MANAGER, Inject, Injectable, NotAcceptableException }
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LoggerService } from '../common/LoggerService';
-import { GalleryCreateDto, GalleryUpdateDto } from './dto';
+import { GalleryCreateDto, GalleryUpdateDto } from './dto/index';
 import { Gallery } from './gallery.entity';
 
 @Injectable()
@@ -14,39 +14,39 @@ export class GallerysService {
     @Inject(CACHE_MANAGER) private readonly cacheStore: CacheStore,
   ) {}
 
-  async getAll() {
-    let gallery = await this.cacheStore.get('all_gallery');
+  async getAll(): Promise<Gallery[] | undefined> {
+    let galleries: Gallery[] | undefined = await this.cacheStore.get('all_galleries');
 
-    if (gallery) {
-      this.logger.log('Getting all gallery from cache.');
-      return gallery;
+    if (galleries) {
+      this.logger.log('Getting all galleries from cache.');
+      return galleries;
     }
 
-    gallery = await this.galleryRepository.find();
-    this.cacheStore.set('all_gallery', gallery, { ttl: 20 });
+    galleries = await this.galleryRepository.find();
+    this.cacheStore.set('all_galleries', galleries, { ttl: 20 });
 
     this.logger.log('Querying all gallery!');
-    return gallery;
+    return galleries;
   }
 
-  async get(id: number): Promise<Gallery> {
+  async get(id: number): Promise<Gallery | undefined> {
     return this.galleryRepository.findOne(id);
   }
 
-  async getByClinicID(id: string) {
-    return await this.galleryRepository
-      .createQueryBuilder('gallery')
-      .where('gallery.clinic = :id')
-      .setParameter('id', id)
-      .getOne();
-  }
+  // async getByClinicID(id: string): Promise<Gallery | undefined> {
+  //   return await this.galleryRepository
+  //     .createQueryBuilder('gallery')
+  //     .where('gallery.clinic = :id')
+  //     .setParameter('id', id)
+  //     .getOne();
+  // }
 
   async create(payload: GalleryCreateDto): Promise<Gallery> {
-    const oldGallery = await this.getByClinicID(payload.clinic);
+    // const oldGallery = await this.getByClinicID(payload.clinic);
 
-    if (oldGallery) {
-      throw new NotAcceptableException('Gallery for provided clinic already created.');
-    }
+    // if (oldGallery) {
+    //   throw new NotAcceptableException('Gallery for provided clinic already created.');
+    // }
 
     return await this.galleryRepository.save(this.galleryRepository.create(payload as Record<string, any>));
   }

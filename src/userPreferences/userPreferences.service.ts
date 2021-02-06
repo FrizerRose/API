@@ -2,7 +2,7 @@ import { CacheStore, CACHE_MANAGER, Inject, Injectable, NotAcceptableException }
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LoggerService } from '../common/LoggerService';
-import { UserPreferencesCreateDto, UserPreferencesUpdateDto } from './dto';
+import { UserPreferencesCreateDto, UserPreferencesUpdateDto } from './dto/index';
 import { UserPreferences } from './userPreferences.entity';
 
 @Injectable()
@@ -14,8 +14,8 @@ export class UserPreferencesService {
     @Inject(CACHE_MANAGER) private readonly cacheStore: CacheStore,
   ) {}
 
-  async getAll() {
-    let userPreferences = await this.cacheStore.get('all_userPreferences');
+  async getAll(): Promise<UserPreferences[] | undefined> {
+    let userPreferences: UserPreferences[] | undefined = await this.cacheStore.get('all_userPreferences');
 
     if (userPreferences) {
       this.logger.log('Getting all userPreferences from cache.');
@@ -29,11 +29,11 @@ export class UserPreferencesService {
     return userPreferences;
   }
 
-  async get(id: number): Promise<UserPreferences> {
+  async get(id: number): Promise<UserPreferences | undefined> {
     return this.userPreferencesRepository.findOne(id);
   }
 
-  async getByName(name: string) {
+  async getByName(name: string): Promise<UserPreferences | undefined> {
     return await this.userPreferencesRepository
       .createQueryBuilder('userPreferences')
       .where('userPreferences.name = :name')
@@ -55,12 +55,14 @@ export class UserPreferencesService {
 
   async update(payload: UserPreferencesUpdateDto): Promise<UserPreferences> {
     const oldUserPreferences = await this.get(payload.id);
-
+    
     if (!oldUserPreferences) {
       throw new NotAcceptableException('UserPreferences with provided id not yet created.');
     }
 
-    return await this.userPreferencesRepository.save(payload);
+    oldUserPreferences.name = payload.name;
+
+    return await this.userPreferencesRepository.save(oldUserPreferences);
   }
 
   async delete(id: number): Promise<UserPreferences> {

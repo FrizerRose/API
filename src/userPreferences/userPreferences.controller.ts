@@ -1,6 +1,7 @@
 import { Body, CacheInterceptor, Controller, Get, Post, Put, UseInterceptors, Delete, Param } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserPreferencesCreateDto, UserPreferencesUpdateDto } from './dto';
+import { UserPreferencesCreateDto, UserPreferencesUpdateDto } from './dto/index';
+import { UserPreferences } from './userPreferences.entity';
 import { UserPreferencesService } from './userPreferences.service';
 
 @Controller('userPreferences')
@@ -10,7 +11,7 @@ export class UserPreferencesController {
   constructor(private readonly userPreferencesService: UserPreferencesService) {}
 
   @Get()
-  findAll() {
+  findAll(): Promise<UserPreferences[] | undefined> {
     return this.userPreferencesService.getAll();
   }
 
@@ -19,14 +20,14 @@ export class UserPreferencesController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   create(@Body() payload: UserPreferencesCreateDto): Promise<any> {
-    return this.userPreferencesService.create(payload as Record<string, any>);
+    return this.userPreferencesService.create(payload);
   }
 
   @Put()
   @ApiResponse({ status: 200, description: 'Successful update' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  update(@Body() payload: UserPreferencesUpdateDto): Promise<any> {
+  update(@Body() payload: UserPreferencesUpdateDto): Promise<UserPreferences> {
     return this.userPreferencesService.update(payload);
   }
 

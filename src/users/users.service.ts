@@ -1,8 +1,6 @@
 import { CacheStore, CACHE_MANAGER, Inject, Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { InjectMetric } from '@willsoto/nestjs-prometheus';
 import * as crypto from 'crypto';
-import { Counter } from 'prom-client';
 import { Repository } from 'typeorm';
 import { RegisterDto, UpdateUserDto } from '../auth/dto';
 import { LoggerService } from './../common/LoggerService';
@@ -15,12 +13,10 @@ export class UsersService {
     private readonly usersRepository: Repository<User>,
     private logger: LoggerService,
     @Inject(CACHE_MANAGER) private readonly cacheStore: CacheStore,
-    @InjectMetric('all_users_count') public counter: Counter<string>,
   ) {}
 
-  async getAll() {
-    this.counter.inc();
-    let users = await this.cacheStore.get('all_users');
+  async getAll(): Promise<User[] | undefined> {
+    let users: User[] | undefined = await this.cacheStore.get('all_users');
 
     if (users) {
       this.logger.log('Getting all users from cache.');
@@ -34,11 +30,11 @@ export class UsersService {
     return users;
   }
 
-  async get(id: number): Promise<User> {
+  async get(id: number): Promise<User | undefined> {
     return this.usersRepository.findOne(id);
   }
 
-  async getByEmail(email: string) {
+  async getByEmail(email: string): Promise<User | undefined> {
     return await this.usersRepository
       .createQueryBuilder('users')
       .where('users.email = :email')
@@ -46,7 +42,7 @@ export class UsersService {
       .getOne();
   }
 
-  async getByEmailAndPass(email: string, password: string): Promise<User> {
+  async getByEmailAndPass(email: string, password: string): Promise<User | undefined> {
     const passHash = crypto.createHmac('sha256', password).digest('hex');
     return await this.usersRepository
       .createQueryBuilder('users')
@@ -56,7 +52,7 @@ export class UsersService {
       .getOne();
   }
 
-  async getByEmailAndHashedPass(email: string, hashedPass: string): Promise<User> {
+  async getByEmailAndHashedPass(email: string, hashedPass: string): Promise<User | undefined> {
     console.log(email, hashedPass);
     return await this.usersRepository
       .createQueryBuilder('users')
@@ -74,7 +70,7 @@ export class UsersService {
     }
 
     const newUser = await this.usersRepository.save(this.usersRepository.create(payload as Record<string, any>));
-    delete newUser.password;
+    // delete newUser.password;
     return newUser;
   }
 
@@ -86,7 +82,7 @@ export class UsersService {
     }
 
     const updatedUser = await this.usersRepository.save(payload);
-    delete updatedUser.password;
+    // delete updatedUser.password;
     return updatedUser;
   }
 
@@ -98,7 +94,7 @@ export class UsersService {
     }
 
     const deletedUser = await this.usersRepository.remove(oldUser);
-    delete deletedUser.password;
+    // delete deletedUser.password;
     return deletedUser;
   }
 }

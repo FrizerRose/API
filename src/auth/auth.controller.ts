@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Post, Request, Put, Param, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Put, Param, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './../users/users.service';
 import { AuthService } from './auth.service';
-import { LoginDto, RegisterDto, UpdateUserDto, ChangePasswordDto } from './dto';
+import { LoginDto, RegisterDto, UpdateUserDto, ChangePasswordDto } from './dto/index';
+import { Request } from 'express';
 
 @Controller('auth')
 @ApiTags('authentication')
@@ -24,7 +25,7 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async create(@Body() payload: RegisterDto): Promise<any> {
-    const user = await this.userService.create(payload as Record<string, any>);
+    const user = await this.userService.create(payload);
     return await this.authService.createToken(user);
   }
 
@@ -41,7 +42,7 @@ export class AuthController {
   @Get('me')
   @ApiResponse({ status: 200, description: 'Successful Response' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async getLoggedInUser(@Request() request): Promise<any> {
+  async getLoggedInUser(@Req() request: Request): Promise<any> {
     return request.user;
   }
 
@@ -49,7 +50,7 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Successfully sent email' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async resetPassword(@Param('email') email): Promise<any> {
+  async resetPassword(@Param('email') email: string): Promise<any> {
     return await this.authService.sendResetPasswordEmail(email);
   }
 

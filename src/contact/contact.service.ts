@@ -2,7 +2,7 @@ import { CacheStore, CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LoggerService } from '../common/LoggerService';
-import { ContactCreateDto } from './dto';
+import { ContactCreateDto } from './dto/index';
 import { Contact } from './contact.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
@@ -18,8 +18,8 @@ export class ContactsService {
     private readonly configService: ConfigService,
   ) { }
 
-  async getAll() {
-    let contact = await this.cacheStore.get('all_contact');
+  async getAll(): Promise<Contact[] | undefined> {
+    let contact: Contact[] | undefined = await this.cacheStore.get('all_contact');
 
     if (contact) {
       this.logger.log('Getting all contact from cache.');
@@ -33,11 +33,11 @@ export class ContactsService {
     return contact;
   }
 
-  async get(id: number): Promise<Contact> {
+  async get(id: number): Promise<Contact | undefined> {
     return this.contactRepository.findOne(id);
   }
 
-  async getByName(name: string) {
+  async getByName(name: string): Promise<Contact | undefined> {
     return await this.contactRepository
       .createQueryBuilder('contact')
       .where('contact.name = :name')
@@ -48,8 +48,7 @@ export class ContactsService {
   async create(payload: ContactCreateDto): Promise<Contact> {
     const contact = await this.contactRepository.save(this.contactRepository.create(payload as Record<string, any>));
 
-    // Send email to our default email if the clinic wasn't provided.
-    const toEmail = contact.clinic ? contact.clinic.user.email : this.configService.get<string>('email.default');
+    const toEmail = this.configService.get<string>('email.default');
 
     this
       .mailerService

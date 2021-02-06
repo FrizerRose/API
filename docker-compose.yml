@@ -4,10 +4,10 @@ services:
   api:
     container_name: api
     build:
-      context: api
+      context: .
       dockerfile: docker/dev/Dockerfile-api
     volumes:
-      - ./api:/usr/src/app
+      - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - ${APP_PORT}:${APP_PORT}
@@ -22,7 +22,7 @@ services:
   nginx:
     container_name: nginx
     build:
-      context: api
+      context: .
       dockerfile: docker/dev/Dockerfile-nginx
     ports:
       - 80:80

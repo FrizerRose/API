@@ -6,12 +6,12 @@ import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'ty
 })
 export class UserPreferences {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({ length: 255 })
-  name: string;
+  name!: string;
 
   @OneToOne(type => User)
   @JoinColumn()
-  user: User;
+  user!: User;
 }

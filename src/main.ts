@@ -15,27 +15,31 @@ async function bootstrap() {
   //   logger: false,
   // });
 
-  // app.useLogger(new LoggerService());
   app.setGlobalPrefix(process.env.APP_PREFIX || 'api');
   app.use(helmet());
   app.enableCors();
-  app.use(
-    rateLimit({
-      windowMs: process.env.APP_RATE_LIMIT_WINDOW,
-      max: process.env.APP_RATE_LIMIT_REQUESTS,
-    }),
-  );
 
-  const RedisStore = store(session);
-  const redisClient = redis.createClient(process.env.CACHE_PORT, 'redis');
-  app.use(
-    session({
-      store: new RedisStore({ client: redisClient, ttl: process.env.SESSION_TTL }),
-      secret: process.env.SESSION_SECRET,
-      resave: false,
-      saveUninitialized: false,
-    }),
-  );
+  if(process.env.APP_RATE_LIMIT_WINDOW && process.env.APP_RATE_LIMIT_REQUESTS) {
+    app.use(
+      rateLimit({
+        windowMs: +process.env.APP_RATE_LIMIT_WINDOW,
+        max: +process.env.APP_RATE_LIMIT_REQUESTS,
+      }),
+    );
+  }
+
+  if(process.env.CACHE_PORT && process.env.SESSION_SECRET) {
+    const RedisStore = store(session);
+    const redisClient = redis.createClient(+process.env.CACHE_PORT, 'redis');
+    app.use(
+      session({
+        store: new RedisStore({ client: redisClient, ttl: process.env.SESSION_TTL }),
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+      }),
+    );
+  }
 
   setupSwagger(app);
 

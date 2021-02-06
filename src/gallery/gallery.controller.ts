@@ -1,6 +1,7 @@
 import { Body, CacheInterceptor, Controller, Get, Post, Put, UseInterceptors, Delete, Param } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { GalleryCreateDto, GalleryUpdateDto } from './dto';
+import { GalleryCreateDto, GalleryUpdateDto } from './dto/index';
+import { Gallery } from './gallery.entity';
 import { GallerysService } from './gallery.service';
 
 @Controller('gallery')
@@ -10,7 +11,7 @@ export class GallerysController {
   constructor(private readonly galleryService: GallerysService) {}
 
   @Get()
-  findAll() {
+  findAll(): Promise<Gallery[] | undefined> {
     return this.galleryService.getAll();
   }
 
@@ -19,7 +20,7 @@ export class GallerysController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   create(@Body() payload: GalleryCreateDto): Promise<any> {
-    return this.galleryService.create(payload as Record<string, any>);
+    return this.galleryService.create(payload);
   }
 
   @Put()

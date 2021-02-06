@@ -3,9 +3,14 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User } from './../users/user.entity';
 import { UsersService } from './../users/users.service';
-import { LoginDto, ChangePasswordDto } from './dto';
+import { LoginDto, ChangePasswordDto } from './dto/index';
 import { MailerService } from '@nestjs-modules/mailer';
 
+type Token = {
+  expiresIn: string | undefined,
+  accessToken: string,
+  user: User,
+}
 @Injectable()
 export class AuthService {
   constructor(
@@ -15,7 +20,7 @@ export class AuthService {
     private readonly mailerService: MailerService,
   ) {}
 
-  async createToken(user: User) {
+  async createToken(user: User): Promise<Token> {
     return {
       expiresIn: this.configService.get('jwt.ttl'),
       accessToken: this.jwtService.sign({ id: user.id }),
@@ -56,12 +61,14 @@ export class AuthService {
     return token;
   }
 
-  async changePassword(payload: ChangePasswordDto) {
+  async changePassword(payload: ChangePasswordDto): Promise<User> {
     const tokenPayload = this.jwtService.decode(payload.token);
-    console.log(tokenPayload);
+
+    // TODO: untangle this
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const user = await this.userService.getByEmailAndHashedPass(tokenPayload.email, tokenPayload.password);
-    console.log(user);
+
     if (!user) {
       throw new NotAcceptableException('User not found!');
     }
