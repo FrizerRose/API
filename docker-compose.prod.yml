@@ -1,0 +1,23 @@
+version: "3.3"
+
+services:
+  api_container:
+    build:
+      context: .
+      dockerfile: docker/prod/Dockerfile-api
+    restart: always
+    command: node dist/main
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    env_file: .env.prod
+  nginx_container:
+    build:
+      context: .
+      dockerfile: docker/prod/Dockerfile-nginx
+    restart: always
+  redis_container:
+    restart: always
+  postgres_container:
+    restart: always
+  mailhog_container:
+    restart: always
