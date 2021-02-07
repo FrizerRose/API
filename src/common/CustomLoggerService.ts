@@ -42,13 +42,13 @@ export class CustomLoggerService extends Logger {
     };
 
     this.logger = winston.createLogger({
-      transports: [
-        new winston.transports.File(options.file),
-        new winston.transports.Console(options.console),
-        new Sentry(options.sentry),
-      ],
+      transports: [new winston.transports.File(options.file), new winston.transports.Console(options.console)],
       exitOnError: false, // do not exit on handled exceptions
     });
+
+    if (process.env.NODE_ENV !== 'development') {
+      this.logger.add(new Sentry(options.sentry));
+    }
   }
 
   /**
