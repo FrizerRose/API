@@ -15,9 +15,20 @@ services:
       context: .
       dockerfile: docker/prod/Dockerfile-nginx
     restart: always
+    environment:
+      APP_SERVER_NAME: ${APP_SERVER_NAME}
+      APP_PREFIX: ${APP_PREFIX}
+      APP_PORT: ${APP_PORT}
   redis_container:
     restart: always
   postgres_container:
     restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - ${DB_PORT}:${DB_PORT}
   mailhog_container:
     restart: always
