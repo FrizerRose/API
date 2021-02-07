@@ -6,14 +6,15 @@ import * as helmet from 'helmet';
 import * as redis from 'redis';
 import { AppModule } from './app.module';
 import { setupSwagger } from './common/SwaggerSetup';
+import { CustomLoggerService } from './common/CustomLoggerService'
 
 declare const module: any;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  // const app = await NestFactory.create(AppModule, {
-  //   logger: false,
-  // });
+  // const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: new CustomLoggerService(),
+  });
 
   app.setGlobalPrefix(process.env.APP_PREFIX || 'api');
   app.use(helmet({

@@ -1,7 +1,7 @@
 import { CacheStore, CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LoggerService } from '../common/LoggerService';
+import { CustomLoggerService } from '../common/CustomLoggerService';
 import { ContactCreateDto } from './dto/index';
 import { Contact } from './contact.entity';
 import { MailerService } from '@nestjs-modules/mailer';
@@ -12,7 +12,7 @@ export class ContactsService {
   constructor(
     @InjectRepository(Contact)
     private readonly contactRepository: Repository<Contact>,
-    private logger: LoggerService,
+    private logger: CustomLoggerService,
     @Inject(CACHE_MANAGER) private readonly cacheStore: CacheStore,
     private readonly mailerService: MailerService,
     private readonly configService: ConfigService,

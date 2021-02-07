@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
 import { Repository } from 'typeorm';
 import { RegisterDto, UpdateUserDto } from '../auth/dto';
-import { LoggerService } from './../common/LoggerService';
+import { CustomLoggerService } from '../common/CustomLoggerService';
 import { User } from './user.entity';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
-    private logger: LoggerService,
+    private logger: CustomLoggerService,
     @Inject(CACHE_MANAGER) private readonly cacheStore: CacheStore,
   ) {}
 

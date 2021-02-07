@@ -32,5 +32,8 @@ export default (): Record<string, any> => ({
   },
   url: {
     api: process.env.API_URL_BROWSER,
+  },
+  sentry: {
+    dsn: process.env.SENTRY_DSN,
   }
 });

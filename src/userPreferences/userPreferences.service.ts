@@ -1,7 +1,7 @@
 import { CacheStore, CACHE_MANAGER, Inject, Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LoggerService } from '../common/LoggerService';
+import { CustomLoggerService } from '../common/CustomLoggerService';
 import { UserPreferencesCreateDto, UserPreferencesUpdateDto } from './dto/index';
 import { UserPreferences } from './userPreferences.entity';
 
@@ -10,7 +10,7 @@ export class UserPreferencesService {
   constructor(
     @InjectRepository(UserPreferences)
     private readonly userPreferencesRepository: Repository<UserPreferences>,
-    private logger: LoggerService,
+    private logger: CustomLoggerService,
     @Inject(CACHE_MANAGER) private readonly cacheStore: CacheStore,
   ) {}
 

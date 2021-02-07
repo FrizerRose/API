@@ -1,7 +1,7 @@
 import { CacheStore, CACHE_MANAGER, Inject, Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LoggerService } from '../common/LoggerService';
+import { CustomLoggerService } from '../common/CustomLoggerService';
 import { GalleryCreateDto, GalleryUpdateDto } from './dto/index';
 import { Gallery } from './gallery.entity';
 
@@ -10,7 +10,7 @@ export class GallerysService {
   constructor(
     @InjectRepository(Gallery)
     private readonly galleryRepository: Repository<Gallery>,
-    private logger: LoggerService,
+    private logger: CustomLoggerService,
     @Inject(CACHE_MANAGER) private readonly cacheStore: CacheStore,
   ) {}
 

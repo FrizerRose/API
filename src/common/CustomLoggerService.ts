@@ -1,13 +1,13 @@
 import { Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import * as winston from 'winston';
+import Sentry from 'winston-transport-sentry-node';
 
-export class LoggerService extends Logger {
-  private logger;
+export class CustomLoggerService extends Logger {
+  private logger: winston.Logger;
 
   constructor() {
     super();
-
     // Create logs dir if it doesn't exist
     const dirPath = 'logs';
     if (!fs.existsSync(dirPath)) {
@@ -32,10 +32,17 @@ export class LoggerService extends Logger {
         colorize: true,
         timestamp: true,
       },
+      sentry: {
+        level: 'error',
+        sentry: { 
+          dsn: process.env.SENTRY_DSN,
+          sampleRate: 0.5,
+        },
+      }
     };
 
     this.logger = winston.createLogger({
-      transports: [new winston.transports.File(options.file), new winston.transports.Console(options.console)],
+      transports: [new winston.transports.File(options.file), new winston.transports.Console(options.console), new Sentry(options.sentry)],
       exitOnError: false, // do not exit on handled exceptions
     });
   }
