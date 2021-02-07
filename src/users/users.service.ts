@@ -23,7 +23,8 @@ export class UsersService {
       return users;
     }
 
-    users = await this.usersRepository.find();
+    users = await this.usersRepository.find({ take: 10 });
+    users.forEach((user: User) => delete user.password);
     this.cacheStore.set('all_users', users, { ttl: 20 });
 
     this.logger.log('Querying all users!');
