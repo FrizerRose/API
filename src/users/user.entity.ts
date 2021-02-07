@@ -31,5 +31,5 @@ export class User {
     transformer: new PasswordTransformer(),
   })
   @Exclude()
-  password: string;
+  password?: string;
 }

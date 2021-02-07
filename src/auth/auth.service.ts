@@ -9,7 +9,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 type Token = {
   expiresIn: string | undefined;
   accessToken: string;
-  user: User;
+  user: Omit<User, 'password'>;
 };
 @Injectable()
 export class AuthService {
@@ -20,7 +20,7 @@ export class AuthService {
     private readonly mailerService: MailerService,
   ) {}
 
-  async createToken(user: User): Promise<Token> {
+  async createToken(user: Omit<User, 'password'>): Promise<Token> {
     return {
       expiresIn: this.configService.get('jwt.ttl'),
       accessToken: this.jwtService.sign({ id: user.id }),
@@ -28,14 +28,14 @@ export class AuthService {
     };
   }
 
-  async validateUser(payload: LoginDto): Promise<any> {
+  async validateUser(payload: LoginDto): Promise<Omit<User, 'password'>> {
     const user = await this.userService.getByEmailAndPass(payload.email, payload.password);
     if (!user) {
       throw new UnauthorizedException('Wrong login combination!');
     }
 
-    delete user.password;
-    return user;
+    const { password, ...sanitizedUser } = user;
+    return sanitizedUser;
   }
 
   async sendResetPasswordEmail(email: string): Promise<any> {
@@ -63,7 +63,7 @@ export class AuthService {
     return token;
   }
 
-  async changePassword(payload: ChangePasswordDto): Promise<User> {
+  async changePassword(payload: ChangePasswordDto): Promise<Omit<User, 'password'>> {
     const tokenPayload = this.jwtService.decode(payload.token);
 
     // jwtService.decode doesn't expose the right parameters/types.
@@ -78,7 +78,6 @@ export class AuthService {
     user.password = payload.password;
     const updatedUser = await this.userService.update(user);
 
-    delete updatedUser.password;
     return updatedUser;
   }
 }

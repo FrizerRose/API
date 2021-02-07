@@ -5,6 +5,9 @@ services:
     build:
       context: .
       dockerfile: docker/dev/Dockerfile-api
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - ${APP_PORT}:${APP_PORT}
       - 9229:9229

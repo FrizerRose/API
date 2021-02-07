@@ -8,7 +8,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  findAll(@Session() session: { id: string }): Promise<User[] | undefined> {
+  findAll(@Session() session: { id: string }): Promise<Omit<User, 'password'>[] | undefined> {
     console.log('Session ID: ', session.id);
     return this.usersService.getAll();
   }

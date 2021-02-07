@@ -15,7 +15,7 @@ export class UsersService {
     @Inject(CACHE_MANAGER) private readonly cacheStore: CacheStore,
   ) {}
 
-  async getAll(): Promise<User[] | undefined> {
+  async getAll(): Promise<Omit<User, 'password'>[] | undefined> {
     let users: User[] | undefined = await this.cacheStore.get('all_users');
 
     if (users) {
@@ -24,7 +24,13 @@ export class UsersService {
     }
 
     users = await this.usersRepository.find({ take: 10 });
-    users.forEach((user: User) => delete user.password);
+    users.forEach(
+      (user: User): Omit<User, 'password'> => {
+        const { password, ...sanitizedUser } = user;
+        return sanitizedUser;
+      },
+    );
+
     this.cacheStore.set('all_users', users, { ttl: 20 });
 
     this.logger.log('Querying all users!');
@@ -63,7 +69,7 @@ export class UsersService {
       .getOne();
   }
 
-  async create(payload: RegisterDto): Promise<User> {
+  async create(payload: RegisterDto): Promise<Omit<User, 'password'>> {
     const oldUser = await this.getByEmail(payload.email);
 
     if (oldUser) {
@@ -71,11 +77,11 @@ export class UsersService {
     }
 
     const newUser = await this.usersRepository.save(this.usersRepository.create(payload as Record<string, any>));
-    delete newUser.password;
-    return newUser;
+    const { password, ...sanitizedUser } = newUser;
+    return sanitizedUser;
   }
 
-  async update(payload: UpdateUserDto): Promise<User> {
+  async update(payload: UpdateUserDto): Promise<Omit<User, 'password'>> {
     const oldUser = await this.get(payload.id);
 
     if (!oldUser) {
@@ -83,11 +89,11 @@ export class UsersService {
     }
 
     const updatedUser = await this.usersRepository.save(payload);
-    delete updatedUser.password;
-    return updatedUser;
+    const { password, ...sanitizedUser } = updatedUser;
+    return sanitizedUser;
   }
 
-  async delete(id: number): Promise<User> {
+  async delete(id: number): Promise<Omit<User, 'password'>> {
     const oldUser = await this.get(id);
 
     if (!oldUser) {
@@ -95,7 +101,7 @@ export class UsersService {
     }
 
     const deletedUser = await this.usersRepository.remove(oldUser);
-    delete deletedUser.password;
-    return deletedUser;
+    const { password, ...sanitizedUser } = deletedUser;
+    return sanitizedUser;
   }
 }

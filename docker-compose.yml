@@ -3,9 +3,6 @@ version: "3.3"
 services:
   api_container:
     container_name: api_container
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
     networks:
       - api_network
     depends_on:

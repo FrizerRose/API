@@ -88,5 +88,5 @@ export class UpdateUserDto {
   })
   @IsNotEmpty()
   @MinLength(5)
-  password!: string;
+  password?: string;
 }
