@@ -19,6 +19,7 @@ services:
       APP_SERVER_NAME: ${APP_SERVER_NAME}
       APP_PREFIX: ${APP_PREFIX}
       APP_PORT: ${APP_PORT}
+    env_file: .env.prod
   redis_container:
     restart: always
   postgres_container:
@@ -30,5 +31,6 @@ services:
       PG_DATA: /var/lib/postgresql/data
     ports:
       - ${DB_PORT}:${DB_PORT}
+    env_file: .env.prod
   mailhog_container:
     restart: always
