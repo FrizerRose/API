@@ -16,7 +16,7 @@ export class ContactsService {
     @Inject(CACHE_MANAGER) private readonly cacheStore: CacheStore,
     private readonly mailerService: MailerService,
     private readonly configService: ConfigService,
-  ) { }
+  ) {}
 
   async getAll(): Promise<Contact[] | undefined> {
     let contact: Contact[] | undefined = await this.cacheStore.get('all_contact');
@@ -50,8 +50,7 @@ export class ContactsService {
 
     const toEmail = this.configService.get<string>('email.default');
 
-    this
-      .mailerService
+    this.mailerService
       .sendMail({
         to: toEmail, // list of receivers
         from: `"${contact.name}" ${contact.email}`,

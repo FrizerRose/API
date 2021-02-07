@@ -7,10 +7,10 @@ import { LoginDto, ChangePasswordDto } from './dto/index';
 import { MailerService } from '@nestjs-modules/mailer';
 
 type Token = {
-  expiresIn: string | undefined,
-  accessToken: string,
-  user: User,
-}
+  expiresIn: string | undefined;
+  accessToken: string;
+  user: User;
+};
 @Injectable()
 export class AuthService {
   constructor(
@@ -56,7 +56,7 @@ export class AuthService {
         subject: 'Password reset on medicro.com', // Subject line
         text: resetUrl, // plaintext body
       })
-      .catch(error => {
+      .catch((error) => {
         throw new Error('Email could not be sent. Please try again later.');
       });
 
@@ -77,7 +77,7 @@ export class AuthService {
 
     user.password = payload.password;
     const updatedUser = await this.userService.update(user);
-    
+
     delete updatedUser.password;
     return updatedUser;
   }

@@ -10,4 +10,4 @@ import { GallerysService } from './gallery.service';
   providers: [GallerysService],
   controllers: [GallerysController],
 })
-export class GalleryModule { }
+export class GalleryModule {}

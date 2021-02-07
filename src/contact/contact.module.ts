@@ -10,4 +10,4 @@ import { ContactsService } from './contact.service';
   providers: [ContactsService],
   controllers: [ContactsController],
 })
-export class ContactModule { }
+export class ContactModule {}

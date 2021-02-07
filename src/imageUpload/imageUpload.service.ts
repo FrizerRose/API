@@ -9,9 +9,7 @@ import { Request, Response } from 'express';
 export class ImageUploadService {
   private storage;
 
-  constructor(
-    private readonly configService: ConfigService,
-  ) {
+  constructor(private readonly configService: ConfigService) {
     //Setup S3 storage
     this.storage = multerS3({
       s3: new AWS.S3({
@@ -53,11 +51,11 @@ export class ImageUploadService {
 
   /**
    * Rejects all files if any of them are not an image.
-   * @param request 
-   * @param file 
-   * @param cb 
+   * @param request
+   * @param file
+   * @param cb
    */
-  protected imageFilter(request: Request, file: Express.Multer.File, cb: multer.FileFilterCallback): void{
+  protected imageFilter(request: Request, file: Express.Multer.File, cb: multer.FileFilterCallback): void {
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
       // null should be new Error('Only image files are allowed!')
       return cb(null, false);

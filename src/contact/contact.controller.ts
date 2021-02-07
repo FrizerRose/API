@@ -8,7 +8,7 @@ import { Contact } from './contact.entity';
 @UseInterceptors(CacheInterceptor)
 @ApiTags('contact')
 export class ContactsController {
-  constructor(private readonly contactService: ContactsService) { }
+  constructor(private readonly contactService: ContactsService) {}
 
   @Get()
   findAll(): Promise<Contact[] | undefined> {

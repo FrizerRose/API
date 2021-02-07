@@ -35,5 +35,5 @@ export default (): Record<string, any> => ({
   },
   sentry: {
     dsn: process.env.SENTRY_DSN,
-  }
+  },
 });

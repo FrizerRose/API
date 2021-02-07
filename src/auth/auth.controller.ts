@@ -9,7 +9,7 @@ import { Request } from 'express';
 @Controller('auth')
 @ApiTags('authentication')
 export class AuthController {
-  constructor(private readonly authService: AuthService, private readonly userService: UsersService) { }
+  constructor(private readonly authService: AuthService, private readonly userService: UsersService) {}
 
   @Post('login')
   @ApiResponse({ status: 200, description: 'Successful Login' })

@@ -55,7 +55,7 @@ export class UserPreferencesService {
 
   async update(payload: UserPreferencesUpdateDto): Promise<UserPreferences> {
     const oldUserPreferences = await this.get(payload.id);
-    
+
     if (!oldUserPreferences) {
       throw new NotAcceptableException('UserPreferences with provided id not yet created.');
     }

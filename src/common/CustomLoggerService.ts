@@ -34,15 +34,19 @@ export class CustomLoggerService extends Logger {
       },
       sentry: {
         level: 'error',
-        sentry: { 
+        sentry: {
           dsn: process.env.SENTRY_DSN,
           sampleRate: 0.5,
         },
-      }
+      },
     };
 
     this.logger = winston.createLogger({
-      transports: [new winston.transports.File(options.file), new winston.transports.Console(options.console), new Sentry(options.sentry)],
+      transports: [
+        new winston.transports.File(options.file),
+        new winston.transports.Console(options.console),
+        new Sentry(options.sentry),
+      ],
       exitOnError: false, // do not exit on handled exceptions
     });
   }

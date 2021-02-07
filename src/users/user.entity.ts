@@ -20,13 +20,9 @@ export class User {
   @Column({ length: 255 })
   email!: string;
 
-  @OneToOne(
-    type => UserPreferences,
-    preferences => preferences.user,
-    {
-      eager: true,
-    },
-  )
+  @OneToOne((type) => UserPreferences, (preferences) => preferences.user, {
+    eager: true,
+  })
   preferences!: UserPreferences;
 
   @Column({

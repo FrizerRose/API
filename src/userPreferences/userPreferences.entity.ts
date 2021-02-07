@@ -11,7 +11,7 @@ export class UserPreferences {
   @Column({ length: 255 })
   name!: string;
 
-  @OneToOne(type => User)
+  @OneToOne((type) => User)
   @JoinColumn()
   user!: User;
 }
