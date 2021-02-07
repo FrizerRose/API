@@ -33,6 +33,8 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('Wrong login combination!');
     }
+
+    delete user.password;
     return user;
   }
 
@@ -64,16 +66,19 @@ export class AuthService {
   async changePassword(payload: ChangePasswordDto): Promise<User> {
     const tokenPayload = this.jwtService.decode(payload.token);
 
-    // TODO: untangle this
+    // jwtService.decode doesn't expose the right parameters/types.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const user = await this.userService.getByEmailAndHashedPass(tokenPayload.email, tokenPayload.password);
+    const user = await this.userService.get(tokenPayload.id);
 
     if (!user) {
       throw new NotAcceptableException('User not found!');
     }
 
     user.password = payload.password;
-    return await this.userService.update(user);
+    const updatedUser = await this.userService.update(user);
+    
+    delete updatedUser.password;
+    return updatedUser;
   }
 }

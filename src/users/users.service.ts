@@ -70,7 +70,7 @@ export class UsersService {
     }
 
     const newUser = await this.usersRepository.save(this.usersRepository.create(payload as Record<string, any>));
-    // delete newUser.password;
+    delete newUser.password;
     return newUser;
   }
 
@@ -82,7 +82,7 @@ export class UsersService {
     }
 
     const updatedUser = await this.usersRepository.save(payload);
-    // delete updatedUser.password;
+    delete updatedUser.password;
     return updatedUser;
   }
 
@@ -94,7 +94,7 @@ export class UsersService {
     }
 
     const deletedUser = await this.usersRepository.remove(oldUser);
-    // delete deletedUser.password;
+    delete deletedUser.password;
     return deletedUser;
   }
 }
