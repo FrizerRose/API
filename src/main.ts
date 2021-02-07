@@ -11,10 +11,9 @@ import { CustomLoggerService } from './common/CustomLoggerService'
 declare const module: any;
 
 async function bootstrap() {
-  // const app = await NestFactory.create(AppModule);
-  const app = await NestFactory.create(AppModule, {
-    logger: new CustomLoggerService(),
-  });
+  const app = await NestFactory.create(AppModule);
+
+  app.useLogger(app.get(CustomLoggerService));
 
   app.setGlobalPrefix(process.env.APP_PREFIX || 'api');
   app.use(helmet({
