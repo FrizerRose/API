@@ -3,7 +3,7 @@ WORKDIR /app
 COPY ./package.json ./
 RUN npm install
 COPY . .
-RUN node --max-old-space-size=2200 $(which npm) run build
+RUN npm run build
 
 
 FROM node:12.13-alpine
