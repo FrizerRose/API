@@ -40,7 +40,7 @@ server {
   resolver 8.8.8.8;
 
   gzip            on;
-  gzip_types      text/plain application/xml text/css application/javascript;
+  gzip_types text/plain text/css application/json application/x-javascript application/javascript application/x-font-ttf font/opentype; 
   gzip_min_length 1000;
 
   charset utf-8;
@@ -48,7 +48,7 @@ server {
   access_log /var/log/nginx/front-access.log;
   error_log /var/log/nginx/front-error.log;
 
-  location ${APP_PREFIX} {
+  location /${APP_PREFIX} {
     try_files $uri @api_container;
   }
 

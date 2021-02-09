@@ -39,15 +39,15 @@ services:
     env_file: .env.prod
   mailhog_container:
     restart: unless-stopped
-  certbot_container:
+  certbot:
     image: certbot/certbot
-    container_name: certbot_container
+    container_name: certbot
     volumes:
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
       - web-root:/var/www/html
     depends_on:
-      - api_container
+      - webserver
     command: certonly --webroot --webroot-path=/var/www/html --email juraj.markesic.dev@gmail.com --agree-tos --no-eff-email --staging -d primrose.agency  -d www.primrose.agency
 volumes:
   pgdata: {}
@@ -57,7 +57,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /var/www/API/dist2/
+      device: /var/www/API/dist2
       o: bind
   dhparam:
     driver: local
