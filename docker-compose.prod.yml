@@ -57,7 +57,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /var/www/API/dist/
+      device: /var/www/API/dist2/
       o: bind
   dhparam:
     driver: local
