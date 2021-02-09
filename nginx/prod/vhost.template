@@ -1,15 +1,7 @@
 server {
   listen 80;
+  listen [::]:80;
   server_name ${APP_SERVER_NAME} www.${APP_SERVER_NAME};
-
-  gzip            on;
-  gzip_types      text/plain application/xml text/css application/javascript;
-  gzip_min_length 1000;
-
-  charset utf-8;
-
-  access_log /var/log/nginx/front-access.log;
-  error_log /var/log/nginx/front-error.log;
 
   location ~ /.well-known/acme-challenge {
     allow all;
@@ -19,7 +11,6 @@ server {
   location / {
     rewrite ^ https://$host$request_uri? permanent;
   }
-
 }
 
 server {
@@ -48,7 +39,20 @@ server {
   ssl_stapling_verify on;
   resolver 8.8.8.8;
 
-  location /${APP_PREFIX} {
+  gzip            on;
+  gzip_types      text/plain application/xml text/css application/javascript;
+  gzip_min_length 1000;
+
+  charset utf-8;
+
+  access_log /var/log/nginx/front-access.log;
+  error_log /var/log/nginx/front-error.log;
+
+  location ${APP_PREFIX} {
+    try_files $uri @api_container;
+  }
+
+  location @api_container {
     proxy_pass http://api_container:${APP_PORT};
     add_header X-Frame-Options "SAMEORIGIN" always;
     add_header X-XSS-Protection "1; mode=block" always;
@@ -58,4 +62,5 @@ server {
   }
 
   root /var/www/html;
+  index index.html index.htm index.nginx-debian.html;
 }
