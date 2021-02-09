@@ -6,6 +6,6 @@ RUN set -ex && \
 	apk add --no-cache bash && \
 	chmod +x /entrypoint.sh
 
-COPY ./nginx/vhost.template /etc/nginx/conf.d/vhost.template
+COPY ./nginx/prod/vhost.template /etc/nginx/conf.d/vhost.template
 
 CMD ["/entrypoint.sh"]

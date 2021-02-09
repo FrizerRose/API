@@ -1,6 +1,6 @@
 server {
   listen 80;
-  server_name ${APP_SERVER_NAME};
+  server_name ${APP_SERVER_NAME} www.${APP_SERVER_NAME};
 
   gzip            on;
   gzip_types      text/plain application/xml text/css application/javascript;
