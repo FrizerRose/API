@@ -20,9 +20,8 @@ services:
       APP_PREFIX: ${APP_PREFIX}
       APP_PORT: ${APP_PORT}
     volumes:
-      - web-root:/var/www/html
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
+      - certbot/conf:/etc/letsencrypt
+      - certbot/www:/var/www/certbot
       - dhparam:/etc/ssl/certs
     env_file: .env.prod
   redis_container:
@@ -43,22 +42,13 @@ services:
     image: certbot/certbot
     container_name: certbot
     volumes:
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-      - web-root:/var/www/html
+      - certbot/conf:/etc/letsencrypt
+      - certbot/www:/var/www/certbot
     depends_on:
       - api_container
-    command: certonly --webroot --webroot-path=/var/www/html --email juraj.markesic.dev@gmail.com --agree-tos --no-eff-email --staging -d primrose.agency  -d www.primrose.agency
 volumes:
   pgdata: {}
-  certbot-etc:
-  certbot-var:
-  web-root:
-    driver: local
-    driver_opts:
-      type: none
-      device: /var/www/API/dist2
-      o: bind
+  certbot: 
   dhparam:
     driver: local
     driver_opts:
