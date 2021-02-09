@@ -13,6 +13,7 @@ server {
 
   location ~ /.well-known/acme-challenge {
     allow all;
+    root /var/www/html;
   }
 
   location / {
@@ -56,5 +57,5 @@ server {
     add_header Content-Security-Policy "default-src * data: 'unsafe-eval' 'unsafe-inline'" always;
   }
 
-
+  root /var/www/html;
 }
