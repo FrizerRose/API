@@ -47,7 +47,7 @@ services:
       - certbot-var:/var/lib/letsencrypt
       - web-root:/var/www/html
     depends_on:
-      - webserver
+      - api_container
     command: certonly --webroot --webroot-path=/var/www/html --email juraj.markesic.dev@gmail.com --agree-tos --no-eff-email --staging -d primrose.agency  -d www.primrose.agency
 volumes:
   pgdata: {}
