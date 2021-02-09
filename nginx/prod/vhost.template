@@ -3,8 +3,7 @@ server {
   listen [::]:80;
   server_name ${APP_SERVER_NAME} www.${APP_SERVER_NAME};
 
-  location ~ /.well-known/acme-challenge {
-    allow all;
+  location /.well-known/acme-challenge/ {
     root /var/www/certbot;
   }
 
