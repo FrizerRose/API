@@ -47,14 +47,14 @@ services:
     depends_on:
       - api_container
     command: certonly --email juraj.markesic.dev@gmail.com --agree-tos --no-eff-email --staging -d primrose.agency  -d www.primrose.agency
-  volumes:
-    pgdata: {}
-    certbot-etc: {}
-    certbot-var: {}
-    dhparam:
-      driver: local
-      driver_opts:
-        type: none
-        device: /var/www/API/dhparam/
-        o: bind
+volumes:
+  pgdata: {}
+  certbot-etc:
+  certbot-var:
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: /var/www/API/dhparam/
+      o: bind
     
