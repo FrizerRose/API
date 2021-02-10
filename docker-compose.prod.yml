@@ -37,7 +37,6 @@ services:
       PG_DATA: /var/lib/postgresql/data
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - pgbackup:/var/lib/postgresql/backup
     ports:
       - ${DB_PORT}:${DB_PORT}
     env_file: .env.prod
@@ -51,7 +50,6 @@ services:
       - ./data/certbot/www:/var/www/certbot
 volumes:
   pgdata: {}
-  pgbackup: {}
   dhparam:
     driver: local
     driver_opts:
