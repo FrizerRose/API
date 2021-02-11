@@ -47,9 +47,9 @@ server {
   access_log /var/log/nginx/front-access.log;
   error_log /var/log/nginx/front-error.log;
 
-  location ~* ^/admin(.*) {
-    proxy_pass https://dashboard-frizerrose.netlify.app$1$args;
-  }
+  #location ~* ^/admin(.*) {
+   # proxy_pass https://dashboard-frizerrose.netlify.app$1$args;
+  #}
 
   location /${APP_PREFIX} {
     try_files $uri @api_container;
