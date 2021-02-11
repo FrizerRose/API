@@ -47,10 +47,8 @@ server {
   access_log /var/log/nginx/front-access.log;
   error_log /var/log/nginx/front-error.log;
 
-  location ^/admin(.*)$ {
-    proxy_pass https://dashboard-frizerrose.netlify.app$1;
-    #rewrite ^/admin(.*) https://dashboard-frizerrose.netlify.app$1 redirect;
-    #rewrite https://dashboard-frizerrose.netlify.app permanent;
+  location ~* ^/admin/(.*) {
+    proxy_pass https://dashboard-frizerrose.netlify.app$1$args;
   }
 
   location /${APP_PREFIX} {
