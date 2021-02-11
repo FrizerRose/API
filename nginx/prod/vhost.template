@@ -7,11 +7,6 @@ server {
     root /var/www/certbot;
   }
 
-  location /admin {
-    rewrite ^/admin(.*) https://dashboard-frizerrose.netlify.app$1 redirect;
-    #rewrite https://dashboard-frizerrose.netlify.app permanent;
-  }
-
   location / {
     rewrite ^ https://$host$request_uri? permanent;
   }
@@ -51,6 +46,11 @@ server {
 
   access_log /var/log/nginx/front-access.log;
   error_log /var/log/nginx/front-error.log;
+
+  location /admin {
+    rewrite ^/admin(.*) https://dashboard-frizerrose.netlify.app$1 redirect;
+    #rewrite https://dashboard-frizerrose.netlify.app permanent;
+  }
 
   location /${APP_PREFIX} {
     try_files $uri @api_container;
