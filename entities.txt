@@ -1,0 +1,18 @@
+User
+UserPreferences
+Company
+CompanyPreferences
+Staff
+Service
+Appointment
+Customer (primary key je email + company_id)
+FAQ
+
+
+Minimalno potrebno za BookingPage:
+-company/user kod kojeg se bookira
+-dodani services i staff 
+-appointment
+
+Optional:
+-customer

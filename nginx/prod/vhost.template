@@ -7,6 +7,11 @@ server {
     root /var/www/certbot;
   }
 
+  location /admin {
+    rewrite ^/admin(.*) https://dashboard-frizerrose.netlify.app$1 redirect;
+    #rewrite https://dashboard-frizerrose.netlify.app permanent;
+  }
+
   location / {
     rewrite ^ https://$host$request_uri? permanent;
   }
