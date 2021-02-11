@@ -1,7 +1,3 @@
-upstream admin {
-    server dashboard-frizerrose.netlify.app;
-}
-
 server {
   listen 80;
   listen [::]:80;
@@ -52,7 +48,7 @@ server {
   error_log /var/log/nginx/front-error.log;
 
   location /admin {
-    proxy_pass https://admin
+    proxy_pass https://dashboard-frizerrose.netlify.app;
     #rewrite ^/admin(.*) https://dashboard-frizerrose.netlify.app$1 redirect;
     #rewrite https://dashboard-frizerrose.netlify.app permanent;
   }
