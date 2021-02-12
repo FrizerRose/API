@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, Put, Param, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Delete, Req, Put, Param, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './../users/users.service';
@@ -35,6 +35,14 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async update(@Body() payload: UpdateUserDto): Promise<any> {
     return await this.userService.update(payload);
+  }
+
+  @Delete(':id')
+  @ApiResponse({ status: 200, description: 'Successful deletion' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  delete(@Param('id') id: number): Promise<any> {
+    return this.userService.delete(id);
   }
 
   @ApiBearerAuth()

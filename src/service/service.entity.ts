@@ -16,7 +16,7 @@ export class Service {
   @Column({ length: 255 })
   duration!: string;
 
-  @Column({ length: 255 })
+  @Column()
   price!: number;
 
   @ManyToOne((type) => Company)

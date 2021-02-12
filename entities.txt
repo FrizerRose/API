@@ -32,7 +32,7 @@ User
 
 Company
 -name
--booking_page_url
+-booking_page_slug
 -user_id
 
 Staff

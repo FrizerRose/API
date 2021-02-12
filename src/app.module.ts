@@ -10,6 +10,11 @@ import configuration from './config';
 import { UsersModule } from './users/users.module';
 import { ImageUploadModule } from './imageUpload/imageUpload.module';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { AppointmentModule } from './appointment/appointment.module';
+import { CompanyModule } from './company/company.module';
+import { CustomerModule } from './customer/customer.module';
+import { ServiceModule } from './service/service.module';
+import { StaffModule } from './staff/staff.module';
 
 @Global()
 @Module({
@@ -65,6 +70,11 @@ import { MailerModule } from '@nestjs-modules/mailer';
     ImageUploadModule,
     AuthModule,
     UsersModule,
+    CompanyModule,
+    ServiceModule,
+    StaffModule,
+    CustomerModule,
+    AppointmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
