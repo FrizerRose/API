@@ -6,7 +6,46 @@ export class AppointmentCreateDto {
     required: true,
   })
   @IsNotEmpty()
-  name!: string;
+  datetime!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  message!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  company!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  staff!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  service!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  customer!: number;
+}
+
+export class AppointmentUpdateDto {
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  id!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  datetime!: number;
 
   @ApiProperty({
     required: true,

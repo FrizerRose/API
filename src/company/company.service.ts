@@ -2,10 +2,11 @@ import { CacheStore, CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CustomLoggerService } from '../common/CustomLoggerService';
-import { CompanyCreateDto } from './dto/index';
+import { CompanyCreateDto, CompanyUpdateDto } from './dto/index';
 import { Company } from './company.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
+import { NotAcceptableException } from '@nestjs/common';
 
 @Injectable()
 export class CompanysService {
@@ -49,5 +50,25 @@ export class CompanysService {
     const company = await this.companyRepository.save(this.companyRepository.create(payload as Record<string, any>));
 
     return company;
+  }
+
+  async update(payload: CompanyUpdateDto): Promise<Company> {
+    const oldCompany = await this.get(payload.id);
+
+    if (!oldCompany) {
+      throw new NotAcceptableException('Company with provided id not yet created.');
+    }
+
+    return await this.companyRepository.save(payload as Record<string, any>);
+  }
+
+  async delete(id: number): Promise<Company> {
+    const oldCompany = await this.get(id);
+
+    if (!oldCompany) {
+      throw new NotAcceptableException('Company does not exit.');
+    }
+
+    return await this.companyRepository.remove(oldCompany);
   }
 }

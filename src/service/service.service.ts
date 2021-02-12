@@ -2,10 +2,11 @@ import { CacheStore, CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CustomLoggerService } from '../common/CustomLoggerService';
-import { ServiceCreateDto } from './dto/index';
+import { ServiceCreateDto, ServiceUpdateDto } from './dto/index';
 import { Service } from './service.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
+import { NotAcceptableException } from '@nestjs/common';
 
 @Injectable()
 export class ServicesService {
@@ -49,5 +50,25 @@ export class ServicesService {
     const service = await this.serviceRepository.save(this.serviceRepository.create(payload as Record<string, any>));
 
     return service;
+  }
+
+  async update(payload: ServiceUpdateDto): Promise<Service> {
+    const oldService = await this.get(payload.id);
+
+    if (!oldService) {
+      throw new NotAcceptableException('Service with provided id not yet created.');
+    }
+
+    return await this.serviceRepository.save(payload as Record<string, any>);
+  }
+
+  async delete(id: number): Promise<Service> {
+    const oldService = await this.get(id);
+
+    if (!oldService) {
+      throw new NotAcceptableException('Service does not exit.');
+    }
+
+    return await this.serviceRepository.remove(oldService);
   }
 }

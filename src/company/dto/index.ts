@@ -18,3 +18,27 @@ export class CompanyCreateDto {
   })
   user!: number;
 }
+
+export class CompanyUpdateDto {
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  id!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  name!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  bookingPageSlug!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  user!: number;
+}

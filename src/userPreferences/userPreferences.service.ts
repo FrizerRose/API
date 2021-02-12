@@ -60,9 +60,7 @@ export class UserPreferencesService {
       throw new NotAcceptableException('UserPreferences with provided id not yet created.');
     }
 
-    oldUserPreferences.name = payload.name;
-
-    return await this.userPreferencesRepository.save(oldUserPreferences);
+    return await this.userPreferencesRepository.save(payload as Record<string, any>);
   }
 
   async delete(id: number): Promise<UserPreferences> {

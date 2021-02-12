@@ -24,3 +24,33 @@ export class CustomerCreateDto {
   })
   company!: number;
 }
+
+export class CustomerUpdateDto {
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  id!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  name!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsEmail()
+  email!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  phone!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  company!: number;
+}

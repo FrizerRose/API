@@ -6,6 +6,8 @@ import { StaffCreateDto } from './dto/index';
 import { Staff } from './staff.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
+import { NotAcceptableException } from '@nestjs/common';
+import { StaffUpdateDto } from './dto';
 
 @Injectable()
 export class StaffService {
@@ -51,5 +53,25 @@ export class StaffService {
     const toEmail = this.configService.get<string>('email.default');
 
     return staff;
+  }
+
+  async update(payload: StaffUpdateDto): Promise<Staff> {
+    const oldStaff = await this.get(payload.id);
+
+    if (!oldStaff) {
+      throw new NotAcceptableException('Staff with provided id not yet created.');
+    }
+
+    return await this.staffRepository.save(payload as Record<string, any>);
+  }
+
+  async delete(id: number): Promise<Staff> {
+    const oldStaff = await this.get(id);
+
+    if (!oldStaff) {
+      throw new NotAcceptableException('Staff does not exit.');
+    }
+
+    return await this.staffRepository.remove(oldStaff);
   }
 }

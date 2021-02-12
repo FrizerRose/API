@@ -2,10 +2,11 @@ import { CacheStore, CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CustomLoggerService } from '../common/CustomLoggerService';
-import { AppointmentCreateDto } from './dto/index';
+import { AppointmentCreateDto, AppointmentUpdateDto } from './dto/index';
 import { Appointment } from './appointment.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
+import { NotAcceptableException } from '@nestjs/common';
 
 @Injectable()
 export class AppointmentsService {
@@ -51,5 +52,25 @@ export class AppointmentsService {
     );
 
     return appointment;
+  }
+
+  async update(payload: AppointmentUpdateDto): Promise<Appointment> {
+    const oldAppointment = await this.get(payload.id);
+
+    if (!oldAppointment) {
+      throw new NotAcceptableException('Appointment with provided id not yet created.');
+    }
+
+    return await this.appointmentRepository.save(payload as Record<string, any>);
+  }
+
+  async delete(id: number): Promise<Appointment> {
+    const oldAppointment = await this.get(id);
+
+    if (!oldAppointment) {
+      throw new NotAcceptableException('Appointment does not exit.');
+    }
+
+    return await this.appointmentRepository.remove(oldAppointment);
   }
 }

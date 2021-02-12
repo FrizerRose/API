@@ -13,8 +13,8 @@ export class Service {
   @Column({ length: 255 })
   name!: string;
 
-  @Column({ length: 255 })
-  duration!: string;
+  @Column()
+  duration!: number;
 
   @Column()
   price!: number;

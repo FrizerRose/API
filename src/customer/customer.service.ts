@@ -2,10 +2,11 @@ import { CacheStore, CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CustomLoggerService } from '../common/CustomLoggerService';
-import { CustomerCreateDto } from './dto/index';
+import { CustomerCreateDto, CustomerUpdateDto } from './dto/index';
 import { Customer } from './customer.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
+import { NotAcceptableException } from '@nestjs/common';
 
 @Injectable()
 export class CustomersService {
@@ -49,5 +50,25 @@ export class CustomersService {
     const customer = await this.customerRepository.save(this.customerRepository.create(payload as Record<string, any>));
 
     return customer;
+  }
+
+  async update(payload: CustomerUpdateDto): Promise<Customer> {
+    const oldCustomer = await this.get(payload.id);
+
+    if (!oldCustomer) {
+      throw new NotAcceptableException('Customer with provided id not yet created.');
+    }
+
+    return await this.customerRepository.save(payload as Record<string, any>);
+  }
+
+  async delete(id: number): Promise<Customer> {
+    const oldCustomer = await this.get(id);
+
+    if (!oldCustomer) {
+      throw new NotAcceptableException('Customer does not exit.');
+    }
+
+    return await this.customerRepository.remove(oldCustomer);
   }
 }
