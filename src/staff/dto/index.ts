@@ -18,6 +18,11 @@ export class StaffCreateDto {
     required: true,
   })
   company!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  services!: string[];
 }
 
 export class StaffUpdateDto {
@@ -43,4 +48,9 @@ export class StaffUpdateDto {
     required: true,
   })
   company!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  services!: string[];
 }

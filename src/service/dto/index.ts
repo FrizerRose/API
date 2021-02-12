@@ -22,6 +22,11 @@ export class ServiceCreateDto {
     required: false,
   })
   company!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  staff!: string[];
 }
 
 export class ServiceUpdateDto {
@@ -51,4 +56,9 @@ export class ServiceUpdateDto {
     required: false,
   })
   company!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  staff!: string[];
 }
