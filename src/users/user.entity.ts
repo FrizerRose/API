@@ -3,7 +3,6 @@ import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typ
 import { UserPreferences } from '../userPreferences/userPreferences.entity';
 import { PasswordTransformer } from './password.transformer';
 
-// test comment
 @Entity({
   name: 'users',
 })
@@ -12,10 +11,7 @@ export class User {
   id!: number;
 
   @Column({ length: 255 })
-  firstName!: string;
-
-  @Column({ length: 255 })
-  lastName!: string;
+  name!: string;
 
   @Column({ length: 255 })
   email!: string;
