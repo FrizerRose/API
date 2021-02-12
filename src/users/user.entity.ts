@@ -11,7 +11,7 @@ export class User {
   id!: number;
 
   @Column({ length: 255 })
-  name!: string;
+  firstName!: string;
 
   @Column({ length: 255 })
   email!: string;

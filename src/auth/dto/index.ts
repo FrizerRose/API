@@ -42,7 +42,7 @@ export class RegisterDto {
     required: true,
   })
   @IsNotEmpty()
-  name!: string;
+  firstName!: string;
 
   @ApiProperty({
     required: true,
@@ -69,7 +69,7 @@ export class UpdateUserDto {
     required: true,
   })
   @IsNotEmpty()
-  name!: string;
+  firstName!: string;
 
   @ApiProperty({
     required: true,
