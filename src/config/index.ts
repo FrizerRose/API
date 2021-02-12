@@ -8,7 +8,7 @@ export default (): Record<string, any> => ({
     name: process.env.DB_NAME,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    synchronize: process.env.DB_RUN_MIGRATIONS,
+    synchronize: process.env.DB_RUN_MIGRATIONS === 'true',
   },
   cache: {
     port: parseInt(process.env.CACHE_PORT || '6379'),
