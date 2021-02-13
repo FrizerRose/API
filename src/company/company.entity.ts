@@ -25,10 +25,14 @@ export class Company {
   @OneToMany(() => Customer, (customer) => customer.company)
   customers!: Customer[];
 
-  @OneToMany(() => Service, (service) => service.company)
+  @OneToMany(() => Service, (service) => service.company, {
+    eager: true,
+  })
   services!: Service[];
 
-  @OneToMany(() => Staff, (staff) => staff.company)
+  @OneToMany(() => Staff, (staff) => staff.company, {
+    eager: true,
+  })
   staff!: Staff[];
 
   @OneToMany(() => Appointment, (appointment) => appointment.company)
