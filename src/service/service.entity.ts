@@ -23,7 +23,9 @@ export class Service {
   @JoinColumn()
   company!: Company;
 
-  @ManyToMany(() => Staff, (staff) => staff.services)
+  @ManyToMany(() => Staff, (staff) => staff.services, {
+    eager: true,
+  })
   staff!: Staff[];
 
   @OneToMany(() => Appointment, (appointment) => appointment.service)
