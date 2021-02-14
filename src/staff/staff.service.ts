@@ -37,16 +37,25 @@ export class StaffService {
   }
 
   async get(id: number): Promise<Staff | undefined> {
-    // return this.staffRepository.findOne(id, { relations: ['appointments'] });
-    const secondsInAMonth = 2592000;
+    const today = new Date();
+    // const currentTime = today.getHours() + 1 + ':' + today.getMinutes() + ':' + today.getSeconds();
+    const currentDate = this.getDateString(today);
+    today.setDate(today.getDate() + 30);
+    const monthFromNowDate = this.getDateString(today);
+
     return this.staffRepository
       .createQueryBuilder('staff')
-      .leftJoinAndSelect('staff.appointments', 'appointment')
+      .leftJoinAndSelect(
+        'staff.appointments',
+        'appointment',
+        'appointment.date >= :currentDate AND appointment.date < :monthFromNowDate',
+        {
+          currentDate,
+          monthFromNowDate,
+        },
+      )
+      .leftJoinAndSelect('appointment.service', 'service')
       .where('staff.id = :id', { id: id })
-      .andWhere('appointment.datetime > :currentTimestamp', { currentTimestamp: Math.floor(Date.now() / 1000) })
-      .andWhere('appointment.datetime < :monthFromNow', {
-        monthFromNow: Math.floor(Date.now() / 1000) + secondsInAMonth,
-      })
       .getOne();
   }
 
@@ -84,5 +93,13 @@ export class StaffService {
     }
 
     return await this.staffRepository.remove(oldStaff);
+  }
+
+  getDateString(date: Date): string {
+    const dd = String(date.getDate());
+    const mm = String(date.getMonth() + 1); //January is 0!
+    const yyyy = date.getFullYear();
+
+    return yyyy + '-' + mm + '-' + dd;
   }
 }

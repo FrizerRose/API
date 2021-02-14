@@ -11,8 +11,11 @@ export class Appointment {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
-  datetime!: number;
+  @Column({ type: 'date' })
+  date!: string;
+
+  @Column({ type: 'time' })
+  time!: string;
 
   @Column({ type: 'text' })
   message!: string;
