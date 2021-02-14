@@ -1,6 +1,6 @@
 import { CacheStore, CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { QueryBuilder, Repository, MoreThan } from 'typeorm';
 import { CustomLoggerService } from '../common/CustomLoggerService';
 import { StaffCreateDto } from './dto/index';
 import { Staff } from './staff.entity';
@@ -8,6 +8,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { NotAcceptableException } from '@nestjs/common';
 import { StaffUpdateDto } from './dto';
+import { Appointment } from 'src/appointment/appointment.entity';
 
 @Injectable()
 export class StaffService {
@@ -36,7 +37,17 @@ export class StaffService {
   }
 
   async get(id: number): Promise<Staff | undefined> {
-    return this.staffRepository.findOne(id);
+    // return this.staffRepository.findOne(id, { relations: ['appointments'] });
+    const secondsInAMonth = 2592000;
+    return this.staffRepository
+      .createQueryBuilder('staff')
+      .leftJoinAndSelect('staff.appointments', 'appointment')
+      .where('staff.id = :id', { id: id })
+      .andWhere('appointment.datetime > :currentTimestamp', { currentTimestamp: Math.floor(Date.now() / 1000) })
+      .andWhere('appointment.datetime < :monthFromNow', {
+        monthFromNow: Math.floor(Date.now() / 1000) + secondsInAMonth,
+      })
+      .getOne();
   }
 
   async getByName(name: string): Promise<Staff | undefined> {
