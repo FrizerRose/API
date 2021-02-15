@@ -38,16 +38,24 @@ export class CustomersService {
     return this.customerRepository.findOne(id);
   }
 
-  async getByName(name: string): Promise<Customer | undefined> {
+  async getByEmailAndCompanyID(email: string, companyID: number): Promise<Customer | undefined> {
     return await this.customerRepository
       .createQueryBuilder('customer')
-      .where('customer.name = :name')
-      .setParameter('name', name)
+      .where('customer.email = :email')
+      .setParameter('email', email)
+      .setParameter('company_id', companyID)
       .getOne();
   }
 
   async create(payload: CustomerCreateDto): Promise<Customer> {
-    const customer = await this.customerRepository.save(this.customerRepository.create(payload as Record<string, any>));
+    const oldCustomer = await this.getByEmailAndCompanyID(payload.email, payload.company);
+    let customer: Customer;
+
+    if (oldCustomer) {
+      customer = oldCustomer;
+    } else {
+      customer = await this.customerRepository.save(this.customerRepository.create(payload as Record<string, any>));
+    }
 
     return customer;
   }
