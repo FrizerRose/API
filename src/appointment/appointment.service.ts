@@ -35,7 +35,7 @@ export class AppointmentsService {
   }
 
   async get(id: number): Promise<Appointment | undefined> {
-    return this.appointmentRepository.findOne(id);
+    return this.appointmentRepository.findOne(id, { relations: ['staff', 'service', 'customer'] });
   }
 
   async getByName(name: string): Promise<Appointment | undefined> {
