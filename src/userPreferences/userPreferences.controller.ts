@@ -1,8 +1,20 @@
-import { Body, CacheInterceptor, Controller, Get, Post, Put, UseInterceptors, Delete, Param } from '@nestjs/common';
+import {
+  Body,
+  CacheInterceptor,
+  Controller,
+  Get,
+  Post,
+  Res,
+  Put,
+  UseInterceptors,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserPreferencesCreateDto, UserPreferencesUpdateDto } from './dto/index';
 import { UserPreferences } from './userPreferences.entity';
 import { UserPreferencesService } from './userPreferences.service';
+import { Response } from 'express';
 
 @Controller('userPreferences')
 @UseInterceptors(CacheInterceptor)

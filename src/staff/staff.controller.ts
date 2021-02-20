@@ -1,8 +1,20 @@
-import { Body, CacheInterceptor, Controller, Get, Post, Put, UseInterceptors, Delete, Param } from '@nestjs/common';
+import {
+  Body,
+  CacheInterceptor,
+  Controller,
+  Get,
+  Post,
+  Res,
+  Put,
+  UseInterceptors,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { StaffCreateDto, StaffUpdateDto } from './dto/index';
 import { Staff } from './staff.entity';
 import { StaffService } from './staff.service';
+import { Response } from 'express';
 
 @Controller('staff')
 @UseInterceptors(CacheInterceptor)
@@ -16,8 +28,15 @@ export class StaffController {
   }
 
   @Get(':id')
-  findByID(@Param('id') id: number): Promise<Staff | undefined> {
-    return this.staffService.get(id);
+  async findByID(@Param('id') id: number, @Res() response: Response): Promise<void> {
+    const staff = await this.staffService.get(id);
+    if (staff) {
+      response.status(200);
+    } else {
+      response.status(404);
+    }
+
+    response.send(staff);
   }
 
   @Post()

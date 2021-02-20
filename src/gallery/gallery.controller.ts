@@ -1,8 +1,20 @@
-import { Body, CacheInterceptor, Controller, Get, Post, Put, UseInterceptors, Delete, Param } from '@nestjs/common';
+import {
+  Body,
+  CacheInterceptor,
+  Controller,
+  Get,
+  Res,
+  Post,
+  Put,
+  UseInterceptors,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GalleryCreateDto, GalleryUpdateDto } from './dto/index';
 import { Gallery } from './gallery.entity';
 import { GallerysService } from './gallery.service';
+import { Response } from 'express';
 
 @Controller('gallery')
 @UseInterceptors(CacheInterceptor)

@@ -1,8 +1,20 @@
-import { Body, CacheInterceptor, Controller, Get, Post, Put, UseInterceptors, Delete, Param } from '@nestjs/common';
+import {
+  Body,
+  CacheInterceptor,
+  Controller,
+  Get,
+  Res,
+  Post,
+  Put,
+  UseInterceptors,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AppointmentCreateDto, AppointmentUpdateDto } from './dto/index';
 import { AppointmentsService } from './appointment.service';
 import { Appointment } from './appointment.entity';
+import { Response } from 'express';
 
 @Controller('appointment')
 @UseInterceptors(CacheInterceptor)
@@ -16,8 +28,15 @@ export class AppointmentsController {
   }
 
   @Get(':id')
-  findByID(@Param('id') id: number): Promise<Appointment | undefined> {
-    return this.appointmentService.get(id);
+  async findByID(@Param('id') id: number, @Res() response: Response): Promise<void> {
+    const appointment = await this.appointmentService.get(id);
+    if (appointment) {
+      response.status(200);
+    } else {
+      response.status(404);
+    }
+
+    response.send(appointment);
   }
 
   @Post()
