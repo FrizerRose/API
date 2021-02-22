@@ -38,7 +38,12 @@ export class UsersService {
   }
 
   async get(id: number): Promise<User | undefined> {
-    return this.usersRepository.findOne(id);
+    const user = await this.usersRepository.findOne(id);
+    if (user) {
+      const { password, ...sanitizedUser } = user;
+      return sanitizedUser;
+    }
+    return user;
   }
 
   async getByEmail(email: string): Promise<User | undefined> {

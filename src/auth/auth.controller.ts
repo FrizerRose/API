@@ -51,7 +51,9 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Successful Response' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getLoggedInUser(@Req() request: Request): Promise<any> {
-    return request.user;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return this.userService.get(request.user?.id);
   }
 
   @Post('reset-password/:email')

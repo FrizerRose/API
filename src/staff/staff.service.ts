@@ -8,7 +8,6 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { NotAcceptableException } from '@nestjs/common';
 import { StaffUpdateDto } from './dto';
-import { Appointment } from 'src/appointment/appointment.entity';
 
 @Injectable()
 export class StaffService {
