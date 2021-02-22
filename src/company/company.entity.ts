@@ -4,6 +4,7 @@ import { Staff } from 'src/staff/staff.entity';
 import { User } from 'src/users/user.entity';
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Appointment } from 'src/appointment/appointment.entity';
+import { CompanyPreferences } from 'src/companyPreferences/companyPreferences.entity';
 
 @Entity({
   name: 'company',
@@ -18,9 +19,18 @@ export class Company {
   @Column({ length: 255 })
   bookingPageSlug!: string;
 
-  @OneToOne((type) => User)
+  @OneToOne((type) => User, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   user!: User;
+
+  @OneToOne((type) => CompanyPreferences, (preferences) => preferences.company, {
+    cascade: true,
+    eager: true,
+  })
+  preferences!: CompanyPreferences;
 
   @OneToMany(() => Customer, (customer) => customer.company)
   customers!: Customer[];

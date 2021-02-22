@@ -20,7 +20,7 @@ export class Appointment {
   @Column({ type: 'text' })
   message!: string;
 
-  @ManyToOne((type) => Company)
+  @ManyToOne((type) => Company, { onDelete: 'CASCADE' })
   @JoinColumn()
   company!: Company;
 

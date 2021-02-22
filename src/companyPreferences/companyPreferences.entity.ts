@@ -1,17 +1,17 @@
-import { User } from 'src/users/user.entity';
+import { Company } from 'src/company/company.entity';
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
-  name: 'userPreferences',
+  name: 'companyPreferences',
 })
-export class UserPreferences {
+export class CompanyPreferences {
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column({ length: 255 })
   name!: string;
 
-  @OneToOne((type) => User, { onDelete: 'CASCADE' })
+  @OneToOne((type) => Company)
   @JoinColumn()
-  user!: User;
+  company!: Company;
 }

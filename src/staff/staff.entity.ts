@@ -25,7 +25,7 @@ export class Staff {
   @Column({ length: 255 })
   email!: string;
 
-  @ManyToOne((type) => Company)
+  @ManyToOne((type) => Company, { onDelete: 'CASCADE' })
   @JoinColumn()
   company!: Company;
 

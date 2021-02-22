@@ -19,7 +19,7 @@ export class Service {
   @Column()
   price!: number;
 
-  @ManyToOne((type) => Company)
+  @ManyToOne((type) => Company, { onDelete: 'CASCADE' })
   @JoinColumn()
   company!: Company;
 

@@ -7,6 +7,7 @@ import { Company } from './company.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { NotAcceptableException } from '@nestjs/common';
+import { CompanyPreferences } from 'src/companyPreferences/companyPreferences.entity';
 
 @Injectable()
 export class CompanysService {
@@ -47,7 +48,17 @@ export class CompanysService {
   }
 
   async create(payload: CompanyCreateDto): Promise<Company> {
-    const company = await this.companyRepository.save(this.companyRepository.create(payload as Record<string, any>));
+    const oldCompany = await this.getByName(payload.name);
+
+    if (oldCompany) {
+      throw new NotAcceptableException('Company with provided name already created.');
+    }
+
+    const newCompany = this.companyRepository.create(payload as Record<string, any>);
+    newCompany.preferences = new CompanyPreferences();
+    //add default preferences
+    newCompany.preferences.name = 'Marko';
+    const company = await this.companyRepository.save(newCompany);
 
     return company;
   }

@@ -18,6 +18,7 @@ export class User {
 
   @OneToOne((type) => UserPreferences, (preferences) => preferences.user, {
     eager: true,
+    cascade: true,
   })
   preferences!: UserPreferences;
 

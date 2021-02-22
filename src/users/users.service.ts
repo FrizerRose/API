@@ -1,6 +1,7 @@
 import { CacheStore, CACHE_MANAGER, Inject, Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
+import { UserPreferences } from 'src/userPreferences/userPreferences.entity';
 import { Repository } from 'typeorm';
 import { RegisterDto, UpdateUserDto } from '../auth/dto';
 import { CustomLoggerService } from '../common/CustomLoggerService';
@@ -81,8 +82,13 @@ export class UsersService {
       throw new NotAcceptableException('User with provided email already created.');
     }
 
-    const newUser = await this.usersRepository.save(this.usersRepository.create(payload as Record<string, any>));
-    const { password, ...sanitizedUser } = newUser;
+    const newUser = this.usersRepository.create(payload as Record<string, any>);
+    newUser.preferences = new UserPreferences();
+    //add default preferences
+    newUser.preferences.name = 'Marko';
+    const user = await this.usersRepository.save(newUser);
+
+    const { password, ...sanitizedUser } = user;
     return sanitizedUser;
   }
 
