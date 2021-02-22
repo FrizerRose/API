@@ -7,11 +7,14 @@ import * as redis from 'redis';
 import { AppModule } from './app.module';
 import { setupSwagger } from './common/SwaggerSetup';
 import { CustomLoggerService } from './common/CustomLoggerService';
+import { ValidationPipe } from '@nestjs/common';
 
 declare const module: any;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.useGlobalPipes(new ValidationPipe());
 
   app.useLogger(app.get(CustomLoggerService));
 
