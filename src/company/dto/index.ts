@@ -11,7 +11,42 @@ export class CompanyCreateDto {
   @ApiProperty({
     required: true,
   })
+  isPublic!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
   bookingPageSlug!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  contactEmail!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  streetName!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  city!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  phoneNumber!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  about!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  hours!: string;
 
   @ApiProperty({
     required: true,
@@ -29,6 +64,11 @@ export class CompanyUpdateDto {
   @ApiProperty({
     required: true,
   })
+  isPublic!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
   @IsNotEmpty()
   name!: string;
 
@@ -36,6 +76,36 @@ export class CompanyUpdateDto {
     required: true,
   })
   bookingPageSlug!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  contactEmail!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  streetName!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  city!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  phoneNumber!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  about!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  hours!: string;
 
   @ApiProperty({
     required: true,

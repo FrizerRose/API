@@ -33,21 +33,7 @@ export class CompanyPreferencesService {
     return this.companyPreferencesRepository.findOne(id);
   }
 
-  async getByName(name: string): Promise<CompanyPreferences | undefined> {
-    return await this.companyPreferencesRepository
-      .createQueryBuilder('companyPreferences')
-      .where('companyPreferences.name = :name')
-      .setParameter('name', name)
-      .getOne();
-  }
-
   async create(payload: CompanyPreferencesCreateDto): Promise<CompanyPreferences> {
-    const oldCompanyPreferences = await this.getByName(payload.name);
-
-    if (oldCompanyPreferences) {
-      throw new NotAcceptableException('CompanyPreferences with provided name already created.');
-    }
-
     return await this.companyPreferencesRepository.save(
       this.companyPreferencesRepository.create(payload as Record<string, any>),
     );

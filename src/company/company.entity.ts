@@ -5,6 +5,7 @@ import { User } from 'src/users/user.entity';
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Appointment } from 'src/appointment/appointment.entity';
 import { CompanyPreferences } from 'src/companyPreferences/companyPreferences.entity';
+import WorkingHours from 'src/types/WorkingHours';
 
 @Entity({
   name: 'company',
@@ -16,8 +17,29 @@ export class Company {
   @Column({ length: 255 })
   name!: string;
 
+  @Column({ default: true })
+  isPublic!: boolean;
+
   @Column({ length: 255 })
   bookingPageSlug!: string;
+
+  @Column({ length: 255, default: '' })
+  contactEmail!: string;
+
+  @Column({ length: 255, default: '' })
+  streetName!: string;
+
+  @Column({ length: 255, default: '' })
+  city!: string;
+
+  @Column({ length: 255, default: '' })
+  phoneNumber!: string;
+
+  @Column({ type: 'text', default: '' })
+  about!: string;
+
+  @Column({ type: 'simple-json' })
+  hours!: WorkingHours;
 
   @OneToOne((type) => User, {
     cascade: true,

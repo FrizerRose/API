@@ -1,6 +1,7 @@
 import { Appointment } from 'src/appointment/appointment.entity';
 import { Company } from 'src/company/company.entity';
 import { Service } from 'src/service/service.entity';
+import WorkingHours from 'src/types/WorkingHours';
 import {
   Column,
   Entity,
@@ -24,6 +25,9 @@ export class Staff {
 
   @Column({ length: 255 })
   email!: string;
+
+  @Column({ type: 'simple-json' })
+  hours!: WorkingHours;
 
   @ManyToOne((type) => Company, { onDelete: 'CASCADE' })
   @JoinColumn()

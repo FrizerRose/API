@@ -44,6 +44,7 @@ export class StaffController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   create(@Body() payload: StaffCreateDto): Promise<any> {
+    console.log(payload);
     return this.staffService.create(payload);
   }
 

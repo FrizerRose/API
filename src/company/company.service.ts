@@ -56,8 +56,6 @@ export class CompanysService {
 
     const newCompany = this.companyRepository.create(payload as Record<string, any>);
     newCompany.preferences = new CompanyPreferences();
-    //add default preferences
-    newCompany.preferences.name = 'Marko';
     const company = await this.companyRepository.save(newCompany);
 
     return company;

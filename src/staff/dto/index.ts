@@ -17,6 +17,11 @@ export class StaffCreateDto {
   @ApiProperty({
     required: true,
   })
+  hours!: string;
+
+  @ApiProperty({
+    required: true,
+  })
   company!: number;
 
   @ApiProperty({
@@ -43,6 +48,11 @@ export class StaffUpdateDto {
   })
   @IsEmail()
   email!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  hours!: string;
 
   @ApiProperty({
     required: true,

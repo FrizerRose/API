@@ -6,7 +6,55 @@ export class CompanyPreferencesCreateDto {
     required: true,
   })
   @IsNotEmpty()
-  name!: string;
+  leadTimeWindow!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  schedulingWindow!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  cancellationWindow!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  hasStaffPick!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  colorVariant!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  facebookLink!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  instagramLink!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  websiteLink!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  termsLink!: string;
 
   @ApiProperty({
     required: true,
@@ -26,7 +74,31 @@ export class CompanyPreferencesUpdateDto {
     required: true,
   })
   @IsNotEmpty()
-  name!: string;
+  leadTimeWindow!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  schedulingWindow!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  cancellationWindow!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  hasStaffPick!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  colorVariant!: string;
 
   @ApiProperty({
     required: true,
