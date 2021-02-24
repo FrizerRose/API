@@ -58,20 +58,22 @@ export class StaffService {
       .getOne();
   }
 
-  async getByName(name: string): Promise<Staff | undefined> {
+  async getByEmail(email: string): Promise<Staff | undefined> {
     return await this.staffRepository
       .createQueryBuilder('staff')
-      .where('staff.name = :name')
-      .setParameter('name', name)
+      .where('staff.email = :email')
+      .setParameter('email', email)
       .getOne();
   }
 
   async create(payload: StaffCreateDto): Promise<Staff> {
-    const staff = await this.staffRepository.save(this.staffRepository.create(payload as Record<string, any>));
+    const oldStaff = await this.getByEmail(payload.email);
 
-    const toEmail = this.configService.get<string>('email.default');
+    if (oldStaff) {
+      throw new NotAcceptableException('Company with provided name already created.');
+    }
 
-    return staff;
+    return await this.staffRepository.save(this.staffRepository.create(payload as Record<string, any>));
   }
 
   async update(payload: StaffUpdateDto): Promise<Staff> {
