@@ -14,6 +14,7 @@ import { AppointmentModule } from './appointment/appointment.module';
 import { CompanyModule } from './company/company.module';
 import { CustomerModule } from './customer/customer.module';
 import { BreakModule } from './break/break.module';
+import { PaymentModule } from './payments/payment.module';
 import { ServiceModule } from './service/service.module';
 import { StaffModule } from './staff/staff.module';
 
@@ -76,6 +77,7 @@ import { StaffModule } from './staff/staff.module';
     StaffModule,
     CustomerModule,
     BreakModule,
+    PaymentModule,
     AppointmentModule,
   ],
   controllers: [AppController],

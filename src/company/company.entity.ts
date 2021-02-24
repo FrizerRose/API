@@ -6,6 +6,7 @@ import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn
 import { Appointment } from 'src/appointment/appointment.entity';
 import { CompanyPreferences } from 'src/companyPreferences/companyPreferences.entity';
 import WorkingHours from 'src/types/WorkingHours';
+import { Payment } from 'src/payments/payment.entity';
 
 @Entity({
   name: 'company',
@@ -69,4 +70,7 @@ export class Company {
 
   @OneToMany(() => Appointment, (appointment) => appointment.company)
   appointments!: Appointment[];
+
+  @OneToMany(() => Payment, (payment) => payment.company)
+  payments!: Payment[];
 }
