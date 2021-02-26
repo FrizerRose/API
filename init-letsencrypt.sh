@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(primrose.agency www.primrose.agency)
+domains=(*.primrose.agency primrose.agency)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="juraj.markesic.dev@gmail.com" # Adding a valid address is strongly recommended
@@ -72,6 +72,7 @@ docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod
     $email_arg \
     $domain_args \
     --rsa-key-size $rsa_key_size \
+    --server https://acme-v02.api.letsencrypt.org/directory \
     --agree-tos \
     --force-renewal" certbot
 echo
