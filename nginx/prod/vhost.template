@@ -1,3 +1,6 @@
+ssl_certificate /etc/letsencrypt/live/primrose.agency-0001/fullchain.pem;
+ssl_certificate_key /etc/letsencrypt/live/primrose.agency-0001/privkey.pem;
+
 server {
   listen 80;
   listen [::]:80;
@@ -18,9 +21,6 @@ server {
   server_name ${APP_SERVER_NAME} www.${APP_SERVER_NAME};
 
   server_tokens off;
-
-  ssl_certificate /etc/letsencrypt/live/primrose.agency-0001/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/primrose.agency-0001/privkey.pem;
 
   ssl_buffer_size 8k;
 
