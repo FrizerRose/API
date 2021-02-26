@@ -70,9 +70,10 @@ docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod
   certbot certonly --webroot -w /var/www/certbot \
     $staging_arg \
     $email_arg \
-    $domain_args \
     --rsa-key-size $rsa_key_size \
     --server https://acme-v02.api.letsencrypt.org/directory \
+    --manual --preferred-challenges dns \
+    $domain_args \
     --agree-tos \
     --force-renewal" certbot
 echo
