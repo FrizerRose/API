@@ -4,5 +4,5 @@ COMPOSE="/usr/local/bin/docker-compose --env-file .env.prod -f docker-compose.ym
 DOCKER="/usr/bin/docker"
 
 cd /var/www/API/
-$COMPOSE run certbot renew && $COMPOSE kill -s SIGHUP webserver
+$COMPOSE run certbot renew --noninteractive && $COMPOSE kill -s SIGHUP webserver
 $DOCKER system prune -af

@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(*.primrose.agency primrose.agency)
+domains=(primrose.agency www.primrose.agency)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="juraj.markesic.dev@gmail.com" # Adding a valid address is strongly recommended
@@ -50,33 +50,32 @@ docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod
 echo
 
 
-echo "### Requesting Let's Encrypt certificate for $domains ..."
-#Join $domains to -d args
-domain_args=""
-for domain in "${domains[@]}"; do
-  domain_args="$domain_args -d $domain"
-done
+# echo "### Requesting Let's Encrypt certificate for $domains ..."
+# #Join $domains to -d args
+# domain_args=""
+# for domain in "${domains[@]}"; do
+#   domain_args="$domain_args -d $domain"
+# done
 
-# Select appropriate email arg
-case "$email" in
-  "") email_arg="--register-unsafely-without-email" ;;
-  *) email_arg="--email $email" ;;
-esac
+# # Select appropriate email arg
+# case "$email" in
+#   "") email_arg="--register-unsafely-without-email" ;;
+#   *) email_arg="--email $email" ;;
+# esac
 
-# Enable staging mode if needed
-if [ $staging != "0" ]; then staging_arg="--staging"; fi
+# # Enable staging mode if needed
+# if [ $staging != "0" ]; then staging_arg="--staging"; fi
 
-docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml run --rm --entrypoint "\
-  certbot certonly --webroot -w /var/www/certbot \
-    $staging_arg \
-    $email_arg \
-    --rsa-key-size $rsa_key_size \
-    --server https://acme-v02.api.letsencrypt.org/directory \
-    --manual --preferred-challenges dns \
-    $domain_args \
-    --agree-tos \
-    --force-renewal" certbot
+# docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml run --rm --entrypoint "certbot certonly --manual -d *.primrose.agency -d primrose.agency --email juraj.markesic.dev@gmail.com --agree-tos --no-bootstrap --manual-public-ip-logging-ok --preferred-challenges dns-01 --server https://acme-v02.api.letsencrypt.org/directory" certbot
+# docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml run --rm --entrypoint "\
+  # certbot certonly --webroot -w /var/www/certbot \
+    # $staging_arg \
+    # $email_arg \
+    # $domain_args \
+    # --rsa-key-size $rsa_key_size \
+    # --agree-tos \
+    # --force-renewal" certbot
 echo
 
-echo "### Reloading nginx ..."
-docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml  exec nginx_container nginx -s reload
+# echo "### Reloading nginx ..."
+# docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml  exec nginx_container nginx -s reload
