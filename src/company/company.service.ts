@@ -48,11 +48,7 @@ export class CompanysService {
   }
 
   async getBySlug(slug: string): Promise<Company | undefined> {
-    return await this.companyRepository
-      .createQueryBuilder('company')
-      .where('company.bookingPageSlug = :slug')
-      .setParameter('slug', slug)
-      .getOne();
+    return this.companyRepository.findOne({ where: { bookingPageSlug: slug } });
   }
 
   async create(payload: CompanyCreateDto): Promise<Company> {
