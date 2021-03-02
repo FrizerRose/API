@@ -17,9 +17,7 @@ export class User {
   @Column({ length: 255 })
   email!: string;
 
-  @OneToOne((type) => Company, {
-    cascade: true,
-  })
+  @OneToOne(() => Company, (company) => company.user)
   company!: Company;
 
   @OneToOne((type) => UserPreferences, (preferences) => preferences.user, {
