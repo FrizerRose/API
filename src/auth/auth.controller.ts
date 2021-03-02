@@ -1,10 +1,10 @@
-import { Body, Controller, Get, Post, Delete, Req, Put, Param, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Delete, Res, Req, Put, Param, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './../users/users.service';
 import { AuthService } from './auth.service';
 import { LoginDto, RegisterDto, UpdateUserDto, ChangePasswordDto } from './dto/index';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 
 @Controller('auth')
 @ApiTags('authentication')
@@ -15,9 +15,17 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Successful Login' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async login(@Body() payload: LoginDto): Promise<any> {
+  async login(@Body() payload: LoginDto, @Res() response: Response): Promise<any> {
     const user = await this.authService.validateUser(payload);
-    return await this.authService.createToken(user);
+
+    if (user && this.userService.userBelongsToCompany(user.id, payload.company)) {
+      const token = await this.authService.createToken(user);
+      response.status(200);
+      response.send(token);
+    } else {
+      response.status(404);
+      response.send();
+    }
   }
 
   @Post('register')

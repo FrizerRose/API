@@ -29,6 +29,12 @@ export class LoginDto {
   @IsNotEmpty()
   @MinLength(5)
   password!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  company!: number;
 }
 
 export class RegisterDto {

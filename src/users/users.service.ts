@@ -59,7 +59,6 @@ export class UsersService {
     const passHash = crypto.createHmac('sha256', password).digest('hex');
     return await this.usersRepository
       .createQueryBuilder('users')
-      .leftJoinAndSelect('users.company', 'company')
       .where('users.email = :email and users.password = :password')
       .setParameter('email', email)
       .setParameter('password', passHash)
@@ -74,6 +73,15 @@ export class UsersService {
       .setParameter('email', email)
       .setParameter('password', hashedPass)
       .getOne();
+  }
+
+  async userBelongsToCompany(userID: number, companyID: number): Promise<boolean> {
+    const user = await this.usersRepository.findOne(userID);
+    if (user && user.company.id === companyID) {
+      return true;
+    }
+
+    return false;
   }
 
   async create(payload: RegisterDto): Promise<Omit<User, 'password'>> {
