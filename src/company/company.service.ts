@@ -47,6 +47,14 @@ export class CompanysService {
       .getOne();
   }
 
+  async getBySlug(slug: string): Promise<Company | undefined> {
+    return await this.companyRepository
+      .createQueryBuilder('company')
+      .where('company.bookingPageSlug = :slug')
+      .setParameter('slug', slug)
+      .getOne();
+  }
+
   async create(payload: CompanyCreateDto): Promise<Company> {
     const oldCompany = await this.getByName(payload.name);
 

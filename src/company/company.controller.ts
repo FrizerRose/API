@@ -39,6 +39,18 @@ export class CompanysController {
     response.send(company);
   }
 
+  @Get('slug/:slug')
+  async findBySlug(@Param('slug') slug: string, @Res() response: Response): Promise<void> {
+    const company = await this.companyService.getBySlug(slug);
+    if (company) {
+      response.status(200);
+    } else {
+      response.status(404);
+    }
+
+    response.send(company);
+  }
+
   @Post()
   @ApiResponse({ status: 201, description: 'Successful creation' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
