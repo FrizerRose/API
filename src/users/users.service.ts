@@ -59,7 +59,7 @@ export class UsersService {
     const passHash = crypto.createHmac('sha256', password).digest('hex');
     return await this.usersRepository
       .createQueryBuilder('users')
-      .leftJoinAndSelect('user.company', 'company')
+      .leftJoinAndSelect('users.company', 'company')
       .where('users.email = :email and users.password = :password')
       .setParameter('email', email)
       .setParameter('password', passHash)
