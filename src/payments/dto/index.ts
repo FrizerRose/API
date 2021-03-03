@@ -5,17 +5,19 @@ export class PaymentCreateDto {
   @ApiProperty({
     required: true,
   })
-  @IsEmail()
+  @IsNotEmpty()
   date!: string;
 
   @ApiProperty({
     required: true,
   })
+  @IsNotEmpty()
   amount!: number;
 
   @ApiProperty({
     required: true,
   })
+  @IsNotEmpty()
   company!: number;
 }
 
@@ -35,10 +37,12 @@ export class PaymentUpdateDto {
   @ApiProperty({
     required: true,
   })
+  @IsNotEmpty()
   amount!: string;
 
   @ApiProperty({
     required: true,
   })
+  @IsNotEmpty()
   company!: number;
 }
