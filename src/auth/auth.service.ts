@@ -70,14 +70,19 @@ export class AuthService {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const user = await this.userService.get(tokenPayload.id);
+    if (user) {
+      const userWithCorrectPassword = await this.userService.getByEmailAndPass(user.email, payload.oldPassword);
 
-    if (!user) {
-      throw new NotAcceptableException('User not found!');
+      if (userWithCorrectPassword) {
+        user.password = payload.password;
+        const updatedUser = await this.userService.update(user);
+
+        return updatedUser;
+      } else {
+        throw new UnauthorizedException('Incorrect old password!');
+      }
+    } else {
+      throw new UnauthorizedException('Incorrect token!');
     }
-
-    user.password = payload.password;
-    const updatedUser = await this.userService.update(user);
-
-    return updatedUser;
   }
 }

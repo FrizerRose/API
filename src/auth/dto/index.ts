@@ -12,6 +12,12 @@ export class ChangePasswordDto {
     required: true,
   })
   @IsNotEmpty()
+  oldPassword!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
   @MinLength(5)
   password!: string;
 }

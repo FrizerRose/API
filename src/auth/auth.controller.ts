@@ -76,7 +76,14 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Successful update' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async changePassword(@Body() payload: ChangePasswordDto): Promise<any> {
-    return await this.authService.changePassword(payload);
+  async changePassword(@Body() payload: ChangePasswordDto, @Res() response: Response): Promise<any> {
+    try {
+      const updatedUser = await this.authService.changePassword(payload);
+      response.status(200);
+      response.send(updatedUser);
+    } catch {
+      response.status(400);
+      response.send();
+    }
   }
 }
