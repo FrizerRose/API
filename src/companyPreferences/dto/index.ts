@@ -30,6 +30,30 @@ export class CompanyPreferencesCreateDto {
     required: true,
   })
   @IsNotEmpty()
+  canCancel!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  clientReminderEmail!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  staffReminderEmail!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  staffCancellationNotice!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
   colorVariant!: string;
 
   @ApiProperty({
@@ -93,6 +117,42 @@ export class CompanyPreferencesUpdateDto {
   })
   @IsNotEmpty()
   hasStaffPick!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  canCancel!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  clientReminderEmail!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  staffReminderEmail!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  staffCancellationNotice!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  clientReminderTime!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  staffReminderTime!: number;
 
   @ApiProperty({
     required: true,

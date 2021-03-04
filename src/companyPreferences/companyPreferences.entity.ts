@@ -17,6 +17,30 @@ export class CompanyPreferences {
   @Column({ default: 2 })
   cancellationWindow!: number;
 
+  @Column({ default: true })
+  hasStaffPick!: boolean;
+
+  @Column({ default: true })
+  canCancel!: boolean;
+
+  @Column({ default: true })
+  clientReminderEmail!: boolean;
+
+  @Column({ default: true })
+  staffReminderEmail!: boolean;
+
+  @Column({ default: true })
+  staffCancellationNotice!: boolean;
+
+  @Column({ default: 2 })
+  clientReminderTime!: number;
+
+  @Column({ default: 2 })
+  staffReminderTime!: number;
+
+  @Column({ length: 255, default: 'default' })
+  colorVariant!: string;
+
   @Column({ length: 255, default: '' })
   facebookLink!: string;
 
@@ -28,12 +52,6 @@ export class CompanyPreferences {
 
   @Column({ length: 255, default: '' })
   termsLink!: string;
-
-  @Column({ default: true })
-  hasStaffPick!: boolean;
-
-  @Column({ length: 255, default: 'default' })
-  colorVariant!: string;
 
   @OneToOne((type) => Company, {
     onDelete: 'CASCADE',
