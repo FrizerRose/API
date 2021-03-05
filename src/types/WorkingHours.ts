@@ -3,14 +3,19 @@ type startEnd = {
   end: string;
 };
 
+type day = {
+  isActive: boolean;
+  shifts: startEnd[];
+};
+
 type WorkingHours = {
-  monday: startEnd[];
-  tuesday: startEnd[];
-  wednesday: startEnd[];
-  thursday: startEnd[];
-  friday: startEnd[];
-  saturday: startEnd[];
-  sunday: startEnd[];
+  monday: day;
+  tuesday: day;
+  wednesday: day;
+  thursday: day;
+  friday: day;
+  saturday: day;
+  sunday: day;
 };
 
 export default WorkingHours;
