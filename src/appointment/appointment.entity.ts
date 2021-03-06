@@ -24,11 +24,11 @@ export class Appointment {
   @JoinColumn()
   company!: Company;
 
-  @ManyToOne((type) => Staff)
+  @ManyToOne((type) => Staff, { onDelete: 'CASCADE' })
   @JoinColumn()
   staff!: Staff;
 
-  @ManyToOne((type) => Service)
+  @ManyToOne((type) => Service, { onDelete: 'CASCADE' })
   @JoinColumn()
   service!: Service;
 
