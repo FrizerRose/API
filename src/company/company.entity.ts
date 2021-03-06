@@ -1,6 +1,7 @@
 import { Service } from 'src/service/service.entity';
 import { Customer } from 'src/customer/customer.entity';
 import { Staff } from 'src/staff/staff.entity';
+import { Image } from 'src/imageUpload/image.entity';
 import { User } from 'src/users/user.entity';
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Appointment } from 'src/appointment/appointment.entity';
@@ -73,4 +74,9 @@ export class Company {
 
   @OneToMany(() => Payment, (payment) => payment.company)
   payments!: Payment[];
+
+  @OneToOne(() => Image, (image) => image.company, {
+    eager: true,
+  })
+  image?: Image;
 }

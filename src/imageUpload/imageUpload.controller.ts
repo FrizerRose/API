@@ -15,7 +15,6 @@ export class ImageUploadController {
   async addImages(@Req() request: Request, @Res() response: Response): Promise<any> {
     try {
       const images = await this.imageUploadService.fileUpload(request, response);
-      console.log(images, 'aaaa');
       return response.status(201).json(images);
     } catch (error) {
       return response.status(500).json(`Failed to upload files. ${error.message}`);

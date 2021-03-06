@@ -1,18 +1,27 @@
 import { Req, Res, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import * as multer from 'multer';
 import * as AWS from 'aws-sdk';
 import * as multerS3 from 'multer-s3';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
+import { Image } from './image.entity';
 
 @Injectable()
 export class ImageUploadService {
   private storage;
 
-  constructor(private readonly configService: ConfigService) {
+  constructor(
+    private readonly configService: ConfigService,
+    @InjectRepository(Image)
+    private readonly imageRepository: Repository<Image>,
+  ) {
+    const spacesEndpoint = new AWS.Endpoint('fra1.digitaloceanspaces.com');
     //Setup S3 storage
     this.storage = multerS3({
       s3: new AWS.S3({
+        endpoint: spacesEndpoint,
         accessKeyId: this.configService.get<string>('aws.key'),
         secretAccessKey: this.configService.get<string>('aws.secret'),
         region: 'eu-central-1',
@@ -27,7 +36,7 @@ export class ImageUploadService {
   }
 
   async fileUpload(@Req() request: Request, @Res() response: Response): Promise<any> {
-    return new Promise((resolve, reject) => {
+    const files = await new Promise((resolve, reject) => {
       try {
         const upload = multer({
           storage: this.storage,
@@ -47,6 +56,24 @@ export class ImageUploadService {
         reject(`Failed to upload files: ${error}`);
       }
     });
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    console.log('🚀 ~ file: imageUpload.service.ts', files[0].location);
+    try {
+      const newImage = await this.imageRepository.save(
+        this.imageRepository.create({
+          company: request.body.company,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          link: files[0].location,
+        } as Record<string, any>),
+      );
+    } catch {
+      throw new Error('Couldnt create image.');
+    }
+
+    return files;
   }
 
   /**

@@ -1,6 +1,7 @@
 import { Appointment } from 'src/appointment/appointment.entity';
 import { Company } from 'src/company/company.entity';
 import { Service } from 'src/service/service.entity';
+import { Image } from 'src/imageUpload/image.entity';
 import WorkingHours from 'src/types/WorkingHours';
 import {
   Column,
@@ -9,6 +10,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -41,4 +43,9 @@ export class Staff {
 
   @OneToMany(() => Appointment, (appointment) => appointment.staff)
   appointments!: Appointment[];
+
+  @OneToOne(() => Image, (image) => image.company, {
+    eager: true,
+  })
+  image?: Image;
 }
