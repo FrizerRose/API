@@ -38,6 +38,10 @@ export class ServicesService {
     return this.serviceRepository.findOne(id);
   }
 
+  async getByCompanyID(id: number): Promise<Service[] | undefined> {
+    return this.serviceRepository.find({ where: { company: id } });
+  }
+
   async getByName(name: string): Promise<Service | undefined> {
     return await this.serviceRepository
       .createQueryBuilder('service')

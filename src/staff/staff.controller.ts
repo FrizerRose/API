@@ -39,6 +39,18 @@ export class StaffController {
     response.send(staff);
   }
 
+  @Get('company/:id')
+  async findByCompanyID(@Param('id') id: number, @Res() response: Response): Promise<void> {
+    const staff = await this.staffService.getByCompanyID(id);
+    if (staff) {
+      response.status(200);
+    } else {
+      response.status(404);
+    }
+
+    response.send(staff);
+  }
+
   @Post()
   @ApiResponse({ status: 201, description: 'Successful creation' })
   @ApiResponse({ status: 400, description: 'Bad Request' })

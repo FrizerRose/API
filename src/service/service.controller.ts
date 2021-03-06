@@ -39,6 +39,18 @@ export class ServicesController {
     response.send(service);
   }
 
+  @Get('company/:id')
+  async findByCompanyID(@Param('id') id: number, @Res() response: Response): Promise<void> {
+    const services = await this.serviceService.getByCompanyID(id);
+    if (services) {
+      response.status(200);
+    } else {
+      response.status(404);
+    }
+
+    response.send(services);
+  }
+
   @Post()
   @ApiResponse({ status: 201, description: 'Successful creation' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
