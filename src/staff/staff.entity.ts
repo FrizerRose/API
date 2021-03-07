@@ -44,7 +44,7 @@ export class Staff {
   @OneToMany(() => Appointment, (appointment) => appointment.staff)
   appointments!: Appointment[];
 
-  @OneToOne(() => Image, (image) => image.company, {
+  @OneToOne(() => Image, (image) => image.staff, {
     eager: true,
   })
   image?: Image;
