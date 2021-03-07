@@ -2,6 +2,7 @@ import { Appointment } from 'src/appointment/appointment.entity';
 import { Company } from 'src/company/company.entity';
 import { Service } from 'src/service/service.entity';
 import { Image } from 'src/imageUpload/image.entity';
+import { Break } from 'src/break/break.entity';
 import WorkingHours from 'src/types/WorkingHours';
 import {
   Column,
@@ -48,4 +49,10 @@ export class Staff {
     eager: true,
   })
   image?: Image;
+
+  @OneToMany(() => Break, (timeOff) => timeOff.staff, {
+    eager: true,
+    cascade: true,
+  })
+  breaks!: Break[];
 }
