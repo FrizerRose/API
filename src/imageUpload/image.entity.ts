@@ -14,7 +14,7 @@ export class Image {
 
   @OneToOne((type) => Company, { onDelete: 'CASCADE' })
   @JoinColumn()
-  company!: Company;
+  company?: Company;
 
   @OneToOne((type) => Staff, { onDelete: 'CASCADE' })
   @JoinColumn()

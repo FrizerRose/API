@@ -57,18 +57,29 @@ export class ImageUploadService {
       }
     });
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    console.log('🚀 ~ file: imageUpload.service.ts', files[0].location);
     try {
-      const newImage = await this.imageRepository.save(
-        this.imageRepository.create({
-          company: request.body.company,
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          link: files[0].location,
-        } as Record<string, any>),
-      );
+      const imageData = {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        link: files[0].location,
+        company: null,
+        staff: null,
+      };
+
+      let oldImage;
+      if (request.body.staff) {
+        imageData.staff = request.body.staff;
+        oldImage = await this.imageRepository.findOne({ where: { staff: imageData.staff } });
+      } else if (request.body.company) {
+        imageData.company = request.body.company;
+        oldImage = await this.imageRepository.findOne({ where: { company: imageData.company } });
+      }
+
+      if (oldImage) {
+        await this.imageRepository.remove(oldImage);
+      }
+
+      await this.imageRepository.save(this.imageRepository.create(imageData as Record<string, any>));
     } catch {
       throw new Error('Couldnt create image.');
     }
