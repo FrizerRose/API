@@ -54,6 +54,7 @@ export class StaffService {
         },
       )
       .leftJoinAndSelect('appointment.service', 'service')
+      .leftJoinAndSelect('appointment.customer', 'customer')
       .where('staff.id = :id', { id: id })
       .getOne();
   }
