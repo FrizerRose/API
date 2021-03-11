@@ -51,7 +51,13 @@ export class AppointmentUpdateDto {
     required: true,
   })
   @IsNotEmpty()
-  datetime!: number;
+  date!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  time!: string;
 
   @ApiProperty({
     required: true,

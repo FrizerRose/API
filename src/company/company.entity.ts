@@ -72,7 +72,9 @@ export class Company {
   @OneToMany(() => Appointment, (appointment) => appointment.company)
   appointments!: Appointment[];
 
-  @OneToMany(() => Payment, (payment) => payment.company)
+  @OneToMany(() => Payment, (payment) => payment.company, {
+    eager: true,
+  })
   payments!: Payment[];
 
   @OneToOne(() => Image, (image) => image.company, {
