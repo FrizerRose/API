@@ -54,6 +54,12 @@ export class CompanyPreferencesCreateDto {
     required: true,
   })
   @IsNotEmpty()
+  isTutorialFinished!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
   colorVariant!: string;
 
   @ApiProperty({
@@ -141,6 +147,12 @@ export class CompanyPreferencesUpdateDto {
   })
   @IsNotEmpty()
   staffCancellationNotice!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  isTutorialFinished!: boolean;
 
   @ApiProperty({
     required: true,

@@ -32,6 +32,9 @@ export class CompanyPreferences {
   @Column({ default: true })
   staffCancellationNotice!: boolean;
 
+  @Column({ default: false })
+  isTutorialFinished!: boolean;
+
   @Column({ default: 2 })
   clientReminderTime!: number;
 

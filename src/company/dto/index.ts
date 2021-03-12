@@ -9,7 +9,7 @@ export class CompanyCreateDto {
   name!: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   isPublic!: boolean;
 
@@ -24,22 +24,22 @@ export class CompanyCreateDto {
   contactEmail!: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   streetName!: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   city!: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   phoneNumber!: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   about!: string;
 

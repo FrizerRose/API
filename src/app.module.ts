@@ -17,6 +17,7 @@ import { BreakModule } from './break/break.module';
 import { PaymentModule } from './payments/payment.module';
 import { ServiceModule } from './service/service.module';
 import { StaffModule } from './staff/staff.module';
+import { ContactModule } from './contact/contact.module';
 
 @Global()
 @Module({
@@ -79,6 +80,7 @@ import { StaffModule } from './staff/staff.module';
     BreakModule,
     PaymentModule,
     AppointmentModule,
+    ContactModule,
   ],
   controllers: [AppController],
   providers: [AppService],
