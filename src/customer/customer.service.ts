@@ -52,7 +52,7 @@ export class CustomersService {
     let customer: Customer;
 
     if (oldCustomer) {
-      customer = oldCustomer;
+      customer = await this.customerRepository.save({ id: oldCustomer.id, ...payload } as Record<string, any>);
     } else {
       customer = await this.customerRepository.save(this.customerRepository.create(payload as Record<string, any>));
     }
