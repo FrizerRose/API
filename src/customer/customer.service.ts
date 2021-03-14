@@ -19,16 +19,16 @@ export class CustomersService {
     private readonly configService: ConfigService,
   ) {}
 
-  async getAll(): Promise<Customer[] | undefined> {
-    let customer: Customer[] | undefined = await this.cacheStore.get('all_customer');
+  async getAll(limit = 30): Promise<Customer[] | undefined> {
+    let customer: Customer[] | undefined = await this.cacheStore.get('all_customer_' + limit);
 
     if (customer) {
       this.logger.log('Getting all customer from cache.');
       return customer;
     }
 
-    customer = await this.customerRepository.find();
-    this.cacheStore.set('all_customer', customer, { ttl: 20 });
+    customer = await this.customerRepository.find({ take: limit });
+    this.cacheStore.set('all_customer_' + limit, customer, { ttl: 20 });
 
     this.logger.log('Querying all customer!');
     return customer;
@@ -45,6 +45,15 @@ export class CustomersService {
       .setParameter('email', email)
       .setParameter('company_id', companyID)
       .getOne();
+  }
+
+  async findByName(name: string, companyID: number): Promise<Customer[] | undefined> {
+    return await this.customerRepository
+      .createQueryBuilder('customer')
+      .where('LOWER(customer.name) LIKE :name', { name: `${name.toLowerCase()}%` })
+      .andWhere('customer.company = :company_id')
+      .setParameter('company_id', companyID)
+      .getMany();
   }
 
   async create(payload: CustomerCreateDto): Promise<Customer> {

@@ -9,8 +9,9 @@ import {
   UseInterceptors,
   Delete,
   Param,
+  Query,
 } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags, ApiQuery } from '@nestjs/swagger';
 import { CustomerCreateDto, CustomerUpdateDto } from './dto/index';
 import { CustomersService } from './customer.service';
 import { Customer } from './customer.entity';
@@ -22,9 +23,36 @@ import { Response } from 'express';
 export class CustomersController {
   constructor(private readonly customerService: CustomersService) {}
 
+  @ApiQuery({
+    name: 'name',
+    required: false,
+    type: String,
+  })
+  @ApiQuery({
+    name: 'company',
+    required: false,
+    type: Number,
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+  })
   @Get()
-  findAll(): Promise<Customer[] | undefined> {
-    return this.customerService.getAll();
+  findAll(
+    @Query('name') name?: string,
+    @Query('company') company?: number,
+    @Query('limit') limit?: number,
+  ): Promise<Customer[] | undefined> {
+    if (name && company) {
+      return this.customerService.findByName(name, company);
+    } else {
+      if (limit) {
+        return this.customerService.getAll(limit);
+      } else {
+        return this.customerService.getAll();
+      }
+    }
   }
 
   @Get(':id')
