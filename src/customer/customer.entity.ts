@@ -12,10 +12,10 @@ export class Customer {
   @Column({ length: 255 })
   name!: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, default: '' })
   email!: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, default: '' })
   phone!: string;
 
   @ManyToOne((type) => Company, { onDelete: 'CASCADE' })

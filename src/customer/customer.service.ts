@@ -51,7 +51,7 @@ export class CustomersService {
     const oldCustomer = await this.getByEmailAndCompanyID(payload.email, payload.company);
     let customer: Customer;
 
-    if (oldCustomer) {
+    if (oldCustomer && payload.email !== '') {
       customer = await this.customerRepository.save({ id: oldCustomer.id, ...payload } as Record<string, any>);
     } else {
       customer = await this.customerRepository.save(this.customerRepository.create(payload as Record<string, any>));

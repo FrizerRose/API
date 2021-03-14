@@ -9,13 +9,13 @@ export class CustomerCreateDto {
   name!: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
-  @IsEmail()
+  // @IsEmail()
   email!: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   phone!: string;
 
@@ -39,13 +39,13 @@ export class CustomerUpdateDto {
   name!: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
-  @IsEmail()
+  // @IsEmail()
   email!: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   phone!: string;
 
