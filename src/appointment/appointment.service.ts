@@ -65,6 +65,7 @@ export class AppointmentsService {
           },
         })
         .catch((error) => {
+          console.log('🚀 ~ file: appointment.service.ts ~ line 68 ~ AppointmentsService ~ create ~ error', error);
           throw new Error('Email could not be sent. Please try again later.');
         });
 
@@ -79,6 +80,7 @@ export class AppointmentsService {
           },
         })
         .catch((error) => {
+          console.log('🚀 ~ file: appointment.service.ts ~ line 83 ~ AppointmentsService ~ create ~ error', error);
           throw new Error('Email could not be sent. Please try again later.');
         });
     }
