@@ -51,6 +51,38 @@ export class AppointmentsService {
       this.appointmentRepository.create(payload as Record<string, any>),
     );
 
+    if (appointment) {
+      const createdAppointment = await this.get(appointment.id);
+
+      // Send email to the customer
+      this.mailerService
+        .sendMail({
+          to: createdAppointment?.customer.email,
+          subject: 'Potvrda rezervacije termina - ' + createdAppointment?.company.name,
+          template: 'customer-confirmation',
+          context: {
+            appointment: createdAppointment,
+          },
+        })
+        .catch((error) => {
+          throw new Error('Email could not be sent. Please try again later.');
+        });
+
+      // Send email to the staff
+      this.mailerService
+        .sendMail({
+          to: createdAppointment?.staff.email,
+          subject: 'Novi termin za - ' + createdAppointment?.service.name,
+          template: 'staff-confirmation',
+          context: {
+            appointment: createdAppointment,
+          },
+        })
+        .catch((error) => {
+          throw new Error('Email could not be sent. Please try again later.');
+        });
+    }
+
     return appointment;
   }
 
@@ -70,6 +102,38 @@ export class AppointmentsService {
     if (!oldAppointment) {
       throw new NotAcceptableException('Appointment does not exit.');
     }
+    console.log(
+      '🚀 ~ file: appointment.service.ts ~ line 103 ~ AppointmentsService ~ delete ~ oldAppointment',
+      oldAppointment,
+    );
+
+    // Send email to the customer
+    this.mailerService
+      .sendMail({
+        to: oldAppointment?.customer.email,
+        subject: 'Potvrda otkaza termina - ' + oldAppointment?.company.name,
+        template: 'customer-cancel',
+        context: {
+          appointment: oldAppointment,
+        },
+      })
+      .catch((error) => {
+        throw new Error('Email could not be sent. Please try again later.');
+      });
+
+    // Send email to the staff
+    this.mailerService
+      .sendMail({
+        to: oldAppointment?.staff.email,
+        subject: 'Otkazan termin za - ' + oldAppointment?.service.name,
+        template: 'staff-cancel',
+        context: {
+          appointment: oldAppointment,
+        },
+      })
+      .catch((error) => {
+        throw new Error('Email could not be sent. Please try again later.');
+      });
 
     return await this.appointmentRepository.remove(oldAppointment);
   }

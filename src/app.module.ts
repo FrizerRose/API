@@ -18,6 +18,7 @@ import { PaymentModule } from './payments/payment.module';
 import { ServiceModule } from './service/service.module';
 import { StaffModule } from './staff/staff.module';
 import { ContactModule } from './contact/contact.module';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 @Global()
 @Module({
@@ -66,6 +67,16 @@ import { ContactModule } from './contact/contact.module';
           //   user: configService.get<string>('email.user'),
           //   pass: configService.get<string>('email.pass')
           // },
+        },
+        defaults: {
+          from: '"Frizerrose" <' + configService.get<string>('email.default') + '>',
+        },
+        template: {
+          dir: process.cwd() + '/templates',
+          adapter: new HandlebarsAdapter(),
+          options: {
+            strict: true,
+          },
         },
       }),
     }),
