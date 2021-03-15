@@ -7,6 +7,8 @@ import { Appointment } from './appointment.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { NotAcceptableException } from '@nestjs/common';
+import * as ICS from 'ics';
+import { writeFileSync, unlink } from 'fs';
 
 @Injectable()
 export class AppointmentsService {
@@ -54,35 +56,80 @@ export class AppointmentsService {
     if (appointment) {
       const createdAppointment = await this.get(appointment.id);
 
-      // Send email to the customer
-      this.mailerService
-        .sendMail({
-          to: createdAppointment?.customer.email,
-          subject: 'Potvrda rezervacije termina - ' + createdAppointment?.company.name,
-          template: 'customer-confirmation',
-          context: {
-            appointment: createdAppointment,
-          },
-        })
-        .catch((error) => {
-          console.log('🚀 ~ file: appointment.service.ts ~ line 68 ~ AppointmentsService ~ create ~ error', error);
-          throw new Error('Email could not be sent. Please try again later.');
-        });
+      const event = {
+        start: [2018, 5, 30, 6, 30],
+        duration: { minutes: createdAppointment?.service.duration },
+        title: 'Rezervirani termin - ' + createdAppointment?.company.name,
+        description: createdAppointment?.service.name,
+        location: createdAppointment?.company.streetName + ', ' + createdAppointment?.company.city,
+        status: 'CONFIRMED',
+        organizer: { name: createdAppointment?.company.name, email: createdAppointment?.company.contactEmail },
+      };
 
-      // Send email to the staff
-      this.mailerService
-        .sendMail({
-          to: createdAppointment?.staff.email,
-          subject: 'Novi termin za - ' + createdAppointment?.service.name,
-          template: 'staff-confirmation',
-          context: {
-            appointment: createdAppointment,
-          },
-        })
-        .catch((error) => {
-          console.log('🚀 ~ file: appointment.service.ts ~ line 83 ~ AppointmentsService ~ create ~ error', error);
-          throw new Error('Email could not be sent. Please try again later.');
-        });
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      ICS.createEvent(event, (error, value) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log(value);
+          const maximum = 100000;
+          const minimum = 1000;
+          const randomNum = Math.floor(Math.random() * (maximum - minimum + 1)) + Date.now();
+          const filePath = `${__dirname}/event${randomNum}.ics`;
+          // writeFileSync(filePath, value);
+
+          // Send email to the customer
+          this.mailerService
+            .sendMail({
+              to: createdAppointment?.customer.email,
+              subject: 'Potvrda rezervacije termina - ' + createdAppointment?.company.name,
+              template: 'customer-confirmation',
+              context: {
+                appointment: createdAppointment,
+              },
+              attachments: [
+                {
+                  filename: 'rezervacija.ics',
+                  content: value,
+                },
+              ],
+            })
+            .catch((error) => {
+              console.log(
+                '🚀 ~ file: appointment.service.ts ~ line 99 ~ AppointmentsService ~ ICS.createEvent ~ error',
+                error,
+              );
+              throw new Error('Email could not be sent. Please try again later.');
+            });
+
+          // Send email to the staff
+          this.mailerService
+            .sendMail({
+              to: createdAppointment?.staff.email,
+              subject: 'Novi termin za - ' + createdAppointment?.service.name,
+              template: 'staff-confirmation',
+              context: {
+                appointment: createdAppointment,
+              },
+              attachments: [
+                {
+                  filename: 'rezervacija.ics',
+                  content: value,
+                },
+              ],
+            })
+            .catch((error) => {
+              console.log(
+                '🚀 ~ file: appointment.service.ts ~ line 120 ~ AppointmentsService ~ ICS.createEvent ~ error',
+                error,
+              );
+              throw new Error('Email could not be sent. Please try again later.');
+            });
+
+          // unlink(filePath, () => {});
+        }
+      });
     }
 
     return appointment;
