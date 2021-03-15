@@ -55,9 +55,17 @@ export class AppointmentsService {
 
     if (appointment) {
       const createdAppointment = await this.get(appointment.id);
+      const appointmentDate = new Date(createdAppointment?.date + 'T' + createdAppointment?.time);
 
       const event = {
-        start: [2018, 5, 30, 6, 30],
+        // start: [2018, 5, 30, 6, 30],
+        start: [
+          appointmentDate.getFullYear(),
+          appointmentDate.getMonth() + 1,
+          appointmentDate.getDate(),
+          appointmentDate.getHours() - 1,
+          appointmentDate.getMinutes(),
+        ],
         duration: { minutes: createdAppointment?.service.duration },
         title: 'Rezervirani termin - ' + createdAppointment?.company.name,
         description: createdAppointment?.service.name,
@@ -73,12 +81,6 @@ export class AppointmentsService {
           console.log(error);
         } else {
           console.log(value);
-          const maximum = 100000;
-          const minimum = 1000;
-          const randomNum = Math.floor(Math.random() * (maximum - minimum + 1)) + Date.now();
-          const filePath = `${__dirname}/event${randomNum}.ics`;
-          // writeFileSync(filePath, value);
-
           // Send email to the customer
           this.mailerService
             .sendMail({
@@ -126,8 +128,6 @@ export class AppointmentsService {
               );
               throw new Error('Email could not be sent. Please try again later.');
             });
-
-          // unlink(filePath, () => {});
         }
       });
     }
