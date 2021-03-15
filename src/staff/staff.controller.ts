@@ -6,11 +6,12 @@ import {
   Post,
   Res,
   Put,
+  Query,
   UseInterceptors,
   Delete,
   Param,
 } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags, ApiQuery } from '@nestjs/swagger';
 import { StaffCreateDto, StaffUpdateDto } from './dto/index';
 import { Staff } from './staff.entity';
 import { StaffService } from './staff.service';
@@ -27,9 +28,31 @@ export class StaffController {
     return this.staffService.getAll();
   }
 
+  @ApiQuery({
+    name: 'start',
+    required: false,
+    type: String,
+  })
+  @ApiQuery({
+    name: 'end',
+    required: false,
+    type: String,
+  })
   @Get(':id')
-  async findByID(@Param('id') id: number, @Res() response: Response): Promise<void> {
-    const staff = await this.staffService.get(id);
+  async findByID(
+    @Param('id') id: number,
+    @Res() response: Response,
+    @Query('start') start?: string,
+    @Query('end') end?: string,
+  ): Promise<void> {
+    let staff: Staff | undefined;
+
+    if (start && end) {
+      staff = await this.staffService.get(id, { start, end });
+    } else {
+      staff = await this.staffService.get(id);
+    }
+
     if (staff) {
       response.status(200);
     } else {

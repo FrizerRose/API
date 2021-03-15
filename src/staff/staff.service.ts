@@ -35,28 +35,50 @@ export class StaffService {
     return staff;
   }
 
-  async get(id: number): Promise<Staff | undefined> {
-    const today = new Date();
-    // const currentTime = today.getHours() + 1 + ':' + today.getMinutes() + ':' + today.getSeconds();
-    const currentDate = this.getDateString(today);
-    today.setDate(today.getDate() + 30);
-    const monthFromNowDate = this.getDateString(today);
+  async getById(id: number): Promise<Staff | undefined> {
+    return this.staffRepository.findOne(id, { relations: ['company'] });
+  }
 
-    return this.staffRepository
-      .createQueryBuilder('staff')
-      .leftJoinAndSelect(
-        'staff.appointments',
-        'appointment',
-        'appointment.date >= :currentDate AND appointment.date < :monthFromNowDate',
-        {
-          currentDate,
-          monthFromNowDate,
-        },
-      )
-      .leftJoinAndSelect('appointment.service', 'service')
-      .leftJoinAndSelect('appointment.customer', 'customer')
-      .where('staff.id = :id', { id: id })
-      .getOne();
+  async get(id: number, customDates?: { start: string; end: string }): Promise<Staff | undefined> {
+    const staff = await this.getById(id);
+
+    if (staff) {
+      let startDateString;
+      let endDateString;
+
+      if (customDates) {
+        const startDate = new Date(customDates.start);
+        const endDate = new Date(customDates.end);
+
+        startDateString = this.getDateString(startDate);
+        endDateString = this.getDateString(endDate);
+      } else {
+        const schedulingWindow = staff.company.preferences.schedulingWindow || 30;
+        const today = new Date();
+
+        startDateString = this.getDateString(today);
+        today.setDate(today.getDate() + schedulingWindow);
+        endDateString = this.getDateString(today);
+      }
+
+      return this.staffRepository
+        .createQueryBuilder('staff')
+        .leftJoinAndSelect(
+          'staff.appointments',
+          'appointment',
+          'appointment.date >= :startDateString AND appointment.date < :endDateString',
+          {
+            startDateString,
+            endDateString,
+          },
+        )
+        .leftJoinAndSelect('appointment.service', 'service')
+        .leftJoinAndSelect('appointment.customer', 'customer')
+        .where('staff.id = :id', { id: id })
+        .getOne();
+    } else {
+      return undefined;
+    }
   }
 
   async getByCompanyID(id: number): Promise<Staff[] | undefined> {

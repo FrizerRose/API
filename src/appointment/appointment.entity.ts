@@ -20,6 +20,9 @@ export class Appointment {
   @Column({ type: 'text' })
   message!: string;
 
+  @Column({ default: true })
+  hasCustomerArrived!: boolean;
+
   @ManyToOne((type) => Company, { onDelete: 'CASCADE' })
   @JoinColumn()
   company!: Company;

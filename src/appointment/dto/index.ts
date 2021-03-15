@@ -22,6 +22,11 @@ export class AppointmentCreateDto {
   @ApiProperty({
     required: true,
   })
+  hasCustomerArrived!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
   company!: number;
 
   @ApiProperty({
@@ -58,6 +63,12 @@ export class AppointmentUpdateDto {
   })
   @IsNotEmpty()
   time!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  hasCustomerArrived!: boolean;
 
   @ApiProperty({
     required: true,
