@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './../users/users.service';
 import { AuthService } from './auth.service';
-import { LoginDto, RegisterDto, UpdateUserDto, ChangePasswordDto } from './dto/index';
+import { LoginDto, RegisterDto, UpdateUserDto, ChangePasswordDto, ResetPasswordDTO } from './dto/index';
 import { Request, Response } from 'express';
 
 @Controller('auth')
@@ -64,12 +64,12 @@ export class AuthController {
     return this.userService.get(request.user?.id);
   }
 
-  @Post('reset-password/:email')
+  @Post('reset-password')
   @ApiResponse({ status: 200, description: 'Successfully sent email' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async resetPassword(@Param('email') email: string): Promise<any> {
-    return await this.authService.sendResetPasswordEmail(email);
+  async resetPassword(@Body() payload: ResetPasswordDTO): Promise<any> {
+    return await this.authService.sendResetPasswordEmail(payload);
   }
 
   @Post('change-password')

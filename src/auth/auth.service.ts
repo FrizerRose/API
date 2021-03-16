@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User } from './../users/user.entity';
 import { UsersService } from './../users/users.service';
-import { LoginDto, ChangePasswordDto } from './dto/index';
+import { LoginDto, ChangePasswordDto, ResetPasswordDTO } from './dto/index';
 import { MailerService } from '@nestjs-modules/mailer';
 
 type Token = {
@@ -38,8 +38,8 @@ export class AuthService {
     return sanitizedUser;
   }
 
-  async sendResetPasswordEmail(email: string): Promise<any> {
-    const user = await this.userService.getByEmail(email);
+  async sendResetPasswordEmail(payload: ResetPasswordDTO): Promise<any> {
+    const user = await this.userService.getByEmail(payload.email);
 
     if (!user) {
       throw new NotAcceptableException('User with this email not found!');
@@ -51,7 +51,7 @@ export class AuthService {
 
     this.mailerService
       .sendMail({
-        to: email,
+        to: payload.email,
         from: this.configService.get<string>('email.default'),
         subject: 'Nova lozinka za Dolazim.hr',
         template: 'reset-password',

@@ -21,6 +21,13 @@ export class ChangePasswordDto {
   @MinLength(5)
   password!: string;
 }
+export class ResetPasswordDTO {
+  @ApiProperty({
+    required: true,
+  })
+  @IsEmail()
+  email!: string;
+}
 
 export class LoginDto {
   @ApiProperty({
