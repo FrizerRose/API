@@ -59,13 +59,15 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         transport: {
-          host: configService.get<string>('email.host'),
-          port: configService.get<number>('email.port'),
-          secure: false,
-          auth: {
-            user: configService.get<string>('email.user'),
-            pass: configService.get<string>('email.pass'),
-          },
+          host: 'mailhog_container',
+          port: 1025,
+          // host: configService.get<string>('email.host'),
+          // port: configService.get<number>('email.port'),
+          // secure: false,
+          // auth: {
+          //   user: configService.get<string>('email.user'),
+          //   pass: configService.get<string>('email.pass'),
+          // },
         },
         defaults: {
           from: '"Frizerrose" <' + configService.get<string>('email.default') + '>',

@@ -45,22 +45,24 @@ export class AuthService {
       throw new NotAcceptableException('User with this email not found!');
     }
 
-    // Using email + hashed password as a payload makes the token single-use since the password changes after the reset.
-    const token = this.jwtService.sign({ email: user.email, password: user.password }, { expiresIn: '1h' });
-    const resetUrl = this.configService.get<string>('url.api') + '/auth/change-password/' + token;
+    const newPassword = Math.random().toString(36).substr(2, 8) + Date.now();
+    user.password = newPassword;
+    await this.userService.update(user);
 
     this.mailerService
       .sendMail({
-        to: email, // list of receivers
+        to: email,
         from: this.configService.get<string>('email.default'),
-        subject: 'Password reset on medicro.com', // Subject line
-        text: resetUrl, // plaintext body
+        subject: 'Nova lozinka za Dolazim.hr',
+        template: 'reset-password',
+        context: {
+          newPassword: newPassword,
+        },
       })
       .catch((error) => {
+        console.log('🚀 ~ file: auth.service.ts ~ line 60 ~ AuthService ~ sendResetPasswordEmail ~ error', error);
         throw new Error('Email could not be sent. Please try again later.');
       });
-
-    return token;
   }
 
   async changePassword(payload: ChangePasswordDto): Promise<Omit<User, 'password'>> {
