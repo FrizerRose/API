@@ -24,6 +24,9 @@ export class CompanyPreferences {
   canCancel!: boolean;
 
   @Column({ default: true })
+  showRules!: boolean;
+
+  @Column({ default: true })
   clientReminderEmail!: boolean;
 
   @Column({ default: true })
@@ -55,6 +58,9 @@ export class CompanyPreferences {
 
   @Column({ length: 255, default: '' })
   termsLink!: string;
+
+  @Column({ length: 500, default: '' })
+  rules!: string;
 
   @OneToOne((type) => Company, {
     onDelete: 'CASCADE',
