@@ -47,6 +47,14 @@ export class CustomersService {
       .getOne();
   }
 
+  async findByCompany(companyID: number): Promise<Customer[] | undefined> {
+    return await this.customerRepository
+      .createQueryBuilder('customer')
+      .where('customer.company = :company_id')
+      .setParameter('company_id', companyID)
+      .getMany();
+  }
+
   async findByName(name: string, companyID: number): Promise<Customer[] | undefined> {
     return await this.customerRepository
       .createQueryBuilder('customer')

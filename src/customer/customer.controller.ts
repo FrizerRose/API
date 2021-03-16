@@ -46,6 +46,8 @@ export class CustomersController {
   ): Promise<Customer[] | undefined> {
     if (name && company) {
       return this.customerService.findByName(name, company);
+    } else if (company) {
+      return this.customerService.findByCompany(company);
     } else {
       if (limit) {
         return this.customerService.getAll(limit);
