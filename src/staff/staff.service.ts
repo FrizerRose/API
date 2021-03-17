@@ -66,7 +66,7 @@ export class StaffService {
         .leftJoinAndSelect(
           'staff.appointments',
           'appointment',
-          'appointment.date >= :startDateString AND appointment.date < :endDateString',
+          'appointment.date >= :startDateString AND appointment.date <= :endDateString',
           {
             startDateString,
             endDateString,

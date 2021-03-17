@@ -9,8 +9,9 @@ import {
   UseInterceptors,
   Delete,
   Param,
+  Query,
 } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags, ApiQuery } from '@nestjs/swagger';
 import { AppointmentCreateDto, AppointmentUpdateDto } from './dto/index';
 import { AppointmentsService } from './appointment.service';
 import { Appointment } from './appointment.entity';
@@ -55,11 +56,16 @@ export class AppointmentsController {
     return this.appointmentService.update(payload);
   }
 
+  @ApiQuery({
+    name: 'reschedule',
+    required: false,
+    type: String,
+  })
   @Delete(':id')
   @ApiResponse({ status: 200, description: 'Successful deletion' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  delete(@Param('id') id: number): Promise<any> {
-    return this.appointmentService.delete(id);
+  delete(@Param('id') id: number, @Query('reschedule') reschedule?: string): Promise<any> {
+    return this.appointmentService.delete(id, reschedule === 'true' ? true : false);
   }
 }
