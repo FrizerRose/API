@@ -7,6 +7,7 @@ import * as multerS3 from 'multer-s3';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
 import { Image } from './image.entity';
+import { NotAcceptableException } from '@nestjs/common';
 
 @Injectable()
 export class ImageUploadService {
@@ -79,14 +80,25 @@ export class ImageUploadService {
         await this.imageRepository.remove(oldImage);
       }
 
-      await this.imageRepository.save(this.imageRepository.create(imageData as Record<string, any>));
+      return await this.imageRepository.save(this.imageRepository.create(imageData as Record<string, any>));
     } catch {
       throw new Error('Couldnt create image.');
     }
-
-    return files;
   }
 
+  async get(id: number): Promise<Image | undefined> {
+    return this.imageRepository.findOne(id);
+  }
+
+  async delete(id: number): Promise<Image> {
+    const image = await this.get(id);
+
+    if (!image) {
+      throw new NotAcceptableException('Image does not exit.');
+    }
+
+    return await this.imageRepository.remove(image);
+  }
   /**
    * Rejects all files if any of them are not an image.
    * @param request

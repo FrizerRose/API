@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res, Delete, Param } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ImageUploadService } from '../imageUpload/imageUpload.service';
 import { Request, Response } from 'express';
@@ -19,5 +19,13 @@ export class ImageUploadController {
     } catch (error) {
       return response.status(500).json(`Failed to upload files. ${error.message}`);
     }
+  }
+
+  @Delete(':id')
+  @ApiResponse({ status: 200, description: 'Successful deletion' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  delete(@Param('id') id: number): Promise<any> {
+    return this.imageUploadService.delete(id);
   }
 }
