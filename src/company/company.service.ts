@@ -62,6 +62,20 @@ export class CompanysService {
     newCompany.preferences = new CompanyPreferences();
     const company = await this.companyRepository.save(newCompany);
 
+    // Send email to the customer
+    this.mailerService
+      .sendMail({
+        to: company.contactEmail,
+        subject: 'Dobrodošli na Dolazim.hr',
+        template: 'welcome',
+        context: {
+          company: company,
+        },
+      })
+      .catch((error) => {
+        throw new Error('Email could not be sent. Please try again later.');
+      });
+
     return company;
   }
 
