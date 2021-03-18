@@ -40,6 +40,10 @@ export class AppointmentsService {
     return this.appointmentRepository.findOne(id, { relations: ['staff', 'service', 'customer', 'company'] });
   }
 
+  async getByCustomerId(id: number): Promise<Appointment[] | undefined> {
+    return this.appointmentRepository.find({ relations: ['customer', 'service', 'staff'], where: { customer: id } });
+  }
+
   async getByName(name: string): Promise<Appointment | undefined> {
     return await this.appointmentRepository
       .createQueryBuilder('appointment')

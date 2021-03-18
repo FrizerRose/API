@@ -40,6 +40,18 @@ export class AppointmentsController {
     response.send(appointment);
   }
 
+  @Get('customer/:id')
+  async findByCompanyID(@Param('id') id: number, @Res() response: Response): Promise<void> {
+    const appointments = await this.appointmentService.getByCustomerId(id);
+    if (appointments) {
+      response.status(200);
+    } else {
+      response.status(404);
+    }
+
+    response.send(appointments);
+  }
+
   @Post()
   @ApiResponse({ status: 201, description: 'Successful creation' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
