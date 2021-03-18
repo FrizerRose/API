@@ -8,7 +8,6 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { NotAcceptableException } from '@nestjs/common';
 import * as ICS from 'ics';
-import { writeFileSync, unlink } from 'fs';
 
 @Injectable()
 export class AppointmentsService {
@@ -44,12 +43,37 @@ export class AppointmentsService {
     return this.appointmentRepository.find({ relations: ['customer', 'service', 'staff'], where: { customer: id } });
   }
 
+  async getByCompanyIdOnDate(id: number, dateString: string): Promise<Appointment[] | undefined> {
+    return this.appointmentRepository.find({
+      relations: ['customer', 'service', 'staff'],
+      where: { company: id, date: dateString },
+    });
+  }
+
   async getByName(name: string): Promise<Appointment | undefined> {
     return await this.appointmentRepository
       .createQueryBuilder('appointment')
       .where('appointment.name = :name')
       .setParameter('name', name)
       .getOne();
+  }
+
+  async getByCustomDate(
+    companyID: number,
+    customDates: { start: string; end: string },
+  ): Promise<Appointment[] | undefined> {
+    const startDateString = customDates.start;
+    const endDateString = customDates.end;
+
+    return this.appointmentRepository
+      .createQueryBuilder('appointment')
+      .where('appointment.date >= :startDateString AND appointment.date <= :endDateString', {
+        startDateString,
+        endDateString,
+      })
+      .andWhere('appointment.company = :id', { id: companyID })
+      .leftJoinAndSelect('appointment.service', 'service')
+      .getMany();
   }
 
   async create(payload: AppointmentCreateDto): Promise<Appointment> {

@@ -41,8 +41,24 @@ export class AppointmentsController {
   }
 
   @Get('customer/:id')
-  async findByCompanyID(@Param('id') id: number, @Res() response: Response): Promise<void> {
+  async findByCustomerID(@Param('id') id: number, @Res() response: Response): Promise<void> {
     const appointments = await this.appointmentService.getByCustomerId(id);
+    if (appointments) {
+      response.status(200);
+    } else {
+      response.status(404);
+    }
+
+    response.send(appointments);
+  }
+
+  @Get('company/:id/:date')
+  async findByCompanyID(
+    @Param('id') id: number,
+    @Param('date') date: string,
+    @Res() response: Response,
+  ): Promise<void> {
+    const appointments = await this.appointmentService.getByCompanyIdOnDate(id, date);
     if (appointments) {
       response.status(200);
     } else {

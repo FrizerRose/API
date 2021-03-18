@@ -8,6 +8,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { NotAcceptableException } from '@nestjs/common';
 import { CompanyPreferences } from 'src/companyPreferences/companyPreferences.entity';
+import { AppointmentsService } from 'src/appointment/appointment.service';
 
 @Injectable()
 export class CompanysService {
@@ -18,6 +19,7 @@ export class CompanysService {
     @Inject(CACHE_MANAGER) private readonly cacheStore: CacheStore,
     private readonly mailerService: MailerService,
     private readonly configService: ConfigService,
+    private readonly appointmentsService: AppointmentsService,
   ) {}
 
   async getAll(): Promise<Company[] | undefined> {
@@ -37,6 +39,44 @@ export class CompanysService {
 
   async get(id: number): Promise<Company | undefined> {
     return this.companyRepository.findOne(id);
+  }
+
+  async getStats(id: number): Promise<unknown> {
+    const company = this.companyRepository.findOne(id);
+
+    if (!company) {
+      throw new NotAcceptableException('Company with provided id doesnt exist.');
+    }
+
+    const today = new Date();
+    const weekFromNow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+    const weekAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+
+    const lastWeekAppointments =
+      (await this.appointmentsService.getByCustomDate(id, {
+        start: this.getDateString(weekAgo),
+        end: this.getDateString(today),
+      })) || [];
+    const nextWeekAppointments =
+      (await this.appointmentsService.getByCustomDate(id, {
+        start: this.getDateString(today),
+        end: this.getDateString(weekFromNow),
+      })) || [];
+
+    const stats = {
+      lastWeekAppointmentCount: lastWeekAppointments.length,
+      lastWeekAppointmentRevenue: lastWeekAppointments.reduce(
+        (totalRevenue, appointment) => totalRevenue + appointment.service.price,
+        0,
+      ),
+      nextWeekAppointmentCount: nextWeekAppointments.length,
+      nextWeekAppointmentRevenue: nextWeekAppointments.reduce(
+        (totalRevenue, appointment) => totalRevenue + appointment.service.price,
+        0,
+      ),
+    };
+
+    return stats;
   }
 
   async getByName(name: string): Promise<Company | undefined> {
@@ -97,5 +137,13 @@ export class CompanysService {
     }
 
     return await this.companyRepository.remove(oldCompany);
+  }
+
+  getDateString(date: Date): string {
+    const dd = String(date.getDate());
+    const mm = String(date.getMonth() + 1); //January is 0!
+    const yyyy = date.getFullYear();
+
+    return yyyy + '-' + mm + '-' + dd;
   }
 }

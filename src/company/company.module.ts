@@ -5,9 +5,10 @@ import { CompanysController } from './company.controller';
 import { Company } from './company.entity';
 import { CompanysService } from './company.service';
 import { CompanyPreferencesModule } from '../companyPreferences/companyPreferences.module';
+import { AppointmentModule } from 'src/appointment/appointment.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Company]), CommonModule, CompanyPreferencesModule],
+  imports: [TypeOrmModule.forFeature([Company]), CommonModule, CompanyPreferencesModule, AppointmentModule],
   providers: [CompanysService],
   controllers: [CompanysController],
 })

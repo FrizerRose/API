@@ -27,6 +27,18 @@ export class CompanysController {
     return this.companyService.getAll();
   }
 
+  @Get('stats/:id')
+  async getCompanyStats(@Param('id') companyId: number, @Res() response: Response): Promise<void> {
+    const stats = await this.companyService.getStats(companyId);
+    if (stats) {
+      response.status(200);
+    } else {
+      response.status(404);
+    }
+
+    response.send(stats);
+  }
+
   @Get(':id')
   async findByID(@Param('id') id: number, @Res() response: Response): Promise<void> {
     const company = await this.companyService.get(id);
