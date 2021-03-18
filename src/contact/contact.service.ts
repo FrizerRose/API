@@ -48,18 +48,31 @@ export class ContactsService {
   async create(payload: ContactCreateDto): Promise<Contact> {
     const contact = await this.contactRepository.save(this.contactRepository.create(payload as Record<string, any>));
 
-    const toEmail = this.configService.get<string>('email.default');
+    if (!contact) {
+      throw new Error('Saving the contact failed.');
+    } else {
+      const toEmail = this.configService.get<string>('email.default');
 
-    this.mailerService
-      .sendMail({
-        to: toEmail, // list of receivers
-        from: `"${contact.name}" ${contact.email}`,
-        subject: 'New contact from medicro.com', // Subject line
-        text: contact.body, // plaintext body
-      })
-      .catch((error) => {
-        throw new Error('Email could not be sent. Please try again later.');
-      });
+      let subject = 'Kontakt sa Dolazim.hr';
+      if (payload.company) {
+        subject = 'Kontakt sa Dolazim.hr - Firma: ' + contact.company?.name;
+      }
+
+      this.mailerService
+        .sendMail({
+          to: toEmail, // list of receivers
+          from: `"${contact.name}" ${contact.email}`,
+          subject: subject, // Subject line
+          template: 'contact',
+          context: {
+            contact: contact,
+          },
+        })
+        .catch((error) => {
+          console.log('🚀 ~ file: contact.service.ts ~ line 69 ~ ContactsService ~ create ~ error', error);
+          throw new Error('Email could not be sent. Please try again later.');
+        });
+    }
 
     return contact;
   }

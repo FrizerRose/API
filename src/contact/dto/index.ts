@@ -18,4 +18,9 @@ export class ContactCreateDto {
     required: true,
   })
   body!: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  company?: number;
 }

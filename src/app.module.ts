@@ -12,6 +12,7 @@ import { ImageUploadModule } from './imageUpload/imageUpload.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { AppointmentModule } from './appointment/appointment.module';
 import { CompanyModule } from './company/company.module';
+import { FaqModule } from './faq/faq.module';
 import { CustomerModule } from './customer/customer.module';
 import { BreakModule } from './break/break.module';
 import { PaymentModule } from './payments/payment.module';
@@ -89,6 +90,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
     ServiceModule,
     StaffModule,
     CustomerModule,
+    FaqModule,
     BreakModule,
     PaymentModule,
     AppointmentModule,
