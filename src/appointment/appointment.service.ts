@@ -7,6 +7,7 @@ import { Appointment } from './appointment.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { NotAcceptableException } from '@nestjs/common';
+// import { Cron } from '@nestjs/schedule';
 import * as ICS from 'ics';
 
 @Injectable()
@@ -19,6 +20,106 @@ export class AppointmentsService {
     private readonly mailerService: MailerService,
     private readonly configService: ConfigService,
   ) {}
+
+  // @Cron('*/2 * * * *')
+  async sendAppointmentReminders(): Promise<Appointment[] | undefined> {
+    const now = this.convertToCroatianTimezone(new Date());
+    const appointments = await this.getAllOnDate(this.getDateString(now));
+
+    if (appointments) {
+      const appointmentsWithStaffEmail = appointments.filter(
+        (item) => item.company.preferences.staffReminderEmail && !item.hasSentStaffEmail,
+      );
+      const appointmentsWithClientEmail = appointments.filter(
+        (item) => item.company.preferences.clientReminderEmail && !item.hasSentCustomerEmail,
+      );
+
+      const appointmentsWithStaffEmailDue = appointmentsWithStaffEmail.filter((appointment) => {
+        const appointmentDateTime = new Date(appointment.date + 'T' + appointment.time);
+
+        if (appointmentDateTime.getTime() > now.getTime()) {
+          const reminderDateTime = new Date(appointmentDateTime.getTime());
+
+          reminderDateTime.setHours(reminderDateTime.getHours() - appointment.company.preferences.staffReminderTime);
+          if (now.getTime() > reminderDateTime.getTime()) {
+            return true;
+          }
+        }
+
+        return false;
+      });
+      const appointmentsWithClientEmailDue = appointmentsWithClientEmail.filter((appointment) => {
+        const appointmentDateTime = new Date(appointment.date + 'T' + appointment.time);
+
+        if (appointmentDateTime.getTime() > now.getTime()) {
+          const reminderDateTime = new Date(appointmentDateTime.getTime());
+
+          reminderDateTime.setHours(reminderDateTime.getHours() - appointment.company.preferences.clientReminderTime);
+          if (now.getTime() > reminderDateTime.getTime()) {
+            return true;
+          }
+        }
+
+        return false;
+      });
+
+      appointmentsWithStaffEmailDue.forEach((appointment) => {
+        appointment.hasSentStaffEmail = true;
+        this.appointmentRepository.save(appointment as Record<string, any>);
+
+        if (appointment.staff.email) {
+          // Send email to the staff
+          this.mailerService
+            .sendMail({
+              to: appointment.staff.email,
+              subject: 'Podsjetnik za termin u - ' + appointment.time,
+              template: 'staff-reminder',
+              context: {
+                appointment: appointment,
+              },
+            })
+            .catch((error) => {
+              console.log(
+                '🚀 ~ file: appointment.service.ts ~ line 120 ~ AppointmentsService ~ ICS.createEvent ~ error',
+                error,
+              );
+              throw new Error('Email could not be sent. Please try again later.');
+            });
+        }
+      });
+
+      appointmentsWithClientEmailDue.forEach((appointment) => {
+        appointment.hasSentCustomerEmail = true;
+        this.appointmentRepository.save(appointment as Record<string, any>);
+
+        if (appointment.customer.email) {
+          // Send email to the staff
+          this.mailerService
+            .sendMail({
+              to: appointment.customer.email,
+              subject: 'Podsjetnik za termin u - ' + appointment.time,
+              template: 'client-reminder',
+              context: {
+                appointment: appointment,
+              },
+            })
+            .catch((error) => {
+              console.log(
+                '🚀 ~ file: appointment.service.ts ~ line 120 ~ AppointmentsService ~ ICS.createEvent ~ error',
+                error,
+              );
+              throw new Error('Email could not be sent. Please try again later.');
+            });
+        }
+      });
+    }
+
+    return appointments;
+  }
+
+  convertToCroatianTimezone(date: Date): Date {
+    return new Date(date.toLocaleString('en-US', { timeZone: 'Europe/Berlin' }));
+  }
 
   async getAll(): Promise<Appointment[] | undefined> {
     let appointment: Appointment[] | undefined = await this.cacheStore.get('all_appointment');
@@ -73,6 +174,21 @@ export class AppointmentsService {
       })
       .andWhere('appointment.company = :id', { id: companyID })
       .leftJoinAndSelect('appointment.service', 'service')
+      .getMany();
+  }
+
+  async getAllOnDate(dateString: string): Promise<Appointment[] | undefined> {
+    return this.appointmentRepository
+      .createQueryBuilder('appointment')
+      .where('appointment.date = :dateString', {
+        dateString,
+      })
+      .leftJoinAndSelect('appointment.company', 'company')
+      .leftJoinAndSelect('company.preferences', 'preferences')
+      .andWhere('preferences.clientReminderEmail IS TRUE OR preferences.staffReminderEmail IS TRUE')
+      .leftJoinAndSelect('appointment.service', 'service')
+      .leftJoinAndSelect('appointment.customer', 'customer')
+      .leftJoinAndSelect('appointment.staff', 'staff')
       .getMany();
   }
 
@@ -222,5 +338,13 @@ export class AppointmentsService {
     }
 
     return await this.appointmentRepository.remove(oldAppointment);
+  }
+
+  getDateString(date: Date): string {
+    const dd = String(date.getDate());
+    const mm = String(date.getMonth() + 1); //January is 0!
+    const yyyy = date.getFullYear();
+
+    return yyyy + '-' + mm + '-' + dd;
   }
 }

@@ -20,6 +20,12 @@ export class Appointment {
   @Column({ type: 'text' })
   message!: string;
 
+  @Column({ default: false })
+  hasSentStaffEmail!: boolean;
+
+  @Column({ default: false })
+  hasSentCustomerEmail!: boolean;
+
   @Column({ default: true })
   hasCustomerArrived!: boolean;
 
