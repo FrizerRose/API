@@ -36,6 +36,12 @@ export class CompanyPreferencesCreateDto {
     required: true,
   })
   @IsNotEmpty()
+  showCoronaRules!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
   canCancel!: boolean;
 
   @ApiProperty({
@@ -73,6 +79,12 @@ export class CompanyPreferencesCreateDto {
   })
   @IsNotEmpty()
   rules!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  coronaRules!: string;
 
   @ApiProperty({
     required: true,
@@ -146,6 +158,12 @@ export class CompanyPreferencesUpdateDto {
     required: true,
   })
   @IsNotEmpty()
+  showCoronaRules!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
   canCancel!: boolean;
 
   @ApiProperty({
@@ -195,6 +213,12 @@ export class CompanyPreferencesUpdateDto {
   })
   @IsNotEmpty()
   rules!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  coronaRules!: string;
 
   @ApiProperty({
     required: true,

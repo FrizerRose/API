@@ -27,6 +27,9 @@ export class CompanyPreferences {
   showRules!: boolean;
 
   @Column({ default: true })
+  showCoronaRules!: boolean;
+
+  @Column({ default: true })
   clientReminderEmail!: boolean;
 
   @Column({ default: true })
@@ -61,6 +64,9 @@ export class CompanyPreferences {
 
   @Column({ type: 'text', default: '' })
   rules!: string;
+
+  @Column({ type: 'text', default: '' })
+  coronaRules!: string;
 
   @OneToOne((type) => Company, {
     onDelete: 'CASCADE',
