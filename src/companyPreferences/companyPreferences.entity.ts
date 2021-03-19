@@ -59,7 +59,7 @@ export class CompanyPreferences {
   @Column({ length: 255, default: '' })
   termsLink!: string;
 
-  @Column({ length: 500, default: '' })
+  @Column({ type: 'text', default: '' })
   rules!: string;
 
   @OneToOne((type) => Company, {
