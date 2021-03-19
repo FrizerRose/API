@@ -8,11 +8,13 @@ import { AppModule } from './app.module';
 import { setupSwagger } from './common/SwaggerSetup';
 import { CustomLoggerService } from './common/CustomLoggerService';
 import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 declare const module: any;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.enable('trust proxy');
 
   app.useGlobalPipes(new ValidationPipe());
 

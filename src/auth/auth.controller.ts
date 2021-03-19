@@ -1,10 +1,10 @@
-import { Body, Controller, Get, Post, Delete, Res, Req, Put, Param, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Request, Response } from 'express';
 import { UsersService } from './../users/users.service';
 import { AuthService } from './auth.service';
-import { LoginDto, RegisterDto, UpdateUserDto, ChangePasswordDto, ResetPasswordDTO } from './dto/index';
-import { Request, Response } from 'express';
+import { ChangePasswordDto, LoginDto, RegisterDto, ResetPasswordDTO, UpdateUserDto } from './dto/index';
 
 @Controller('auth')
 @ApiTags('authentication')
@@ -53,8 +53,8 @@ export class AuthController {
     return this.userService.delete(id);
   }
 
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard())
+  // @ApiBearerAuth()
+  // @UseGuards(AuthGuard())
   @Get('me')
   @ApiResponse({ status: 200, description: 'Successful Response' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
