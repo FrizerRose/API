@@ -13,7 +13,7 @@ export class Faq {
   @Column({ type: 'text' })
   answer!: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', default: '' })
   category!: string;
 
   @Column({ default: 0 })
