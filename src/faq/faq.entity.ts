@@ -13,6 +13,9 @@ export class Faq {
   @Column({ type: 'text' })
   answer!: string;
 
+  @Column({ type: 'text' })
+  category!: string;
+
   @Column({ default: 0 })
   order!: number;
 }

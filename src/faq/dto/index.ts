@@ -16,6 +16,11 @@ export class FaqCreateDto {
   @ApiProperty({
     required: true,
   })
+  category!: string;
+
+  @ApiProperty({
+    required: true,
+  })
   order!: number;
 }
 
@@ -36,6 +41,11 @@ export class FaqUpdateDto {
     required: true,
   })
   answer!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  category!: string;
 
   @ApiProperty({
     required: true,
