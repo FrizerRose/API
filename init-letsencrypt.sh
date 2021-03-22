@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(primrose.agency www.primrose.agency)
+domains=(frizerrose.info www.frizerrose.info)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="juraj.markesic.dev@gmail.com" # Adding a valid address is strongly recommended
@@ -66,7 +66,7 @@ echo
 # # Enable staging mode if needed
 # if [ $staging != "0" ]; then staging_arg="--staging"; fi
 
-# docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml run --rm --entrypoint "certbot certonly --manual -d *.primrose.agency -d primrose.agency --email juraj.markesic.dev@gmail.com --agree-tos --no-bootstrap --manual-public-ip-logging-ok --preferred-challenges dns-01 --server https://acme-v02.api.letsencrypt.org/directory" certbot
+# docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml run --rm --entrypoint "certbot certonly --manual -d *.frizerrose.info -d frizerrose.info --email juraj.markesic.dev@gmail.com --agree-tos --no-bootstrap --manual-public-ip-logging-ok --preferred-challenges dns-01 --server https://acme-v02.api.letsencrypt.org/directory" certbot
 # docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml run --rm --entrypoint "\
   # certbot certonly --webroot -w /var/www/certbot \
     # $staging_arg \
