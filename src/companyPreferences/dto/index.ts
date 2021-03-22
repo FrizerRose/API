@@ -77,37 +77,31 @@ export class CompanyPreferencesCreateDto {
   @ApiProperty({
     required: true,
   })
-  @IsNotEmpty()
   rules!: string;
 
   @ApiProperty({
     required: true,
   })
-  @IsNotEmpty()
   coronaRules!: string;
 
   @ApiProperty({
     required: true,
   })
-  @IsNotEmpty()
   facebookLink!: string;
 
   @ApiProperty({
     required: true,
   })
-  @IsNotEmpty()
   instagramLink!: string;
 
   @ApiProperty({
     required: true,
   })
-  @IsNotEmpty()
   websiteLink!: string;
 
   @ApiProperty({
     required: true,
   })
-  @IsNotEmpty()
   termsLink!: string;
 
   @ApiProperty({
@@ -211,13 +205,11 @@ export class CompanyPreferencesUpdateDto {
   @ApiProperty({
     required: true,
   })
-  @IsNotEmpty()
   rules!: string;
 
   @ApiProperty({
     required: true,
   })
-  @IsNotEmpty()
   coronaRules!: string;
 
   @ApiProperty({
