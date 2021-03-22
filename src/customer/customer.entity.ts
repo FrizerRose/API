@@ -18,6 +18,9 @@ export class Customer {
   @Column({ length: 255, default: '' })
   phone!: string;
 
+  @Column({ type: 'text', default: '' })
+  notes!: string;
+
   @ManyToOne((type) => Company, { onDelete: 'CASCADE' })
   @JoinColumn()
   company!: Company;

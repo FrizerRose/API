@@ -20,6 +20,11 @@ export class CustomerCreateDto {
   phone!: string;
 
   @ApiProperty({
+    required: false,
+  })
+  notes!: string;
+
+  @ApiProperty({
     required: true,
   })
   company!: number;
@@ -48,6 +53,11 @@ export class CustomerUpdateDto {
     required: false,
   })
   phone!: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  notes!: string;
 
   @ApiProperty({
     required: true,
