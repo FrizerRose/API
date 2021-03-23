@@ -1,5 +1,5 @@
-ssl_certificate /etc/letsencrypt/live/frizerrose.info-0001/fullchain.pem;
-ssl_certificate_key /etc/letsencrypt/live/frizerrose.info-0001/privkey.pem;
+ssl_certificate /etc/letsencrypt/live/frizerrose.info/fullchain.pem;
+ssl_certificate_key /etc/letsencrypt/live/frizerrose.info/privkey.pem;
 
 server {
   listen 80;
