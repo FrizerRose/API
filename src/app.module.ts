@@ -20,7 +20,7 @@ import { ServiceModule } from './service/service.module';
 import { StaffModule } from './staff/staff.module';
 import { ContactModule } from './contact/contact.module';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-// import { ScheduleModule } from '@nestjs/schedule';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Global()
 @Module({
@@ -29,7 +29,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
       load: [configuration],
       isGlobal: true,
     }),
-    // ScheduleModule.forRoot(),
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

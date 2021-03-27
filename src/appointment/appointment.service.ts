@@ -7,7 +7,7 @@ import { Appointment } from './appointment.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { NotAcceptableException } from '@nestjs/common';
-// import { Cron } from '@nestjs/schedule';
+import { Cron } from '@nestjs/schedule';
 import * as ICS from 'ics';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class AppointmentsService {
     private readonly configService: ConfigService,
   ) {}
 
-  // @Cron('*/2 * * * *')
+  @Cron('*/2 * * * *')
   async sendAppointmentReminders(): Promise<Appointment[] | undefined> {
     const now = this.convertToCroatianTimezone(new Date());
     const appointments = await this.getAllOnDate(this.getDateString(now));
@@ -242,10 +242,7 @@ export class AppointmentsService {
                 ],
               })
               .catch((error) => {
-                console.log(
-                  '🚀 ~ file: appointment.service.ts ~ line 99 ~ AppointmentsService ~ ICS.createEvent ~ error',
-                  error,
-                );
+                console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', error);
                 throw new Error('Email could not be sent. Please try again later.');
               });
           }
