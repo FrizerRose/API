@@ -28,7 +28,9 @@ export class PaymentsService {
     }
 
     payment = await this.paymentRepository.find();
-    this.cacheStore.set('all_payment', payment, { ttl: 20 });
+    if (payment) {
+      this.cacheStore.set('all_payment', payment, { ttl: 20 });
+    }
 
     this.logger.log('Querying all payment!');
     return payment;

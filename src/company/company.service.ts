@@ -31,7 +31,9 @@ export class CompanysService {
     }
 
     company = await this.companyRepository.find();
-    this.cacheStore.set('all_company', company, { ttl: 20 });
+    if (company) {
+      this.cacheStore.set('all_company', company, { ttl: 20 });
+    }
 
     this.logger.log('Querying all company!');
     return company;

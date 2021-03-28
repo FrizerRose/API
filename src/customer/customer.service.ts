@@ -28,7 +28,9 @@ export class CustomersService {
     }
 
     customer = await this.customerRepository.find({ take: limit });
-    this.cacheStore.set('all_customer_' + limit, customer, { ttl: 20 });
+    if (customer) {
+      this.cacheStore.set('all_customer_' + limit, customer, { ttl: 20 });
+    }
 
     this.logger.log('Querying all customer!');
     return customer;

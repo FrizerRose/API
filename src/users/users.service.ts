@@ -32,7 +32,9 @@ export class UsersService {
       },
     );
 
-    this.cacheStore.set('all_users', users, { ttl: 20 });
+    if (users) {
+      this.cacheStore.set('all_users', users, { ttl: 20 });
+    }
 
     this.logger.log('Querying all users!');
     return users;

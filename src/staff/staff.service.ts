@@ -29,7 +29,9 @@ export class StaffService {
     }
 
     staff = await this.staffRepository.find({ relations: ['services'] });
-    this.cacheStore.set('all_staff', staff, { ttl: 20 });
+    if (staff) {
+      this.cacheStore.set('all_staff', staff, { ttl: 20 });
+    }
 
     this.logger.log('Querying all staff!');
     return staff;

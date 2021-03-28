@@ -28,7 +28,9 @@ export class ServicesService {
     }
 
     service = await this.serviceRepository.find();
-    this.cacheStore.set('all_service', service, { ttl: 20 });
+    if (service) {
+      this.cacheStore.set('all_service', service, { ttl: 20 });
+    }
 
     this.logger.log('Querying all service!');
     return service;

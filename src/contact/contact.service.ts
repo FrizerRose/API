@@ -27,7 +27,9 @@ export class ContactsService {
     }
 
     contact = await this.contactRepository.find();
-    this.cacheStore.set('all_contact', contact, { ttl: 20 });
+    if (contact) {
+      this.cacheStore.set('all_contact', contact, { ttl: 20 });
+    }
 
     this.logger.log('Querying all contact!');
     return contact;

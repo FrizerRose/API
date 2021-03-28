@@ -23,7 +23,9 @@ export class UserPreferencesService {
     }
 
     userPreferences = await this.userPreferencesRepository.find();
-    this.cacheStore.set('all_userPreferences', userPreferences, { ttl: 20 });
+    if (userPreferences) {
+      this.cacheStore.set('all_userPreferences', userPreferences, { ttl: 20 });
+    }
 
     this.logger.log('Querying all userPreferences!');
     return userPreferences;

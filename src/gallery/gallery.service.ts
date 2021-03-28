@@ -23,7 +23,9 @@ export class GallerysService {
     }
 
     galleries = await this.galleryRepository.find();
-    this.cacheStore.set('all_galleries', galleries, { ttl: 20 });
+    if (galleries) {
+      this.cacheStore.set('all_galleries', galleries, { ttl: 20 });
+    }
 
     this.logger.log('Querying all gallery!');
     return galleries;

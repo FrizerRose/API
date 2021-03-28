@@ -28,7 +28,9 @@ export class BreaksService {
     }
 
     breaks = await this.breakRepository.find();
-    this.cacheStore.set('all_break', breaks, { ttl: 20 });
+    if (breaks) {
+      this.cacheStore.set('all_break', breaks, { ttl: 20 });
+    }
 
     this.logger.log('Querying all breaks!');
     return breaks;

@@ -23,7 +23,9 @@ export class CompanyPreferencesService {
     }
 
     companyPreferences = await this.companyPreferencesRepository.find();
-    this.cacheStore.set('all_companyPreferences', companyPreferences, { ttl: 20 });
+    if (companyPreferences) {
+      this.cacheStore.set('all_companyPreferences', companyPreferences, { ttl: 20 });
+    }
 
     this.logger.log('Querying all companyPreferences!');
     return companyPreferences;

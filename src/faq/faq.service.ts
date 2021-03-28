@@ -29,7 +29,9 @@ export class FaqService {
     }
 
     faq = await this.faqRepository.find();
-    this.cacheStore.set('all_faq', faq, { ttl: 20 });
+    if (faq) {
+      this.cacheStore.set('all_faq', faq, { ttl: 20 });
+    }
 
     this.logger.log('Querying all faq!');
     return faq;

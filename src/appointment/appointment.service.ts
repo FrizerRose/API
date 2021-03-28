@@ -130,7 +130,9 @@ export class AppointmentsService {
     }
 
     appointment = await this.appointmentRepository.find();
-    this.cacheStore.set('all_appointment', appointment, { ttl: 20 });
+    if (appointment) {
+      this.cacheStore.set('all_appointment', appointment, { ttl: 20 });
+    }
 
     this.logger.log('Querying all appointment!');
     return appointment;
