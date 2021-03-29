@@ -1,16 +1,4 @@
-import {
-  Body,
-  CacheInterceptor,
-  Controller,
-  Get,
-  Res,
-  Post,
-  Put,
-  UseInterceptors,
-  Delete,
-  Param,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Get, Res, Post, Put, Delete, Param, Query } from '@nestjs/common';
 import { ApiResponse, ApiTags, ApiQuery } from '@nestjs/swagger';
 import { AppointmentCreateDto, AppointmentUpdateDto } from './dto/index';
 import { AppointmentsService } from './appointment.service';
@@ -18,7 +6,6 @@ import { Appointment } from './appointment.entity';
 import { Response } from 'express';
 
 @Controller('appointment')
-@UseInterceptors(CacheInterceptor)
 @ApiTags('appointment')
 export class AppointmentsController {
   constructor(private readonly appointmentService: AppointmentsService) {}
