@@ -26,6 +26,9 @@ export class Company {
   bookingPageSlug!: string;
 
   @Column({ length: 255, default: '' })
+  oib!: string;
+
+  @Column({ length: 255, default: '' })
   contactEmail!: string;
 
   @Column({ length: 255, default: '' })

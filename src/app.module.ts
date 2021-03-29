@@ -63,17 +63,17 @@ import { ScheduleModule } from '@nestjs/schedule';
       useFactory: (configService: ConfigService) => ({
         transport: {
           host: 'mailhog_container',
-          port: 1025,
+          port: 1035,
           // host: configService.get<string>('email.host'),
           // port: configService.get<number>('email.port'),
-          // secure: false,
+          // secure: true,
           // auth: {
           //   user: configService.get<string>('email.user'),
           //   pass: configService.get<string>('email.pass'),
           // },
         },
         defaults: {
-          from: '"Frizerrose" <' + configService.get<string>('email.default') + '>',
+          from: '"Dolazim.hr " <' + configService.get<string>('email.default') + '>',
         },
         template: {
           dir: process.cwd() + '/templates',
