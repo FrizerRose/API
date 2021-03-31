@@ -11,3 +11,10 @@ sudo docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose
 
 Import sql dump:
 sudo gunzip < sql/2021-02-10_10_48_22.sql.gz | docker exec -i postgres_container psql -U postgres
+
+
+Migrations:
+1.) Change entity
+2.) Run "npm run migration-generate <migration_name>" inside the api container
+3.) Test it out with "npm run migration-run", customize the migration if needed
+4.) Push to master, exec into the api container shell there and run "npm run migration-run"
