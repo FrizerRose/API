@@ -54,6 +54,7 @@ export class UsersService {
       .createQueryBuilder('users')
       .where('users.email = :email')
       .setParameter('email', email)
+      .leftJoinAndSelect('users.company', 'service')
       .getOne();
   }
 

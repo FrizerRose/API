@@ -270,6 +270,7 @@ export class AppointmentsService {
               console.log(
                 '🚀 ~ file: appointment.service.ts ~ line 120 ~ AppointmentsService ~ ICS.createEvent ~ error',
                 error,
+                appointment,
               );
               throw new Error('Email could not be sent. Please try again later.');
             });
