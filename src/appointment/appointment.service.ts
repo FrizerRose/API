@@ -201,10 +201,7 @@ export class AppointmentsService {
 
     if (appointment) {
       const createdAppointment = await this.get(appointment.id);
-      const appointmentDate = this.convertToCroatianTimezone(
-        new Date(createdAppointment?.date + 'T' + createdAppointment?.time),
-      );
-
+      const appointmentDate = new Date(createdAppointment?.date + 'T' + createdAppointment?.time);
       const event = {
         // start: [2018, 5, 30, 6, 30],
         start: [
@@ -214,6 +211,8 @@ export class AppointmentsService {
           appointmentDate.getHours(),
           appointmentDate.getMinutes(),
         ],
+        startInputType: 'local',
+        startOutputType: 'local',
         duration: { minutes: createdAppointment?.service.duration },
         title: 'Rezervirani termin - ' + createdAppointment?.company.name,
         description: createdAppointment?.service.name,
