@@ -201,7 +201,9 @@ export class AppointmentsService {
 
     if (appointment) {
       const createdAppointment = await this.get(appointment.id);
-      const appointmentDate = new Date(createdAppointment?.date + 'T' + createdAppointment?.time);
+      const appointmentDate = this.convertToCroatianTimezone(
+        new Date(createdAppointment?.date + 'T' + createdAppointment?.time),
+      );
 
       const event = {
         // start: [2018, 5, 30, 6, 30],
@@ -209,7 +211,7 @@ export class AppointmentsService {
           appointmentDate.getFullYear(),
           appointmentDate.getMonth() + 1,
           appointmentDate.getDate(),
-          appointmentDate.getHours() - 1,
+          appointmentDate.getHours(),
           appointmentDate.getMinutes(),
         ],
         duration: { minutes: createdAppointment?.service.duration },
