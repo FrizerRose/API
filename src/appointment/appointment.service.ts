@@ -232,7 +232,11 @@ export class AppointmentsService {
             this.mailerService
               .sendMail({
                 to: createdAppointment?.customer.email,
-                subject: 'Potvrda rezervacije termina - ' + createdAppointment?.company.name,
+                subject:
+                  'Potvrda rezervacije termina - ' +
+                  createdAppointment?.company.name +
+                  ' u ' +
+                  createdAppointment?.time,
                 template: 'customer-confirmation',
                 context: {
                   appointment: createdAppointment,
@@ -254,7 +258,7 @@ export class AppointmentsService {
           this.mailerService
             .sendMail({
               to: createdAppointment?.staff.email,
-              subject: 'Novi termin za - ' + createdAppointment?.service.name,
+              subject: 'Novi termin za - ' + createdAppointment?.service.name + ' u ' + createdAppointment?.time,
               template: 'staff-confirmation',
               context: {
                 appointment: createdAppointment,
