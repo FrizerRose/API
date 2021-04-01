@@ -18,3 +18,10 @@ Migrations:
 2.) Run "npm run migration-generate <migration_name>" inside the api container
 3.) Test it out with "npm run migration-run", customize the migration if needed
 4.) Push to master, exec into the api container shell there and run "npm run migration-run"
+
+Server shell aliases:
+alias api-up="sudo docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml up --build -d"
+alias api-down="docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml down" 
+alias api-logs="docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml logs --tail=50" 
+alias api-execute="docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml exec" 
+alias api-up-server="api-up --no-deps api_container"
