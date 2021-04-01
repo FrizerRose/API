@@ -16,6 +16,7 @@ export class CompanyCreateDto {
   @ApiProperty({
     required: true,
   })
+  @IsNotEmpty()
   bookingPageSlug!: string;
 
   @ApiProperty({
