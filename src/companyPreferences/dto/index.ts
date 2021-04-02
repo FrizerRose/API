@@ -72,7 +72,19 @@ export class CompanyPreferencesCreateDto {
     required: true,
   })
   @IsNotEmpty()
+  hasDarkMode!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
   colorVariant!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  patternVariant!: string;
 
   @ApiProperty({
     required: true,
@@ -188,6 +200,12 @@ export class CompanyPreferencesUpdateDto {
     required: true,
   })
   @IsNotEmpty()
+  hasDarkMode!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
   clientReminderTime!: number;
 
   @ApiProperty({
@@ -201,6 +219,12 @@ export class CompanyPreferencesUpdateDto {
   })
   @IsNotEmpty()
   colorVariant!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  patternVariant!: string;
 
   @ApiProperty({
     required: true,

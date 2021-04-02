@@ -41,6 +41,9 @@ export class CompanyPreferences {
   @Column({ default: false })
   isTutorialFinished!: boolean;
 
+  @Column({ default: false })
+  hasDarkMode!: boolean;
+
   @Column({ default: 2 })
   clientReminderTime!: number;
 
@@ -49,6 +52,9 @@ export class CompanyPreferences {
 
   @Column({ length: 255, default: 'default' })
   colorVariant!: string;
+
+  @Column({ length: 255, default: 'default' })
+  patternVariant!: string;
 
   @Column({ length: 255, default: '' })
   facebookLink!: string;

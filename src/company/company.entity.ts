@@ -22,7 +22,7 @@ export class Company {
   @Column({ default: true })
   isPublic!: boolean;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, unique: true })
   bookingPageSlug!: string;
 
   @Column({ length: 255, default: '' })
