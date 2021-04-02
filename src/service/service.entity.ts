@@ -19,6 +19,9 @@ export class Service {
   @Column()
   price!: number;
 
+  @Column({ length: 255, default: 'both' })
+  sex!: string;
+
   @ManyToOne((type) => Company, { onDelete: 'CASCADE' })
   @JoinColumn()
   company!: Company;

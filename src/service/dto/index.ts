@@ -19,6 +19,11 @@ export class ServiceCreateDto {
   price!: number;
 
   @ApiProperty({
+    required: true,
+  })
+  sex!: number;
+
+  @ApiProperty({
     required: false,
   })
   company!: number;
@@ -51,6 +56,11 @@ export class ServiceUpdateDto {
     required: true,
   })
   price!: number;
+
+  @ApiProperty({
+    required: true,
+  })
+  sex!: number;
 
   @ApiProperty({
     required: false,
