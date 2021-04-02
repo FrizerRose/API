@@ -84,7 +84,7 @@ export class CompanyPreferencesCreateDto {
     required: true,
   })
   @IsNotEmpty()
-  patternVariant!: string;
+  hasPattern!: boolean;
 
   @ApiProperty({
     required: true,
@@ -224,7 +224,7 @@ export class CompanyPreferencesUpdateDto {
     required: true,
   })
   @IsNotEmpty()
-  patternVariant!: string;
+  hasPattern!: boolean;
 
   @ApiProperty({
     required: true,
