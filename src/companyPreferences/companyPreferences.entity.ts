@@ -21,6 +21,9 @@ export class CompanyPreferences {
   hasStaffPick!: boolean;
 
   @Column({ default: true })
+  hasSexPick!: boolean;
+
+  @Column({ default: true })
   canCancel!: boolean;
 
   @Column({ default: true })

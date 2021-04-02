@@ -30,6 +30,12 @@ export class CompanyPreferencesCreateDto {
     required: true,
   })
   @IsNotEmpty()
+  hasSexPick!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
   showRules!: boolean;
 
   @ApiProperty({
@@ -153,6 +159,12 @@ export class CompanyPreferencesUpdateDto {
   })
   @IsNotEmpty()
   hasStaffPick!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  hasSexPick!: boolean;
 
   @ApiProperty({
     required: true,
