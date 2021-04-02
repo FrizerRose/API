@@ -28,7 +28,7 @@ export class Company {
   @Column({ length: 255, default: '' })
   oib!: string;
 
-  @Column({ length: 255, default: '' })
+  @Column({ length: 255, default: '', unique: true })
   contactEmail!: string;
 
   @Column({ length: 255, default: '' })
