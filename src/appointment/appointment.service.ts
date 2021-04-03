@@ -76,6 +76,7 @@ export class AppointmentsService {
               template: 'staff-reminder',
               context: {
                 appointment: appointment,
+                dateTimeString: this.getHumanReadableDateTime(appointment.date, appointment.time),
               },
             })
             .catch((error) => {
@@ -101,6 +102,7 @@ export class AppointmentsService {
               template: 'client-reminder',
               context: {
                 appointment: appointment,
+                dateTimeString: this.getHumanReadableDateTime(appointment.date, appointment.time),
               },
             })
             .catch((error) => {
@@ -115,6 +117,20 @@ export class AppointmentsService {
     }
 
     return appointments;
+  }
+
+  getHumanReadableDateTime(dateString: string, timeString: string): string {
+    const date = new Date(dateString);
+    const dd = String(date.getDate());
+    const mm = String(date.getMonth() + 1); // January is 0!
+    const yyyy = date.getFullYear();
+
+    let formattedTimeString = timeString;
+    if (timeString.length <= 8) {
+      formattedTimeString = timeString.slice(0, 5);
+    }
+
+    return `${dd}.${mm}.${yyyy} u ${formattedTimeString}`;
   }
 
   convertToCroatianTimezone(date: Date): Date {
@@ -240,6 +256,7 @@ export class AppointmentsService {
                 template: 'customer-confirmation',
                 context: {
                   appointment: createdAppointment,
+                  dateTimeString: this.getHumanReadableDateTime(createdAppointment.date, createdAppointment.time),
                 },
                 attachments: [
                   {
@@ -254,30 +271,33 @@ export class AppointmentsService {
               });
           }
 
-          // Send email to the staff
-          this.mailerService
-            .sendMail({
-              to: createdAppointment?.staff.email,
-              subject: 'Novi termin za - ' + createdAppointment?.service.name + ' u ' + createdAppointment?.time,
-              template: 'staff-confirmation',
-              context: {
-                appointment: createdAppointment,
-              },
-              attachments: [
-                {
-                  filename: 'rezervacija.ics',
-                  content: value,
+          if (createdAppointment?.staff.email) {
+            // Send email to the staff
+            this.mailerService
+              .sendMail({
+                to: createdAppointment?.staff.email,
+                subject: 'Novi termin za - ' + createdAppointment?.service.name + ' u ' + createdAppointment?.time,
+                template: 'staff-confirmation',
+                context: {
+                  appointment: createdAppointment,
+                  dateTimeString: this.getHumanReadableDateTime(createdAppointment.date, createdAppointment.time),
                 },
-              ],
-            })
-            .catch((error) => {
-              console.log(
-                '🚀 ~ file: appointment.service.ts ~ line 120 ~ AppointmentsService ~ ICS.createEvent ~ error',
-                error,
-                appointment,
-              );
-              throw new Error('Email could not be sent. Please try again later.');
-            });
+                attachments: [
+                  {
+                    filename: 'rezervacija.ics',
+                    content: value,
+                  },
+                ],
+              })
+              .catch((error) => {
+                console.log(
+                  '🚀 ~ file: appointment.service.ts ~ line 120 ~ AppointmentsService ~ ICS.createEvent ~ error',
+                  error,
+                  appointment,
+                );
+                throw new Error('Email could not be sent. Please try again later.');
+              });
+          }
         }
       });
     }
@@ -319,6 +339,7 @@ export class AppointmentsService {
           template: 'customer-cancel',
           context: {
             appointment: oldAppointment,
+            dateTimeString: this.getHumanReadableDateTime(oldAppointment.date, oldAppointment.time),
           },
         })
         .catch((error) => {
@@ -335,6 +356,7 @@ export class AppointmentsService {
           template: 'staff-cancel',
           context: {
             appointment: oldAppointment,
+            dateTimeString: this.getHumanReadableDateTime(oldAppointment.date, oldAppointment.time),
           },
         })
         .catch((error) => {

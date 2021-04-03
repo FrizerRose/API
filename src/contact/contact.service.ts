@@ -57,7 +57,7 @@ export class ContactsService {
 
       let subject = 'Kontakt sa Dolazim.hr';
       if (payload.company) {
-        subject = 'Kontakt sa Dolazim.hr - Firma: ' + contact.company?.name;
+        subject = 'Kontakt sa Dolazim.hr - Poslovni subjekt: ' + contact.company;
       }
 
       this.mailerService

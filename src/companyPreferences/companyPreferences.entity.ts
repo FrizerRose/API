@@ -20,7 +20,7 @@ export class CompanyPreferences {
   @Column({ default: true })
   hasStaffPick!: boolean;
 
-  @Column({ default: true })
+  @Column({ default: false })
   hasSexPick!: boolean;
 
   @Column({ default: true })
