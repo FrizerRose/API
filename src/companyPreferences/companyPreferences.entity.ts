@@ -23,6 +23,9 @@ export class CompanyPreferences {
   @Column({ default: false })
   hasSexPick!: boolean;
 
+  @Column({ default: false })
+  hasBorders!: boolean;
+
   @Column({ default: true })
   canCancel!: boolean;
 

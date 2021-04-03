@@ -84,6 +84,12 @@ export class CompanyPreferencesCreateDto {
     required: true,
   })
   @IsNotEmpty()
+  hasBorders!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
   colorVariant!: string;
 
   @ApiProperty({
@@ -213,6 +219,12 @@ export class CompanyPreferencesUpdateDto {
   })
   @IsNotEmpty()
   hasDarkMode!: boolean;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  hasBorders!: boolean;
 
   @ApiProperty({
     required: true,
