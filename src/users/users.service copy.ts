@@ -101,13 +101,11 @@ export class UsersService {
     const newUser = this.usersRepository.create(payload as Record<string, any>);
     newUser.preferences = new UserPreferences();
     //add default preferences
-    newUser.preferences.name = 'default';
+    newUser.preferences.name = 'Marko';
     const user = await this.usersRepository.save(newUser);
 
     // Send welcome email to admin account
     if (!user.isAdminAccount) {
-      const userWithCompany = await this.getByEmail(user.email);
-
       this.mailerService
         .sendMail({
           to: payload.email,
@@ -115,12 +113,12 @@ export class UsersService {
           subject: 'Dobrodošli na Dolazim.hr',
           template: 'staff-welcome',
           context: {
-            user: userWithCompany,
+            user: user,
             newPassword: user.password,
           },
         })
         .catch((error) => {
-          console.log('🚀 ~ file: users.service.ts ~ line 120 ~ UserService ~ create ~ error', error);
+          console.log('🚀 ~ file: auth.service.ts ~ line 120 ~ UserService ~ create ~ error', error);
           throw new Error('Email could not be sent. Please try again later.');
         });
     }

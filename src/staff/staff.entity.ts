@@ -15,6 +15,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { User } from 'src/users/user.entity';
 
 @Entity({
   name: 'staff',
@@ -44,6 +45,12 @@ export class Staff {
 
   @OneToMany(() => Appointment, (appointment) => appointment.staff)
   appointments!: Appointment[];
+
+  @OneToOne(() => User, {
+    // eager: true,
+  })
+  @JoinColumn()
+  user?: User;
 
   @OneToOne(() => Image, (image) => image.staff, {
     eager: true,

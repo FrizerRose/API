@@ -25,6 +25,11 @@ export class StaffCreateDto {
   company!: number;
 
   @ApiProperty({
+    required: false,
+  })
+  user!: number;
+
+  @ApiProperty({
     required: true,
   })
   services!: string[];
@@ -58,6 +63,11 @@ export class StaffUpdateDto {
     required: true,
   })
   company!: number;
+
+  @ApiProperty({
+    required: false,
+  })
+  user!: number;
 
   @ApiProperty({
     required: true,

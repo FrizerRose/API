@@ -56,7 +56,7 @@ export class AuthService {
         subject: 'Nova lozinka za Dolazim.hr',
         template: 'reset-password',
         context: {
-          user,
+          user: user,
           newPassword: newPassword,
         },
       })

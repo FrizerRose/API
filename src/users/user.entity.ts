@@ -1,6 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { Company } from 'src/company/company.entity';
-import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserPreferences } from '../userPreferences/userPreferences.entity';
 import { PasswordTransformer } from './password.transformer';
 
@@ -17,7 +17,11 @@ export class User {
   @Column({ length: 255, unique: true })
   email!: string;
 
-  @OneToOne(() => Company, (company) => company.user)
+  @Column({ default: false })
+  isAdminAccount!: boolean;
+
+  @ManyToOne(() => Company, { eager: true, cascade: true, onDelete: 'CASCADE' })
+  @JoinColumn()
   company!: Company;
 
   @OneToOne((type) => UserPreferences, (preferences) => preferences.user, {

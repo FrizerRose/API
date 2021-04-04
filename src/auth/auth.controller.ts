@@ -18,7 +18,7 @@ export class AuthController {
   async login(@Body() payload: LoginDto, @Res() response: Response): Promise<any> {
     const user = await this.authService.validateUser(payload);
 
-    if (user && this.userService.userBelongsToCompany(user.id, payload.company)) {
+    if (user && this.userService.userBelongsToCompany(user.email, payload.company)) {
       const token = await this.authService.createToken(user);
       response.status(200);
       response.send(token);

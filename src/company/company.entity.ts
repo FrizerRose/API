@@ -46,12 +46,8 @@ export class Company {
   @Column({ type: 'simple-json' })
   hours!: WorkingHours;
 
-  @OneToOne((type) => User, {
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn()
-  user!: User;
+  @OneToMany((type) => User, (user) => user.company)
+  users!: User[];
 
   @OneToOne((type) => CompanyPreferences, (preferences) => preferences.company, {
     cascade: true,

@@ -52,7 +52,7 @@ export class CompanyCreateDto {
   @ApiProperty({
     required: true,
   })
-  user!: number;
+  users!: string[];
 }
 
 export class CompanyUpdateDto {
@@ -111,5 +111,5 @@ export class CompanyUpdateDto {
   @ApiProperty({
     required: true,
   })
-  user!: number;
+  users!: string[];
 }

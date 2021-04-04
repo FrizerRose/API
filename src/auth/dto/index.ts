@@ -64,6 +64,11 @@ export class RegisterDto {
   name!: string;
 
   @ApiProperty({
+    required: false,
+  })
+  isAdminAccount!: boolean;
+
+  @ApiProperty({
     required: true,
   })
   @IsNotEmpty()
@@ -83,6 +88,11 @@ export class UpdateUserDto {
   })
   @IsEmail()
   email!: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  isAdminAccount!: boolean;
 
   @ApiProperty({
     required: true,
