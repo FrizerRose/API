@@ -126,7 +126,12 @@ export class CompanyPreferencesCreateDto {
   @ApiProperty({
     required: true,
   })
-  termsLink!: string;
+  termsText!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  showTerms!: boolean;
 
   @ApiProperty({
     required: true,
@@ -249,6 +254,31 @@ export class CompanyPreferencesUpdateDto {
   })
   @IsNotEmpty()
   hasPattern!: boolean;
+
+  @ApiProperty({
+    required: false,
+  })
+  facebookLink!: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  instagramLink!: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  websiteLink!: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  termsText!: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  showTerms!: boolean;
 
   @ApiProperty({
     required: true,

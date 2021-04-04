@@ -62,6 +62,9 @@ export class CompanyPreferences {
   @Column({ default: true })
   hasPattern!: boolean;
 
+  @Column({ default: false })
+  showTerms!: boolean;
+
   @Column({ length: 255, default: '' })
   facebookLink!: string;
 
@@ -71,8 +74,8 @@ export class CompanyPreferences {
   @Column({ length: 255, default: '' })
   websiteLink!: string;
 
-  @Column({ length: 255, default: '' })
-  termsLink!: string;
+  @Column({ type: 'text', default: '' })
+  termsText!: string;
 
   @Column({ type: 'text', default: '' })
   rules!: string;
