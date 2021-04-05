@@ -9,6 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { NotAcceptableException } from '@nestjs/common';
 import { CompanyPreferences } from 'src/companyPreferences/companyPreferences.entity';
 import { AppointmentsService } from 'src/appointment/appointment.service';
+import { StaffService } from 'src/staff/staff.service';
 
 @Injectable()
 export class CompanysService {
@@ -20,6 +21,7 @@ export class CompanysService {
     private readonly mailerService: MailerService,
     private readonly configService: ConfigService,
     private readonly appointmentsService: AppointmentsService,
+    private readonly staffService: StaffService,
   ) {}
 
   async getAll(): Promise<Company[] | undefined> {
@@ -89,6 +91,15 @@ export class CompanysService {
       .getOne();
   }
 
+  async getWithUsers(id: number): Promise<Company | undefined> {
+    return await this.companyRepository
+      .createQueryBuilder('company')
+      .where('company.id = :id')
+      .setParameter('id', id)
+      .leftJoinAndSelect('company.users', 'users')
+      .getOne();
+  }
+
   async getBySlug(slug: string): Promise<Company | undefined> {
     return this.companyRepository.findOne({ where: { bookingPageSlug: slug } });
   }
@@ -103,6 +114,29 @@ export class CompanysService {
     const newCompany = this.companyRepository.create(payload as Record<string, any>);
     newCompany.preferences = new CompanyPreferences();
     const company = await this.companyRepository.save(newCompany);
+
+    // Create a staff for the admin account
+    const companyWithUsers = await this.getWithUsers(company.id);
+    if (companyWithUsers?.users[0]) {
+      const user = companyWithUsers.users[0];
+      this.staffService.create({
+        name: user.name,
+        email: user.email,
+        isPublic: true,
+        company: company.id,
+        user: user.id,
+        services: [],
+        hours: JSON.stringify({
+          monday: { active: true, shifts: [{ start: '08:00', end: '16:00' }] },
+          tuesday: { active: true, shifts: [{ start: '08:00', end: '16:00' }] },
+          wednesday: { active: true, shifts: [{ start: '08:00', end: '16:00' }] },
+          thursday: { active: true, shifts: [{ start: '08:00', end: '16:00' }] },
+          friday: { active: true, shifts: [{ start: '08:00', end: '16:00' }] },
+          saturday: { active: true, shifts: [{ start: '08:00', end: '16:00' }] },
+          sunday: { active: true, shifts: [{ start: '08:00', end: '16:00' }] },
+        }),
+      });
+    }
 
     // Send email to the customer
     this.mailerService

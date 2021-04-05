@@ -9,5 +9,6 @@ import { StaffService } from './staff.service';
   imports: [TypeOrmModule.forFeature([Staff]), CommonModule],
   providers: [StaffService],
   controllers: [StaffController],
+  exports: [StaffService],
 })
 export class StaffModule {}

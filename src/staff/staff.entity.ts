@@ -27,6 +27,9 @@ export class Staff {
   @Column({ length: 255 })
   name!: string;
 
+  @Column({ default: true })
+  isPublic!: boolean;
+
   @Column({ length: 255 })
   email!: string;
 

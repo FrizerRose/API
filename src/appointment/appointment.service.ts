@@ -164,7 +164,7 @@ export class AppointmentsService {
 
   async getByCompanyIdOnDate(id: number, dateString: string): Promise<Appointment[] | undefined> {
     return this.appointmentRepository.find({
-      relations: ['customer', 'service', 'staff'],
+      relations: ['customer', 'service', 'staff', 'staff.user'],
       where: { company: id, date: dateString },
     });
   }

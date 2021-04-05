@@ -102,7 +102,12 @@ export class StaffService {
       throw new NotAcceptableException('Company with provided name already created.');
     }
 
-    return await this.staffRepository.save(this.staffRepository.create(payload as Record<string, any>));
+    const staffData = payload;
+    if (typeof payload.hours === 'string') {
+      staffData.hours = JSON.parse(payload.hours);
+    }
+
+    return await this.staffRepository.save(this.staffRepository.create(staffData as Record<string, any>));
   }
 
   async update(payload: StaffUpdateDto): Promise<Staff> {

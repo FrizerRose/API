@@ -15,6 +15,7 @@ import { CompanyModule } from './company/company.module';
 import { FaqModule } from './faq/faq.module';
 import { CustomerModule } from './customer/customer.module';
 import { BreakModule } from './break/break.module';
+import { DayOffModule } from './dayOff/dayOff.module';
 import { PaymentModule } from './payments/payment.module';
 import { ServiceModule } from './service/service.module';
 import { StaffModule } from './staff/staff.module';
@@ -94,6 +95,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     CustomerModule,
     FaqModule,
     BreakModule,
+    DayOffModule,
     PaymentModule,
     AppointmentModule,
     ContactModule,

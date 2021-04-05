@@ -8,6 +8,7 @@ import { Appointment } from 'src/appointment/appointment.entity';
 import { CompanyPreferences } from 'src/companyPreferences/companyPreferences.entity';
 import WorkingHours from 'src/types/WorkingHours';
 import { Payment } from 'src/payments/payment.entity';
+import { DayOff } from 'src/dayOff/dayOff.entity';
 
 @Entity({
   name: 'company',
@@ -80,4 +81,10 @@ export class Company {
     eager: true,
   })
   image?: Image;
+
+  @OneToMany(() => DayOff, (timeOff) => timeOff.company, {
+    eager: true,
+    cascade: true,
+  })
+  daysOff!: DayOff[];
 }

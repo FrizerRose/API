@@ -59,7 +59,7 @@ export class CompanyPreferences {
   @Column({ length: 255, default: 'default' })
   colorVariant!: string;
 
-  @Column({ default: true })
+  @Column({ default: false })
   hasPattern!: boolean;
 
   @Column({ default: false })

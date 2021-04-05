@@ -9,6 +9,11 @@ export class StaffCreateDto {
   name!: string;
 
   @ApiProperty({
+    required: false,
+  })
+  isPublic!: boolean;
+
+  @ApiProperty({
     required: true,
   })
   @IsEmail()
@@ -47,6 +52,11 @@ export class StaffUpdateDto {
   })
   @IsNotEmpty()
   name!: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  isPublic!: boolean;
 
   @ApiProperty({
     required: true,
