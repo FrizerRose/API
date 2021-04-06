@@ -42,7 +42,17 @@ export class CompanysService {
   }
 
   async get(id: number): Promise<Company | undefined> {
-    return this.companyRepository.findOne(id);
+    return await this.companyRepository
+      .createQueryBuilder('company')
+      .where('company.id = :id')
+      .setParameter('id', id)
+      .leftJoinAndSelect('company.preferences', 'preferences')
+      .leftJoinAndSelect('company.staff', 'staff')
+      .leftJoinAndSelect('company.image', 'image')
+      .leftJoinAndSelect('company.daysOff', 'daysOff')
+      .leftJoinAndSelect('company.services', 'services')
+      .leftJoinAndSelect('services.staff', 'workers')
+      .getOne();
   }
 
   async getStats(id: number): Promise<unknown> {

@@ -41,7 +41,7 @@ export class ServicesService {
   }
 
   async getByCompanyID(id: number): Promise<Service[] | undefined> {
-    return this.serviceRepository.find({ where: { company: id } });
+    return this.serviceRepository.find({ where: { company: id }, relations: ['staff'] });
   }
 
   async getByName(name: string): Promise<Service | undefined> {
