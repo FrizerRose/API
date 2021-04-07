@@ -17,9 +17,9 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async login(@Body() payload: LoginDto, @Res() response: Response): Promise<any> {
     const user = await this.authService.validateUser(payload);
-    console.log('🚀 ~ file: auth.controller.ts ~ line 20 ~ AuthController ~ login ~ user', user);
+    const userBelongsToCompany = await this.userService.userBelongsToCompany(user.email, payload.company);
 
-    if (user && this.userService.userBelongsToCompany(user.email, payload.company)) {
+    if (user && userBelongsToCompany) {
       const token = await this.authService.createToken(user);
       response.status(200);
       response.send(token);

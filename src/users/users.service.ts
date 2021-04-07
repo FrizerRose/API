@@ -74,7 +74,6 @@ export class UsersService {
   }
 
   async getByEmailAndHashedPass(email: string, hashedPass: string): Promise<User | undefined> {
-    console.log(email, hashedPass);
     return await this.usersRepository
       .createQueryBuilder('users')
       .where('users.email = :email and users.password = :password')

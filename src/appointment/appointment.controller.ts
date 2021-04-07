@@ -86,11 +86,6 @@ export class AppointmentsController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   delete(@Param('id') id: number, @Query('reschedule') reschedule?: string): Promise<any> {
-    console.log(
-      '🚀 ~ file: appointment.controller.ts ~ line 69 ~ AppointmentsController ~ delete ~ reschedule',
-      reschedule,
-      typeof reschedule,
-    );
     return this.appointmentService.delete(id, reschedule === 'true' ? true : false);
   }
 }
