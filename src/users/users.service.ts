@@ -45,7 +45,7 @@ export class UsersService {
   }
 
   async get(id: number): Promise<User | undefined> {
-    const user = await this.usersRepository.findOne(id);
+    const user = await this.usersRepository.findOne(id, { relations: ['company'] });
     if (user) {
       const { password, ...sanitizedUser } = user;
       return sanitizedUser;
@@ -69,6 +69,7 @@ export class UsersService {
       .where('users.email = :email and users.password = :password')
       .setParameter('email', email)
       .setParameter('password', passHash)
+      .leftJoinAndSelect('users.company', 'company')
       .getOne();
   }
 

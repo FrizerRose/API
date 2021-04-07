@@ -17,6 +17,7 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async login(@Body() payload: LoginDto, @Res() response: Response): Promise<any> {
     const user = await this.authService.validateUser(payload);
+    console.log('🚀 ~ file: auth.controller.ts ~ line 20 ~ AuthController ~ login ~ user', user);
 
     if (user && this.userService.userBelongsToCompany(user.email, payload.company)) {
       const token = await this.authService.createToken(user);
@@ -53,8 +54,8 @@ export class AuthController {
     return this.userService.delete(id);
   }
 
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard())
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
   @Get('me')
   @ApiResponse({ status: 200, description: 'Successful Response' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
