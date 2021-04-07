@@ -16,7 +16,13 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enable('trust proxy');
   app.enableCors({
-    origin: [/dolazim\.hr$/, 'http://localhost:8080', 'http://localhost:3001', 'http://localhost:3003'],
+    origin: [
+      /dolazim\.hr$/,
+      'http://localhost:8080',
+      'http://localhost:3001',
+      'http://localhost:3003',
+      'http://localhost:3004',
+    ],
   });
 
   app.useGlobalPipes(new ValidationPipe());
