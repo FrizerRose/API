@@ -111,7 +111,17 @@ export class CompanysService {
   }
 
   async getBySlug(slug: string): Promise<Company | undefined> {
-    return this.companyRepository.findOne({ where: { bookingPageSlug: slug } });
+    return await this.companyRepository
+      .createQueryBuilder('company')
+      .where('company.bookingPageSlug = :bookingPageSlug')
+      .setParameter('bookingPageSlug', slug)
+      .leftJoinAndSelect('company.preferences', 'preferences')
+      .leftJoinAndSelect('company.staff', 'staff')
+      .leftJoinAndSelect('company.image', 'image')
+      .leftJoinAndSelect('company.daysOff', 'daysOff')
+      .leftJoinAndSelect('company.services', 'services')
+      .leftJoinAndSelect('services.staff', 'workers')
+      .getOne();
   }
 
   async create(payload: CompanyCreateDto): Promise<Company> {
