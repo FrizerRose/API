@@ -52,6 +52,7 @@ export class CompanysService {
       .leftJoinAndSelect('company.daysOff', 'daysOff')
       .leftJoinAndSelect('company.services', 'services')
       .leftJoinAndSelect('services.staff', 'workers')
+      .leftJoinAndSelect('workers.image', 'companyImage')
       .getOne();
   }
 
@@ -121,6 +122,7 @@ export class CompanysService {
       .leftJoinAndSelect('company.daysOff', 'daysOff')
       .leftJoinAndSelect('company.services', 'services')
       .leftJoinAndSelect('services.staff', 'workers')
+      .leftJoinAndSelect('workers.image', 'companyImage')
       .getOne();
   }
 
