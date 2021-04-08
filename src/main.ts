@@ -18,6 +18,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       /dolazim\.hr$/,
+      /frizerrose\.info$/,
       'http://localhost:8080',
       'http://localhost:3001',
       'http://localhost:3003',
