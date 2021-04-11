@@ -127,7 +127,7 @@ server {
   location / {
     root /var/www/dashboard;
     index index.html;
-    try_files $uri $uri/ /index.html;
+    try_files $uri /index.html;
   }
 
   root /var/www/html;
@@ -169,7 +169,7 @@ server {
   location / {
     root /var/www/booking;
     index index.html;
-    try_files $uri $uri/ /index.html;
+    try_files $uri /index.html;
   }
 
   root /var/www/html;
