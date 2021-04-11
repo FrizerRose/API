@@ -18,6 +18,16 @@ server {
 server {
   listen 80;
   listen [::]:80;
+  server_name *.admin.${APP_SERVER_NAME};
+
+  location / {
+    rewrite ^ https://$host$request_uri? permanent;
+  }
+}
+
+server {
+  listen 80;
+  listen [::]:80;
   server_name *.${APP_SERVER_NAME};
 
   location / {
@@ -85,7 +95,7 @@ server {
 server {
   listen 443 ssl http2;
   listen [::]:443 ssl http2;
-  server_name tresnja.frizerrose.info;
+  server_name *.admin.${APP_SERVER_NAME};
 
   server_tokens off;
 
@@ -115,7 +125,7 @@ server {
   error_log /var/log/nginx/front-error.log;
   
   location / {
-    root /var/www/booking;
+    root /var/www/dashboard;
     index index.html;
     try_files $uri $uri/ /index.html;
   }

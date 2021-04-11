@@ -26,6 +26,7 @@ services:
       - ./data/certbot/www:/var/www/certbot
       - dhparam:/etc/ssl/certs
       - ../booking/dist:/var/www/booking
+      - ../dashboard/dist:/var/www/dashboard
     env_file: .env.prod
   redis_container:
     restart: unless-stopped
