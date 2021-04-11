@@ -70,7 +70,7 @@ server {
 
   location / {
     root /var/www/booking
-    index  index.html;
+    index index.html;
     try_files $uri $uri/ /index.html;
   }
 
