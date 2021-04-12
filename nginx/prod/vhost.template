@@ -88,6 +88,13 @@ server {
     root /var/www/landing;
     index index.html;
     try_files $uri /index.html;
+
+    # kill cache
+    add_header Last-Modified $date_gmt;
+    add_header Cache-Control 'no-store, no-cache';
+    if_modified_since off;
+    expires off;
+    etag off;
   }
 
   root /var/www/html;
@@ -130,6 +137,13 @@ server {
     root /var/www/dashboard;
     index index.html;
     try_files $uri /index.html;
+
+    # kill cache
+    add_header Last-Modified $date_gmt;
+    add_header Cache-Control 'no-store, no-cache';
+    if_modified_since off;
+    expires off;
+    etag off;
   }
 
   root /var/www/html;
@@ -172,6 +186,13 @@ server {
     root /var/www/booking;
     index index.html;
     try_files $uri /index.html;
+
+    # kill cache
+    add_header Last-Modified $date_gmt;
+    add_header Cache-Control 'no-store, no-cache';
+    if_modified_since off;
+    expires off;
+    etag off;
   }
 
   root /var/www/html;
