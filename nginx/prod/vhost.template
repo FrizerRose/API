@@ -1,5 +1,5 @@
-ssl_certificate /etc/letsencrypt/live/admin.dolazim.com/fullchain.pem;
-ssl_certificate_key /etc/letsencrypt/live/admin.dolazim.com/privkey.pem;
+ssl_certificate /etc/letsencrypt/live/admin.dolazim.hr/fullchain.pem;
+ssl_certificate_key /etc/letsencrypt/live/admin.dolazim.hr/privkey.pem;
 
 server {
   listen 80;
@@ -67,10 +67,6 @@ server {
   access_log /var/log/nginx/front-access.log;
   error_log /var/log/nginx/front-error.log;
 
-  #location ~* ^/admin(.*) {
-   # proxy_pass https://dashboard-frizerrose.netlify.app$1$args;
-  #}
-
   location /${APP_PREFIX} {
     try_files $uri @api_container;
   }
@@ -86,6 +82,12 @@ server {
     add_header X-Content-Type-Options "nosniff" always;
     add_header Referrer-Policy "no-referrer-when-downgrade" always;
     add_header Content-Security-Policy "default-src * data: 'unsafe-eval' 'unsafe-inline'" always;
+  }
+    
+  location / {
+    root /var/www/landing;
+    index index.html;
+    try_files $uri /index.html;
   }
 
   root /var/www/html;
