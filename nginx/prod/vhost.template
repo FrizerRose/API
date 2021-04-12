@@ -1,6 +1,15 @@
 ssl_certificate /etc/letsencrypt/live/admin.dolazim.hr/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/admin.dolazim.hr/privkey.pem;
 
+# Expires map
+map $sent_http_content_type $expires {
+    default                    off;
+    text/html                  epoch;
+    text/css                   max;
+    application/javascript     max;
+    ~image/                    max;
+}
+
 server {
   listen 80;
   listen [::]:80;
@@ -20,6 +29,8 @@ server {
   listen [::]:80;
   server_name *.admin.${APP_SERVER_NAME};
 
+  expires $expires;
+
   location / {
     rewrite ^ https://$host$request_uri? permanent;
   }
@@ -29,6 +40,8 @@ server {
   listen 80;
   listen [::]:80;
   server_name *.${APP_SERVER_NAME};
+
+  expires $expires;
 
   location / {
     rewrite ^ https://$host$request_uri? permanent;
@@ -88,13 +101,6 @@ server {
     root /var/www/landing;
     index index.html;
     try_files $uri /index.html;
-
-    # kill cache
-    add_header Last-Modified $date_gmt;
-    add_header Cache-Control 'no-store, no-cache';
-    if_modified_since off;
-    expires off;
-    etag off;
   }
 
   root /var/www/html;
@@ -105,6 +111,8 @@ server {
   listen 443 ssl http2;
   listen [::]:443 ssl http2;
   server_name *.admin.${APP_SERVER_NAME};
+
+  expires $expires;
 
   server_tokens off;
 
@@ -137,13 +145,6 @@ server {
     root /var/www/dashboard;
     index index.html;
     try_files $uri /index.html;
-
-    # kill cache
-    add_header Last-Modified $date_gmt;
-    add_header Cache-Control 'no-store, no-cache';
-    if_modified_since off;
-    expires off;
-    etag off;
   }
 
   root /var/www/html;
@@ -154,6 +155,8 @@ server {
   listen 443 ssl http2;
   listen [::]:443 ssl http2;
   server_name *.${APP_SERVER_NAME};
+
+  expires $expires;
 
   server_tokens off;
 
@@ -186,13 +189,6 @@ server {
     root /var/www/booking;
     index index.html;
     try_files $uri /index.html;
-
-    # kill cache
-    add_header Last-Modified $date_gmt;
-    add_header Cache-Control 'no-store, no-cache';
-    if_modified_since off;
-    expires off;
-    etag off;
   }
 
   root /var/www/html;
