@@ -8,10 +8,11 @@ sudo docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose
 5.) Follow the instructions and create a DNS TXT entry
 6.) add "25 03 * * * /var/www/API/backup_pg.sh >> /var/log/cron.log 2>&1" to crontab (sudo crontab -e)
 7.) add "30 03 * * * /var/www/API/ssl_renew.sh >> /var/log/cron.log 2>&1" to crontab (sudo crontab -e)
+8.) Add basic auth user/password sudo htpasswd -c /etc/apache2/.htpasswd primrose
+9.) git clone, npm install, npm run build - landing/booking/dashboard
 
 Import sql dump:
 sudo gunzip < sql/2021-02-10_10_48_22.sql.gz | docker exec -i postgres_container psql -U postgres
-
 
 Migrations:
 1.) Change entity
