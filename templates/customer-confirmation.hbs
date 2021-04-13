@@ -100,10 +100,12 @@
                                   <td height="1" bgcolor="#ededed"></td>
                                 </tr>
                                 <tr>
-                                  <td height="24" &nbsp;=""></td>
+                                  <td height="40" &nbsp;=""></td>
                                 </tr>
                                 <tr>
+                                  <td>
                                     <p style="font-size: 16px; font-weight: 700;">Detalji rezerviranog termina:</p>
+                                  </td>
                                 </tr>
                                 <tr>
                                   <td height="24" &nbsp;=""></td>
@@ -113,72 +115,46 @@
                                     <table style="width: 100%; border-collapse:collapse;">
                                       <tbody style="border: 0; padding: 0; margin-top:20px;">
                                         <tr>
-                                          <td style="padding-bottom: 10px; padding-top: 10px;">
-                                            privremena lozinka......
-                                          </td>
-                                          <td style="padding-bottom: 10px; padding-top: 10px;"><span style="font-family:'Monaco', monospace;border:1px solid #c0c0c0;letter-spacing:2px;padding:5px 8px;border-radius:4px;background-color:#f6fcfe;color:#16addd;">6RE5GRE6</span></td>
-                                        </tr>
-                                        <tr>
                                           <td width="50%" valign="top" style="padding-bottom: 10px; padding-top: 10px;">Usluga</td>
                                           <td style="padding-bottom: 10px; padding-top: 10px;">{{appointment.service.name}}</td>
                                         </tr>
                                         <tr>
-                                          <td style="padding-bottom: 10px; padding-top: 10px;">Osoba na usluzi</td>
+                                          <td width="50%" valign="top" style="padding-bottom: 10px; padding-top: 10px;">Osoba na usluzi</td>
                                           <td style="padding-bottom: 10px; padding-top: 10px;">{{appointment.staff.name}}</td>
                                         </tr>
                                         <tr>
-                                          <td style="padding-bottom: 10px; padding-top: 10px;">Datum i vrijeme</td>
+                                          <td width="50%" valign="top" style="padding-bottom: 10px; padding-top: 10px;">Datum i vrijeme</td>
                                           <td style="padding-bottom: 10px; padding-top: 10px;">{{dateTimeString}}</td>
                                           <!-- 7. 4. 2021. u  12:45 -->
                                         </tr>
                                         <tr>
-                                          <td style="padding-bottom: 10px; padding-top: 10px;">
+                                          <td width="50%" valign="top" style="padding-bottom: 10px; padding-top: 10px;">
                                             Trajanje
                                           </td>
                                           <td style="padding-bottom: 10px; padding-top: 10px;">{{appointment.service.duration}} min
                                           </td>
                                         </tr>
                                         <tr>
-                                          <td style="padding-bottom: 10px; padding-top: 10px;">
+                                          <td width="50%" valign="top" style="padding-bottom: 10px; padding-top: 10px;">
                                             E-mail
                                           </td>
                                           <td style="padding-bottom: 10px; padding-top: 10px;">{{appointment.customer.email}}
                                           </td>
                                         </tr>
                                         <tr>
-                                          <td style="padding-bottom: 10px; padding-top: 10px;">
+                                          <td width="50%" valign="top" style="padding-bottom: 10px; padding-top: 10px;">
                                             Telefon
                                           </td>
                                           <td style="padding-bottom: 10px; padding-top: 10px;">{{appointment.customer.phone}}
                                           </td>
                                         </tr>
                                         <tr>
-                                          <td style="padding-bottom: 10px; padding-top: 10px;">
+                                          <td width="50%" valign="top" style="padding-bottom: 10px; padding-top: 10px;">
                                             Napomena
                                           </td>
                                           <td style="padding-bottom: 10px; padding-top: 10px;">{{appointment.message}}
                                           </td>
                                         </tr>
-                                        <tr>
-                                          <td style="padding-bottom: 10px; padding-top: 10px;">
-                                            Cijena<br />
-                                          </td>
-                                          <td style="padding-bottom: 10px; padding-top: 10px;">
-                                            <strong>{{appointment.service.price}} kn</strong><br />
-                                          </td>
-                                        </tr>
-                                        {{#if appointment.company.preferences.showRules}}
-                                        {{#if appointment.company.preferences.rules}}
-                                        <tr>
-                                          <td style="padding-bottom: 10px; padding-top: 10px;">
-                                            Preporuka od {{appointment.company.name}}<br />
-                                          </td>
-                                          <td style="padding-bottom: 10px; padding-top: 10px;">
-                                            <strong>{{appointment.company.preferences.rules}}<br />
-                                          </td>
-                                        </tr>
-                                        {{/if}}
-                                        {{/if}}
                                       </tbody>
                                     </table>
                                   </td>
@@ -187,28 +163,81 @@
                                   <td height="24" &nbsp;=""></td>
                                 </tr>
                                 <tr>
-                                  <td height="1" bgcolor="#c0c0c0"></td>
+                                  <td height="1" bgcolor="#ededed"></td>
                                 </tr>
                                 <tr>
                                   <td height="24" &nbsp;=""></td>
                                 </tr>
                                 <tr>
+                                  <td align="center">
+                                    <table style="width: 100%; border-collapse:collapse;">
+                                      <tbody style="border: 0; padding: 0">
+                                        <tr>
+                                          <td width="50%" valign="top" style="padding-bottom: 10px; padding-top: 10px;">
+                                            Cijena<br />
+                                          </td>
+                                          <td style="padding-bottom: 10px; padding-top: 10px;">
+                                            <strong>{{appointment.service.price}} kn</strong><br />
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td height="40"></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <!-- Main CONTENT end here -->
+
+                    <!-- Secondary CONTENT -->
+                    {{#if appointment.company.preferences.showRules}}
+                    {{#if appointment.company.preferences.rules}}
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" align="center" style="border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin: 20px auto 0; table-layout: fixed; border-collapse: collapse !important; max-width: 600px;">
+                      <tbody>
+                        <tr>
+                          <td height="40" colspan="2"></td>
+                        </tr>
+                        <tr style="font-family: -apple-system,BlinkMacSystemFont,&#39;Segoe UI&#39;,&#39;Roboto&#39;,&#39;Oxygen&#39;,&#39;Ubuntu&#39;,&#39;Cantarell&#39;,&#39;Fira Sans&#39;,&#39;Droid Sans&#39;,&#39;Helvetica Neue&#39;,sans-serif; color:#141414; font-size:18px; line-height:28px; margin-top:28px;">
+                          <td class="content" colspan="2" valign="top" align="center" style="padding-left:40px; padding-right:40px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff">
+                              <tbody>
+                                <tr>
                                   <td>
                                     <p style="color:#666666; font-size:14px; line-height:24px;">
-                                      <b>Napomena:<br>
-                                      Budite korektni, pripremite i ponesite točan iznos kuna.
+                                      <strong>Preporuka od {{appointment.company.name}}</strong><br />
+                                      {{appointment.company.preferences.rules}}
                                     </p>
                                   </td>
                                 </tr>
                                 <tr>
-                                  <td height="24" &nbsp;=""></td>
+                                  <td height="40"></td>
                                 </tr>
-                                <tr>
-                                  <td height="1" bgcolor="#c0c0c0"></td>
-                                </tr>
-                                <tr>
-                                  <td height="24" &nbsp;=""></td>
-                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    {{/if}}
+                    {{/if}}
+                    <!-- Secondary CONTENT end here -->
+
+                    <!-- Interaction CONTENT -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" align="center" style="border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin: 20px auto 0; table-layout: fixed; border-collapse: collapse !important; max-width: 600px;">
+                      <tbody>
+                        <tr>
+                          <td height="40" colspan="2"></td>
+                        </tr>
+                        <tr style="font-family: -apple-system,BlinkMacSystemFont,&#39;Segoe UI&#39;,&#39;Roboto&#39;,&#39;Oxygen&#39;,&#39;Ubuntu&#39;,&#39;Cantarell&#39;,&#39;Fira Sans&#39;,&#39;Droid Sans&#39;,&#39;Helvetica Neue&#39;,sans-serif; color:#141414; font-size:18px; line-height:28px; margin-top:28px;">
+                          <td class="content" colspan="2" valign="top" align="center" style="padding-left:40px; padding-right:40px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff">
+                              <tbody>
                                 <tr>
                                   <td>
                                     <table style="width: 100%; border-collapse:collapse;">
@@ -241,7 +270,7 @@
                                   <td height="24" &nbsp;=""></td>
                                 </tr>
                                 <tr>
-                                  <td height="1" bgcolor="#c0c0c0"></td>
+                                  <td height="1" bgcolor="#ededed"></td>
                                 </tr>
                                 <tr>
                                   <td height="24" &nbsp;=""></td>
@@ -265,8 +294,7 @@
                         </tr>
                       </tbody>
                     </table>
-
-                    <!-- Main CONTENT end here -->
+                    <!-- Interaction CONTENT end here -->
 
                     <!-- PROMO column start here -->
                     <!-- Show mobile promo 75% of the time -->
@@ -324,4 +352,3 @@
    <div style="display:none;white-space:nowrap;font:15px courier;line-height:0"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </div>
   </body>
 </html>
-
