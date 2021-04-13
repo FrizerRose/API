@@ -112,7 +112,7 @@ server {
   }
     
   location / {
-    root /var/www/landing;
+    root /var/www/landing/www;
     index index.html;
     try_files $uri /index.html =404;
   }
@@ -156,7 +156,7 @@ server {
   error_log /var/log/nginx/front-error.log;
   
   location / {
-    root /var/www/dashboard;
+    root /var/www/dashboard/dist;
     index index.html;
     try_files $uri /index.html =404;
   }
@@ -200,7 +200,7 @@ server {
   error_log /var/log/nginx/front-error.log;
   
   location / {
-    root /var/www/booking;
+    root /var/www/booking/dist;
     index index.html;
     try_files $uri /index.html =404;
   }
