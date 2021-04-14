@@ -46,14 +46,14 @@ async function bootstrap() {
   );
   app.enableCors();
 
-  if (process.env.APP_RATE_LIMIT_WINDOW && process.env.APP_RATE_LIMIT_REQUESTS) {
-    app.use(
-      rateLimit({
-        windowMs: +process.env.APP_RATE_LIMIT_WINDOW,
-        max: +process.env.APP_RATE_LIMIT_REQUESTS,
-      }),
-    );
-  }
+  // if (process.env.APP_RATE_LIMIT_WINDOW && process.env.APP_RATE_LIMIT_REQUESTS) {
+  //   app.use(
+  //     rateLimit({
+  //       windowMs: +process.env.APP_RATE_LIMIT_WINDOW,
+  //       max: +process.env.APP_RATE_LIMIT_REQUESTS,
+  //     }),
+  //   );
+  // }
 
   if (process.env.CACHE_PORT && process.env.SESSION_SECRET) {
     const RedisStore = store(session);
