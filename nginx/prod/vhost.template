@@ -113,10 +113,10 @@ server {
     
   location / {
     root /var/www/landing/www;
-    if ($request_uri ~ ^/(.*)\.html) {
-        return 302 /$1;
-    }
-    try_files $uri $uri.html $uri/ =404;
+    rewrite ^(/.*)\.html(\?.*)?$ $1$2 permanent;
+
+    index index.html;
+    try_files $uri.html $uri/ $uri =404;
     //index index.html;
     //try_files $uri /index.html =404;
   }
