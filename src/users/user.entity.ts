@@ -1,7 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { Company } from 'src/company/company.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { UserPreferences } from '../userPreferences/userPreferences.entity';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { PasswordTransformer } from './password.transformer';
 
 @Entity({
@@ -23,12 +22,6 @@ export class User {
   @ManyToOne(() => Company, { eager: true, cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
   company!: Company;
-
-  @OneToOne((type) => UserPreferences, (preferences) => preferences.user, {
-    eager: true,
-    cascade: true,
-  })
-  preferences!: UserPreferences;
 
   @Column({
     name: 'password',

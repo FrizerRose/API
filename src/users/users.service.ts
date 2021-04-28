@@ -1,7 +1,6 @@
 import { CacheStore, CACHE_MANAGER, Inject, Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
-import { UserPreferences } from 'src/userPreferences/userPreferences.entity';
 import { Repository } from 'typeorm';
 import { RegisterDto, UpdateUserDto } from '../auth/dto';
 import { MailerService } from '@nestjs-modules/mailer';
@@ -99,9 +98,6 @@ export class UsersService {
     }
 
     const newUser = this.usersRepository.create(payload as Record<string, any>);
-    newUser.preferences = new UserPreferences();
-    //add default preferences
-    newUser.preferences.name = 'default';
     const user = await this.usersRepository.save(newUser);
 
     // Send welcome email to admin account
