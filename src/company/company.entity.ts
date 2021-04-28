@@ -3,7 +3,7 @@ import { Customer } from 'src/customer/customer.entity';
 import { Staff } from 'src/staff/staff.entity';
 import { Image } from 'src/imageUpload/image.entity';
 import { User } from 'src/users/user.entity';
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Appointment } from 'src/appointment/appointment.entity';
 import { CompanyPreferences } from 'src/companyPreferences/companyPreferences.entity';
 import WorkingHours from 'src/types/WorkingHours';
@@ -23,12 +23,14 @@ export class Company {
   @Column({ default: true })
   isPublic!: boolean;
 
+  @Index()
   @Column({ length: 255, unique: true })
   bookingPageSlug!: string;
 
   @Column({ length: 255, default: '' })
   oib!: string;
 
+  @Index()
   @Column({ length: 255, default: '', unique: true })
   contactEmail!: string;
 

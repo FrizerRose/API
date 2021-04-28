@@ -13,6 +13,7 @@ import {
   ManyToOne,
   OneToOne,
   OneToMany,
+  Index,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from 'src/users/user.entity';
@@ -30,6 +31,7 @@ export class Staff {
   @Column({ default: true })
   isPublic!: boolean;
 
+  @Index()
   @Column({ length: 255 })
   email!: string;
 
