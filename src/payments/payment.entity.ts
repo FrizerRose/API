@@ -8,11 +8,12 @@ export class Payment {
   @PrimaryGeneratedColumn()
   id!: number;
 
+  // processing/paid/unpaid
+  @Column({ default: 'processing' })
+  status!: string;
+
   @Column({ type: 'date' })
   date!: string;
-
-  @Column()
-  amount!: number;
 
   @ManyToOne((type) => Company, { onDelete: 'CASCADE' })
   @JoinColumn()

@@ -12,7 +12,7 @@ export class PaymentCreateDto {
     required: true,
   })
   @IsNotEmpty()
-  amount!: number;
+  status!: string;
 
   @ApiProperty({
     required: true,
@@ -38,7 +38,7 @@ export class PaymentUpdateDto {
     required: true,
   })
   @IsNotEmpty()
-  amount!: string;
+  status!: string;
 
   @ApiProperty({
     required: true,
