@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, HttpModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommonModule } from '../common/common.module';
 import { CompanysController } from './company.controller';
@@ -15,6 +15,7 @@ import { AppointmentModule } from 'src/appointment/appointment.module';
     CompanyPreferencesModule,
     AppointmentModule,
     StaffModule,
+    HttpModule,
   ],
   providers: [CompanysService],
   controllers: [CompanysController],

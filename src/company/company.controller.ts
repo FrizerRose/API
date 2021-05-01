@@ -39,6 +39,18 @@ export class CompanysController {
     response.send(stats);
   }
 
+  @Get('barcode/:reference')
+  async getCompanyBarcode(@Param('reference') reference: string, @Res() response: Response): Promise<void> {
+    const barcode = await this.companyService.getBarcode(reference);
+    if (barcode) {
+      response.status(200);
+      response.send(barcode);
+    } else {
+      response.status(400);
+      response.send();
+    }
+  }
+
   @Get(':id')
   async findByID(@Param('id') id: number, @Res() response: Response): Promise<void> {
     const company = await this.companyService.get(id);

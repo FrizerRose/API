@@ -1,4 +1,4 @@
-import { CacheStore, CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
+import { CacheStore, CACHE_MANAGER, Inject, Injectable, HttpService } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CustomLoggerService } from '../common/CustomLoggerService';
@@ -16,6 +16,7 @@ export class CompanysService {
   constructor(
     @InjectRepository(Company)
     private readonly companyRepository: Repository<Company>,
+    private httpService: HttpService,
     private logger: CustomLoggerService,
     @Inject(CACHE_MANAGER) private readonly cacheStore: CacheStore,
     private readonly mailerService: MailerService,
@@ -54,6 +55,47 @@ export class CompanysService {
       .leftJoinAndSelect('services.staff', 'workers')
       .leftJoinAndSelect('workers.image', 'companyImage')
       .getOne();
+  }
+
+  async getBarcode(referenceString: string): Promise<any> {
+    const response = await this.httpService
+      .post(
+        'https://hub3.bigfish.software/api/v1/barcode',
+        {
+          renderer: 'image',
+          options: {
+            format: 'png',
+            color: '#000000',
+          },
+          data: {
+            amount: 200,
+            purpose: 'BEXP',
+            description: 'Pretplata za Dolazim.hr',
+            sender: {
+              name: '',
+              street: '',
+              place: '',
+            },
+            receiver: {
+              name: 'Snježana Prezimenka',
+              street: 'Ulica Žalosnih vrba, 13',
+              place: '10000, Zagreb',
+              iban: 'HR1723600001101234565',
+              model: '00',
+              reference: referenceString,
+            },
+          },
+        },
+        {
+          responseType: 'arraybuffer',
+          headers: {
+            Accept: '*/*',
+          },
+        },
+      )
+      .toPromise();
+
+    return await Buffer.from(response.data, 'binary').toString('base64');
   }
 
   async getStats(id: number): Promise<unknown> {
