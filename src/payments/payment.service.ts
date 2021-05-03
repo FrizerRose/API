@@ -7,6 +7,7 @@ import { Payment } from './payment.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { NotAcceptableException } from '@nestjs/common';
+import { Company } from 'src/company/company.entity';
 
 @Injectable()
 export class PaymentsService {
@@ -41,7 +42,23 @@ export class PaymentsService {
   }
 
   async create(payload: PaymentCreateDto): Promise<Payment> {
-    return await this.paymentRepository.save(this.paymentRepository.create(payload as Record<string, any>));
+    const payment = await this.paymentRepository.save(this.paymentRepository.create(payload as Record<string, any>));
+    const toEmail = this.configService.get<string>('email.default');
+
+    this.mailerService
+      .sendMail({
+        to: toEmail,
+        subject: 'Nova uplata sa Dolazim.hr',
+        template: 'new-payment',
+        context: {
+          payment: payment,
+        },
+      })
+      .catch((error) => {
+        throw new Error('Email could not be sent. Please try again later.');
+      });
+
+    return payment;
   }
 
   async update(payload: PaymentUpdateDto): Promise<Payment> {
@@ -51,7 +68,24 @@ export class PaymentsService {
       throw new NotAcceptableException('Payment with provided id not yet created.');
     }
 
-    return await this.paymentRepository.save(payload as Record<string, any>);
+    const updatedPayment = await this.paymentRepository.save(payload as Record<string, any>);
+
+    if (oldPayment.status === 'processing' && updatedPayment.status === 'paid') {
+      this.mailerService
+        .sendMail({
+          to: updatedPayment.company.contactEmail,
+          subject: 'Hvala na uplati na Dolazim.hr',
+          template: 'payment-confirmation',
+          context: {
+            payment: updatedPayment,
+          },
+        })
+        .catch((error) => {
+          throw new Error('Email could not be sent. Please try again later.');
+        });
+    }
+
+    return updatedPayment;
   }
 
   async delete(id: number): Promise<Payment> {

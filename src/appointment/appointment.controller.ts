@@ -15,11 +15,6 @@ export class AppointmentsController {
     return this.appointmentService.getAll();
   }
 
-  @Get('test')
-  async testCron(): Promise<Appointment[] | undefined> {
-    return this.appointmentService.sendAppointmentReminders();
-  }
-
   @Get(':id')
   async findByID(@Param('id') id: number, @Res() response: Response): Promise<void> {
     const appointment = await this.appointmentService.get(id);

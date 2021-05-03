@@ -15,7 +15,7 @@ export class Payment {
   @Column({ type: 'date' })
   date!: string;
 
-  @ManyToOne((type) => Company, { onDelete: 'CASCADE' })
+  @ManyToOne((type) => Company, { onDelete: 'CASCADE', eager: true })
   @JoinColumn()
   company!: Company;
 }

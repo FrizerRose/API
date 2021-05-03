@@ -7,6 +7,7 @@ import { Company } from './company.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { NotAcceptableException } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { CompanyPreferences } from 'src/companyPreferences/companyPreferences.entity';
 import { AppointmentsService } from 'src/appointment/appointment.service';
 import { StaffService } from 'src/staff/staff.service';
@@ -24,6 +25,47 @@ export class CompanysService {
     private readonly appointmentsService: AppointmentsService,
     private readonly staffService: StaffService,
   ) {}
+
+  // TODO: test
+  @Cron('*/2 * * * *')
+  async sendTrialEndReminder(): Promise<void> {
+    const companies = await this.getAll();
+
+    if (companies) {
+      const companiesWithUnsentTrialEmail = companies.filter((company) => !company.hasSentTrialEndEmail);
+      const companiesWithTrialEnded = companiesWithUnsentTrialEmail.filter((company) => {
+        const trialEndDate = new Date(company.createdAt);
+        trialEndDate.setMonth(trialEndDate.getMonth() + 1);
+
+        return trialEndDate.getTime() < new Date().getTime();
+      });
+
+      companiesWithTrialEnded.forEach((company) => {
+        company.hasSentTrialEndEmail = true;
+        this.companyRepository.save(company as Record<string, any>);
+
+        if (company.contactEmail) {
+          // Send email to the staff
+          // this.mailerService
+          //   .sendMail({
+          //     to: company.contactEmail,
+          //     subject: 'Podsjetnik za kraj probnog perioda na Dolazim.hr',
+          //     template: 'trial-reminder',
+          //     context: {
+          //       company: company,
+          //     },
+          //   })
+          //   .catch((error) => {
+          //     console.log(
+          //       '🚀 ~ file: company.service.ts ~ line 60 ~ CompanysService ~ companiesWithTrialEnded.forEach ~ error',
+          //       error,
+          //     );
+          //     throw new Error('Email could not be sent. Please try again later.');
+          //   });
+        }
+      });
+    }
+  }
 
   async getAll(): Promise<Company[] | undefined> {
     let company: Company[] | undefined = await this.cacheStore.get('all_company');
