@@ -72,20 +72,17 @@
                             <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff">
                               <tbody>
                                 <tr>
-                                  <td>
-                                    <p style="font-size: 16px; font-weight: 700;">Poruka kroz admin kontakt formu:</p>
+                                  <td align="center" valign="bottom" colspan="2" cellpadding="3" style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; padding: 0px 0;">
+                                    <img alt="Palac gore" src="https://dolazim.hr/assets/emails/payment-confirmed.png" border="0" style="-ms-interpolation-mode: bicubic; border: 0; display: block; height: 30%; line-height: 100%; outline: none; text-decoration: none;">
                                   </td>
                                 </tr>
                                 <tr>
-                                  <td height="24" &nbsp;=""></td>
+                                  <td height="40" &nbsp;=""></td>
                                 </tr>
                                 <tr>
-                                  <td align="center">
-                                    <table style="width: 100%; border-collapse:collapse;">
-                                      <tbody style="border: 0; padding: 0; margin-top:20px;">
-                                       potvrđena uplata
-                                      </tbody>
-                                    </table>
+                                  <td>
+                                    <div style="font-size: 22px; line-height: 32px;">Hvala {{company.name}}! Vaša uplata je potvrđena. Drago nam je da ste prepoznali vrijednost u našoj usluzi. Nadamo se dugoj i uspješnoj suradnji.
+                                    </div>
                                   </td>
                                 </tr>
                                 <tr>
@@ -98,6 +95,64 @@
                       </tbody>
                     </table>
                     <!-- Main CONTENT end here -->
+
+                    <!-- Interaction CONTENT -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" align="center" style="border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin: 20px auto 0; table-layout: fixed; border-collapse: collapse !important; max-width: 600px;">
+                      <tbody>
+                        <tr>
+                          <td height="40" colspan="2"></td>
+                        </tr>
+                        <tr style="font-family: -apple-system,BlinkMacSystemFont,&#39;Segoe UI&#39;,&#39;Roboto&#39;,&#39;Oxygen&#39;,&#39;Ubuntu&#39;,&#39;Cantarell&#39;,&#39;Fira Sans&#39;,&#39;Droid Sans&#39;,&#39;Helvetica Neue&#39;,sans-serif; color:#141414; font-size:18px; line-height:28px; margin-top:28px;">
+                          <td class="content" colspan="2" valign="top" align="center" style="padding-left:40px; padding-right:40px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff">
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <table style="width: 100%; border-collapse:collapse;">
+                                      <tbody style="border: 0; padding: 0; margin-top:20px;">
+                                        <tr>
+                                          <td style="padding-bottom: 10px; padding-top: 10px;">Sučelje koje će Vaši klijenti koristiti možete vidjeti ovdje:</td>
+                                        </tr>
+                                        <tr>
+                                          <td style="padding-bottom: 10px; padding-top: 10px;">
+                                            <a href="https://{{company.bookingPageSlug}}.dolazim.hr" style="display:block; font-size: 16px; padding:15px 25px; background-color:#ededed; color:#141414; border: 1px solid #ededed; border-radius:4px; text-decoration:none; text-align:center; font-weight:400;">
+                                              {{company.bookingPageSlug}}.dolazim.hr
+                                            </a>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td height="24" &nbsp;=""></td>
+                                </tr>
+                                <tr>
+                                  <td height="1" bgcolor="#ededed"></td>
+                                </tr>
+                                <tr>
+                                  <td height="24" &nbsp;=""></td>
+                                </tr>
+                                <tr>
+                                  <td align="center">
+                                    <span style="color:#666666; font-size:12px; line-height:19px;">
+                                      <p>
+                                        U slučaju tehničkih poteškoća klijenti nam se mogu javiti na e-mail adresu <a href="mailto:podrska@dolazim.hr" style="color: #16addd" target="_blank">korisničke podrške</a>.
+                                        Dolazim.hr nije odgovoran za neisporuku ili kašnjenje u isporuci u slučajevima kad je to izvan naše kontrole.
+                                      </p>
+                                    </span>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td height="40"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <!-- Interaction CONTENT end here -->
 
                     <!-- PROMO column start here -->
                     <!-- Show mobile promo 75% of the time -->
