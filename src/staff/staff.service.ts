@@ -84,7 +84,7 @@ export class StaffService {
   }
 
   async getByCompanyID(id: number): Promise<Staff[] | undefined> {
-    return this.staffRepository.find({ relations: ['services', 'user'], where: { company: id } });
+    return await this.staffRepository.find({ relations: ['services', 'user'], where: { company: id } });
   }
 
   async getByEmail(email: string): Promise<Staff | undefined> {
