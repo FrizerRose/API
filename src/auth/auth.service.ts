@@ -54,7 +54,7 @@ export class AuthService {
         to: payload.email,
         from: this.configService.get<string>('email.default'),
         subject: 'Nova lozinka za Dolazim.hr',
-        template: 'reset-password',
+        template: './reset-password',
         context: {
           user: user,
           newPassword: newPassword,

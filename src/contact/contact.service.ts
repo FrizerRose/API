@@ -65,7 +65,7 @@ export class ContactsService {
           to: toEmail, // list of receivers
           from: `"${contact.name}" ${contact.email}`,
           subject: subject, // Subject line
-          template: 'contact',
+          template: './contact',
           context: {
             contact: contact,
           },

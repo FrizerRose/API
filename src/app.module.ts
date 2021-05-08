@@ -23,8 +23,6 @@ import { ContactModule } from './contact/contact.module';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ScheduleModule } from '@nestjs/schedule';
 
-console.log("🚀 ~ file: app.module.ts ~ line 83 ~ process.cwd() + '/templates'", process.cwd() + '/templates');
-
 @Global()
 @Module({
   imports: [

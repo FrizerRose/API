@@ -73,7 +73,7 @@ export class AppointmentsService {
             .sendMail({
               to: appointment.staff.email,
               subject: 'Podsjetnik za termin u - ' + appointment.time,
-              template: 'staff-reminder',
+              template: './staff-reminder',
               context: {
                 appointment: appointment,
                 dateTimeString: this.getHumanReadableDateTime(appointment.date, appointment.time),
@@ -99,7 +99,7 @@ export class AppointmentsService {
             .sendMail({
               to: appointment.customer.email,
               subject: 'Podsjetnik za termin u - ' + appointment.time,
-              template: 'client-reminder',
+              template: './client-reminder',
               context: {
                 appointment: appointment,
                 dateTimeString: this.getHumanReadableDateTime(appointment.date, appointment.time),
@@ -253,7 +253,7 @@ export class AppointmentsService {
                   createdAppointment?.company.name +
                   ' u ' +
                   createdAppointment?.time,
-                template: 'customer-confirmation',
+                template: './customer-confirmation',
                 context: {
                   appointment: createdAppointment,
                   dateTimeString: this.getHumanReadableDateTime(createdAppointment.date, createdAppointment.time),
@@ -277,7 +277,7 @@ export class AppointmentsService {
               .sendMail({
                 to: createdAppointment?.staff.email,
                 subject: 'Novi termin za - ' + createdAppointment?.service.name + ' u ' + createdAppointment?.time,
-                template: 'staff-confirmation',
+                template: './staff-confirmation',
                 context: {
                   appointment: createdAppointment,
                   dateTimeString: this.getHumanReadableDateTime(createdAppointment.date, createdAppointment.time),
@@ -336,7 +336,7 @@ export class AppointmentsService {
         .sendMail({
           to: oldAppointment?.customer.email,
           subject: 'Potvrda otkaza termina - ' + oldAppointment?.company.name,
-          template: 'customer-cancel',
+          template: './customer-cancel',
           context: {
             appointment: oldAppointment,
             dateTimeString: this.getHumanReadableDateTime(oldAppointment.date, oldAppointment.time),
@@ -353,7 +353,7 @@ export class AppointmentsService {
         .sendMail({
           to: oldAppointment?.staff.email,
           subject: 'Otkazan termin za - ' + oldAppointment?.service.name,
-          template: 'staff-cancel',
+          template: './staff-cancel',
           context: {
             appointment: oldAppointment,
             dateTimeString: this.getHumanReadableDateTime(oldAppointment.date, oldAppointment.time),

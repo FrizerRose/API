@@ -50,7 +50,7 @@ export class CompanysService {
           //   .sendMail({
           //     to: company.contactEmail,
           //     subject: 'Podsjetnik za kraj probnog perioda na Dolazim.hr',
-          //     template: 'trial-reminder',
+          //     template: './trial-reminder',
           //     context: {
           //       company: company,
           //     },
@@ -251,7 +251,7 @@ export class CompanysService {
     //   .sendMail({
     //     to: company.contactEmail,
     //     subject: 'Dobrodošli na Dolazim.hr',
-    //     template: 'welcome',
+    //     template: './welcome',
     //     context: {
     //       company: company,
     //     },
