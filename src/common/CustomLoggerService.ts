@@ -16,7 +16,7 @@ export class CustomLoggerService extends Logger {
 
     const options = {
       file: {
-        level: 'debug',
+        level: 'info',
         filename: './logs/combined.log',
         handleExceptions: true,
         json: true,
