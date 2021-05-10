@@ -26,7 +26,6 @@ export class CompanysService {
     private readonly staffService: StaffService,
   ) {}
 
-  // TODO: test
   @Cron('*/2 * * * *')
   async sendTrialEndReminder(): Promise<void> {
     const companies = await this.getAll();
@@ -45,23 +44,22 @@ export class CompanysService {
         this.companyRepository.save(company as Record<string, any>);
 
         if (company.contactEmail) {
-          // Send email to the staff
-          // this.mailerService
-          //   .sendMail({
-          //     to: company.contactEmail,
-          //     subject: 'Podsjetnik za kraj probnog perioda na Dolazim.hr',
-          //     template: './trial-reminder',
-          //     context: {
-          //       company: company,
-          //     },
-          //   })
-          //   .catch((error) => {
-          //     console.log(
-          //       '🚀 ~ file: company.service.ts ~ line 60 ~ CompanysService ~ companiesWithTrialEnded.forEach ~ error',
-          //       error,
-          //     );
-          //     throw new Error('Email could not be sent. Please try again later.');
-          //   });
+          this.mailerService
+            .sendMail({
+              to: company.contactEmail,
+              subject: 'Podsjetnik za kraj probnog perioda na Dolazim.hr',
+              template: './trial-reminder',
+              context: {
+                company: company,
+              },
+            })
+            .catch((error) => {
+              console.log(
+                '🚀 ~ file: company.service.ts ~ line 60 ~ CompanysService ~ companiesWithTrialEnded.forEach ~ error',
+                error,
+              );
+              throw new Error('Email could not be sent. Please try again later.');
+            });
         }
       });
     }
@@ -247,18 +245,18 @@ export class CompanysService {
     }
 
     // Send email to the customer
-    // this.mailerService
-    //   .sendMail({
-    //     to: company.contactEmail,
-    //     subject: 'Dobrodošli na Dolazim.hr',
-    //     template: './welcome',
-    //     context: {
-    //       company: company,
-    //     },
-    //   })
-    //   .catch((error) => {
-    //     throw new Error('Email could not be sent. Please try again later.');
-    //   });
+    this.mailerService
+      .sendMail({
+        to: company.contactEmail,
+        subject: 'Dobrodošli na Dolazim.hr',
+        template: './welcome',
+        context: {
+          company: company,
+        },
+      })
+      .catch((error) => {
+        throw new Error('Email could not be sent. Please try again later.');
+      });
 
     return company;
   }

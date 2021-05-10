@@ -70,20 +70,20 @@ export class PaymentsService {
 
     const updatedPayment = await this.paymentRepository.save(payload as Record<string, any>);
 
-    if (oldPayment.status === 'processing' && updatedPayment.status === 'paid') {
-      this.mailerService
-        .sendMail({
-          to: updatedPayment.company.contactEmail,
-          subject: 'Hvala na uplati na Dolazim.hr',
-          template: './payment-confirmation',
-          context: {
-            payment: updatedPayment,
-          },
-        })
-        .catch((error) => {
-          throw new Error('Email could not be sent. Please try again later.');
-        });
-    }
+    // if (oldPayment.status === 'processing' && updatedPayment.status === 'paid') {
+    //   this.mailerService
+    //     .sendMail({
+    //       to: updatedPayment.company.contactEmail,
+    //       subject: 'Hvala na uplati sa Dolazim.hr',
+    //       template: './payment-confirmation',
+    //       context: {
+    //         payment: updatedPayment,
+    //       },
+    //     })
+    //     .catch((error) => {
+    //       throw new Error('Email could not be sent. Please try again later.');
+    //     });
+    // }
 
     return updatedPayment;
   }

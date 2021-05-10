@@ -41,7 +41,7 @@ export class Appointment {
   @JoinColumn()
   service!: Service;
 
-  @ManyToOne((type) => Customer)
+  @ManyToOne((type) => Customer, { onDelete: 'CASCADE' })
   @JoinColumn()
   customer!: Customer;
 }
