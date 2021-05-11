@@ -118,7 +118,7 @@ export class CompanysService {
               place: '',
             },
             receiver: {
-              name: 'MINNIE OBRT ZA USLUGE I PRODAJU',
+              name: 'Snjezana Kolaric',
               street: 'Kninski trg 11',
               place: '10000, Zagreb',
               iban: 'HR7824840081106960714',
