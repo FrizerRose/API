@@ -261,14 +261,17 @@ export class CompanysService {
     return company;
   }
 
-  async update(payload: CompanyUpdateDto): Promise<Company> {
+  async update(payload: CompanyUpdateDto): Promise<Company | undefined> {
     const oldCompany = await this.get(payload.id);
 
     if (!oldCompany) {
       throw new NotAcceptableException('Company with provided id not yet created.');
     }
 
-    return await this.companyRepository.save(payload as Record<string, any>);
+    const { staff, services, payments, ...newCompany } = payload;
+
+    await this.companyRepository.save(newCompany as Record<string, any>);
+    return this.get(payload.id);
   }
 
   async delete(id: number): Promise<Company> {

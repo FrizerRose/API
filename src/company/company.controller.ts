@@ -87,7 +87,7 @@ export class CompanysController {
   @ApiResponse({ status: 200, description: 'Successful update' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  update(@Body() payload: CompanyUpdateDto): Promise<Company> {
+  update(@Body() payload: CompanyUpdateDto): Promise<Company | undefined> {
     return this.companyService.update(payload);
   }
 

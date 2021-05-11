@@ -112,4 +112,19 @@ export class CompanyUpdateDto {
     required: true,
   })
   users!: string[];
+
+  @ApiProperty({
+    required: false,
+  })
+  services!: any[];
+
+  @ApiProperty({
+    required: false,
+  })
+  staff!: any[];
+
+  @ApiProperty({
+    required: false,
+  })
+  payments!: any[];
 }

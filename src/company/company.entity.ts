@@ -69,7 +69,6 @@ export class Company {
 
   @OneToMany(() => Service, (service) => service.company, {
     eager: true,
-    cascade: false,
   })
   services!: Service[];
 

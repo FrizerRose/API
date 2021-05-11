@@ -22,7 +22,7 @@ export class Service {
   @Column({ length: 255, default: 'both' })
   sex!: string;
 
-  @ManyToOne((type) => Company, { onDelete: 'CASCADE', cascade: false })
+  @ManyToOne((type) => Company, { onDelete: 'CASCADE' })
   @JoinColumn()
   company!: Company;
 
