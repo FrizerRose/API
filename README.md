@@ -26,3 +26,5 @@ alias api-down="docker-compose --env-file .env.prod -f docker-compose.yml -f doc
 alias api-logs="docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml logs --tail=50" 
 alias api-execute="docker-compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml exec" 
 alias api-up-server="api-up --no-deps api_container"
+alias api-up-nginx="api-up --no-deps nginx_container"
+alias app-rebuild="sudo rm -rf dist && sudo mv dist2 dist" 
