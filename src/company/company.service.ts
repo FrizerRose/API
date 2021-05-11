@@ -118,9 +118,9 @@ export class CompanysService {
               place: '',
             },
             receiver: {
-              name: 'Snjezana Kolaric',
+              name: 'SNJEZANA KOLARIC',
               street: 'Kninski trg 11',
-              place: '10000, Zagreb',
+              place: 'Zagreb',
               iban: 'HR7824840081106960714',
               model: '00',
               reference: referenceString,
