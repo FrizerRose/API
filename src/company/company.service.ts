@@ -118,10 +118,10 @@ export class CompanysService {
               place: '',
             },
             receiver: {
-              name: 'Snježana Prezimenka',
-              street: 'Ulica Žalosnih vrba, 13',
+              name: 'MINNIE OBRT ZA USLUGE I PRODAJU',
+              street: 'Kninski trg 11',
               place: '10000, Zagreb',
-              iban: 'HR1723600001101234565',
+              iban: 'HR7824840081106960714',
               model: '00',
               reference: referenceString,
             },
