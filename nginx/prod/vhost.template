@@ -1,5 +1,5 @@
-ssl_certificate /etc/letsencrypt/live/admin.dolazim.hr/fullchain.pem;
-ssl_certificate_key /etc/letsencrypt/live/admin.dolazim.hr/privkey.pem;
+ssl_certificate /etc/letsencrypt/live/dolazim.hr/fullchain.pem;
+ssl_certificate_key /etc/letsencrypt/live/dolazim.hr/privkey.pem;
 
 # Expires map
 map $sent_http_content_type $expires {
