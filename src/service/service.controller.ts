@@ -23,8 +23,9 @@ export class ServicesController {
   constructor(private readonly serviceService: ServicesService) {}
 
   @Get()
-  findAll(): Promise<Service[] | undefined> {
-    return this.serviceService.getAll();
+  async findAll(@Res() response: Response): Promise<any> {
+    const service = await this.serviceService.getAll();
+    response.send(service);
   }
 
   @Get(':id')
@@ -55,23 +56,26 @@ export class ServicesController {
   @ApiResponse({ status: 201, description: 'Successful creation' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  create(@Body() payload: ServiceCreateDto): Promise<any> {
-    return this.serviceService.create(payload);
+  async create(@Body() payload: ServiceCreateDto, @Res() response: Response): Promise<any> {
+    const service = await this.serviceService.create(payload);
+    response.send(service);
   }
 
   @Put()
   @ApiResponse({ status: 200, description: 'Successful update' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  update(@Body() payload: ServiceUpdateDto): Promise<Service> {
-    return this.serviceService.update(payload);
+  async update(@Body() payload: ServiceUpdateDto, @Res() response: Response): Promise<any> {
+    const service = await this.serviceService.update(payload);
+    response.send(service);
   }
 
   @Delete(':id')
   @ApiResponse({ status: 200, description: 'Successful deletion' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  delete(@Param('id') id: number): Promise<any> {
-    return this.serviceService.delete(id);
+  async delete(@Param('id') id: number, @Res() response: Response): Promise<any> {
+    const service = await this.serviceService.delete(id);
+    response.send(service);
   }
 }

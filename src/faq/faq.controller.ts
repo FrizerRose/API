@@ -24,31 +24,35 @@ export class FaqController {
   constructor(private readonly faqService: FaqService) {}
 
   @Get()
-  findAll(): Promise<Faq[] | undefined> {
-    return this.faqService.getAll();
+  async findAll(@Res() response: Response): Promise<any> {
+    const faq = this.faqService.getAll();
+    response.send(faq);
   }
 
   @Post()
   @ApiResponse({ status: 201, description: 'Successful creation' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  create(@Body() payload: FaqCreateDto): Promise<any> {
-    return this.faqService.create(payload);
+  async create(@Body() payload: FaqCreateDto, @Res() response: Response): Promise<any> {
+    const faq = this.faqService.create(payload);
+    response.send(faq);
   }
 
   @Put()
   @ApiResponse({ status: 200, description: 'Successful update' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  update(@Body() payload: FaqUpdateDto): Promise<Faq> {
-    return this.faqService.update(payload);
+  async update(@Body() payload: FaqUpdateDto, @Res() response: Response): Promise<any> {
+    const faq = this.faqService.update(payload);
+    response.send(faq);
   }
 
   @Delete(':id')
   @ApiResponse({ status: 200, description: 'Successful deletion' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  delete(@Param('id') id: number): Promise<any> {
-    return this.faqService.delete(id);
+  async delete(@Param('id') id: number, @Res() response: Response): Promise<any> {
+    const faq = this.faqService.delete(id);
+    response.send(faq);
   }
 }

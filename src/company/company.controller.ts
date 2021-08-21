@@ -80,23 +80,26 @@ export class CompanysController {
   @ApiResponse({ status: 201, description: 'Successful creation' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  create(@Body() payload: CompanyCreateDto): Promise<any> {
-    return this.companyService.create(payload);
+  async create(@Body() payload: CompanyCreateDto, @Res() response: Response): Promise<any> {
+    const company = await this.companyService.create(payload);
+    response.send(company);
   }
 
   @Put()
   @ApiResponse({ status: 200, description: 'Successful update' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  update(@Body() payload: CompanyUpdateDto): Promise<Company | undefined> {
-    return this.companyService.update(payload);
+  async update(@Body() payload: CompanyUpdateDto, @Res() response: Response): Promise<any> {
+    const company = await this.companyService.update(payload);
+    response.send(company);
   }
 
   @Delete(':id')
   @ApiResponse({ status: 200, description: 'Successful deletion' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  delete(@Param('id') id: number): Promise<any> {
-    return this.companyService.delete(id);
+  async delete(@Param('id') id: number, @Res() response: Response): Promise<any> {
+    const company = await this.companyService.delete(id);
+    response.send(company);
   }
 }

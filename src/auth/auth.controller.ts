@@ -33,25 +33,28 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Successful creation' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async create(@Body() payload: RegisterDto): Promise<any> {
+  async create(@Body() payload: RegisterDto, @Res() response: Response): Promise<any> {
     const user = await this.userService.create(payload);
-    return await this.authService.createToken(user);
+    const token = await this.authService.createToken(user);
+    response.send(token);
   }
 
   @Put('update')
   @ApiResponse({ status: 200, description: 'Successful update' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async update(@Body() payload: UpdateUserDto): Promise<any> {
-    return await this.userService.update(payload);
+  async update(@Body() payload: UpdateUserDto, @Res() response: Response): Promise<any> {
+    const user = await this.userService.update(payload);
+    response.send(user);
   }
 
   @Delete(':id')
   @ApiResponse({ status: 200, description: 'Successful deletion' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  delete(@Param('id') id: number): Promise<any> {
-    return this.userService.delete(id);
+  async delete(@Param('id') id: number, @Res() response: Response): Promise<any> {
+    const user = await this.userService.delete(id);
+    response.send(user);
   }
 
   @ApiBearerAuth()
@@ -59,18 +62,20 @@ export class AuthController {
   @Get('me')
   @ApiResponse({ status: 200, description: 'Successful Response' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async getLoggedInUser(@Req() request: Request): Promise<any> {
+  async getLoggedInUser(@Req() request: Request, @Res() response: Response): Promise<any> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    return this.userService.get(request.user?.id);
+    const user = await this.userService.get(request.user?.id);
+    response.send(user);
   }
 
   @Post('reset-password')
   @ApiResponse({ status: 200, description: 'Successfully sent email' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async resetPassword(@Body() payload: ResetPasswordDTO): Promise<any> {
-    return await this.authService.sendResetPasswordEmail(payload);
+  async resetPassword(@Body() payload: ResetPasswordDTO, @Res() response: Response): Promise<any> {
+    const emptyObject = await await this.authService.sendResetPasswordEmail(payload);
+    response.send(emptyObject);
   }
 
   @Post('change-password')

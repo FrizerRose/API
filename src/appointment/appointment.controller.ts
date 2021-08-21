@@ -11,8 +11,9 @@ export class AppointmentsController {
   constructor(private readonly appointmentService: AppointmentsService) {}
 
   @Get()
-  findAll(): Promise<Appointment[] | undefined> {
-    return this.appointmentService.getAll();
+  async findAll(@Res() response: Response): Promise<any> {
+    const appointments = await this.appointmentService.getAll();
+    response.send(appointments);
   }
 
   @Get(':id')
@@ -59,16 +60,18 @@ export class AppointmentsController {
   @ApiResponse({ status: 201, description: 'Successful creation' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  create(@Body() payload: AppointmentCreateDto): Promise<any> {
-    return this.appointmentService.create(payload);
+  async create(@Body() payload: AppointmentCreateDto, @Res() response: Response): Promise<any> {
+    const appointment = await this.appointmentService.create(payload);
+    response.send(appointment);
   }
 
   @Put()
   @ApiResponse({ status: 200, description: 'Successful update' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  update(@Body() payload: AppointmentUpdateDto): Promise<Appointment> {
-    return this.appointmentService.update(payload);
+  async update(@Body() payload: AppointmentUpdateDto, @Res() response: Response): Promise<any> {
+    const appointment = await this.appointmentService.update(payload);
+    response.send(appointment);
   }
 
   @ApiQuery({
@@ -80,7 +83,12 @@ export class AppointmentsController {
   @ApiResponse({ status: 200, description: 'Successful deletion' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  delete(@Param('id') id: number, @Query('reschedule') reschedule?: string): Promise<any> {
-    return this.appointmentService.delete(id, reschedule === 'true' ? true : false);
+  async delete(
+    @Res() response: Response,
+    @Param('id') id: number,
+    @Query('reschedule') reschedule?: string,
+  ): Promise<any> {
+    const appointment = await this.appointmentService.delete(id, reschedule === 'true' ? true : false);
+    response.send(appointment);
   }
 }

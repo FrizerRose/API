@@ -9,8 +9,9 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  findAll(@Session() session: { id: string }): Promise<Omit<User, 'password'>[] | undefined> {
+  async findAll(@Session() session: { id: string }, @Res() response: Response): Promise<any> {
     console.log('Session ID: ', session.id);
-    return this.usersService.getAll();
+    const users = await this.usersService.getAll();
+    response.send(users);
   }
 }

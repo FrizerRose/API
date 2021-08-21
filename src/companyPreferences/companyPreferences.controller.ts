@@ -23,31 +23,35 @@ export class CompanyPreferencesController {
   constructor(private readonly companyPreferencesService: CompanyPreferencesService) {}
 
   @Get()
-  findAll(): Promise<CompanyPreferences[] | undefined> {
-    return this.companyPreferencesService.getAll();
+  async findAll(@Res() response: Response): Promise<any> {
+    const pref = await this.companyPreferencesService.getAll();
+    response.send(pref);
   }
 
   @Post()
   @ApiResponse({ status: 201, description: 'Successful creation' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  create(@Body() payload: CompanyPreferencesCreateDto): Promise<any> {
-    return this.companyPreferencesService.create(payload);
+  async create(@Body() payload: CompanyPreferencesCreateDto, @Res() response: Response): Promise<any> {
+    const pref = await this.companyPreferencesService.create(payload);
+    response.send(pref);
   }
 
   @Put()
   @ApiResponse({ status: 200, description: 'Successful update' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  update(@Body() payload: CompanyPreferencesUpdateDto): Promise<CompanyPreferences> {
-    return this.companyPreferencesService.update(payload);
+  async update(@Body() payload: CompanyPreferencesUpdateDto, @Res() response: Response): Promise<any> {
+    const pref = await this.companyPreferencesService.update(payload);
+    response.send(pref);
   }
 
   @Delete(':id')
   @ApiResponse({ status: 200, description: 'Successful deletion' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  delete(@Param('id') id: number): Promise<any> {
-    return this.companyPreferencesService.delete(id);
+  async delete(@Param('id') id: number, @Res() response: Response): Promise<any> {
+    const pref = await this.companyPreferencesService.delete(id);
+    response.send(pref);
   }
 }

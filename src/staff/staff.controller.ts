@@ -15,7 +15,7 @@ import { ApiResponse, ApiTags, ApiQuery } from '@nestjs/swagger';
 import { StaffCreateDto, StaffUpdateDto } from './dto/index';
 import { Staff } from './staff.entity';
 import { StaffService } from './staff.service';
-import { Response } from 'express';
+import { response, Response } from 'express';
 
 @Controller('staff')
 @UseInterceptors(CacheInterceptor)
@@ -24,8 +24,9 @@ export class StaffController {
   constructor(private readonly staffService: StaffService) {}
 
   @Get()
-  findAll(): Promise<Staff[] | undefined> {
-    return this.staffService.getAll();
+  async findAll(@Res() response: Response): Promise<any> {
+    const staff = this.staffService.getAll();
+    response.send(staff);
   }
 
   @ApiQuery({
@@ -78,23 +79,26 @@ export class StaffController {
   @ApiResponse({ status: 201, description: 'Successful creation' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  create(@Body() payload: StaffCreateDto): Promise<any> {
-    return this.staffService.create(payload);
+  async create(@Body() payload: StaffCreateDto, @Res() response: Response): Promise<any> {
+    const staff = await this.staffService.create(payload);
+    response.send(staff);
   }
 
   @Put()
   @ApiResponse({ status: 200, description: 'Successful update' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  update(@Body() payload: StaffUpdateDto): Promise<Staff> {
-    return this.staffService.update(payload);
+  async update(@Body() payload: StaffUpdateDto, @Res() response: Response): Promise<any> {
+    const staff = await this.staffService.update(payload);
+    response.send(staff);
   }
 
   @Delete(':id')
   @ApiResponse({ status: 200, description: 'Successful deletion' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  delete(@Param('id') id: number): Promise<any> {
-    return this.staffService.delete(id);
+  async delete(@Param('id') id: number, @Res() response: Response): Promise<any> {
+    const staff = await this.staffService.delete(id);
+    response.send(staff);
   }
 }

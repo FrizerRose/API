@@ -39,22 +39,26 @@ export class CustomersController {
     type: Number,
   })
   @Get()
-  findAll(
+  async findAll(
+    @Res() response: Response,
     @Query('name') name?: string,
     @Query('company') company?: number,
     @Query('limit') limit?: number,
-  ): Promise<Customer[] | undefined> {
+  ): Promise<any> {
+    let customers;
     if (name && company) {
-      return this.customerService.findByName(name, company);
+      customers = await this.customerService.findByName(name, company);
     } else if (company) {
-      return this.customerService.findByCompany(company);
+      customers = await this.customerService.findByCompany(company);
     } else {
       if (limit) {
-        return this.customerService.getAll(limit);
+        customers = await this.customerService.getAll(limit);
       } else {
-        return this.customerService.getAll();
+        customers = await this.customerService.getAll();
       }
     }
+
+    response.send(customers);
   }
 
   @Get(':id')
@@ -73,23 +77,26 @@ export class CustomersController {
   @ApiResponse({ status: 201, description: 'Successful creation' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  create(@Body() payload: CustomerCreateDto): Promise<any> {
-    return this.customerService.create(payload);
+  async create(@Body() payload: CustomerCreateDto, @Res() response: Response): Promise<any> {
+    const customer = await this.customerService.create(payload);
+    response.send(customer);
   }
 
   @Put()
   @ApiResponse({ status: 200, description: 'Successful update' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  update(@Body() payload: CustomerUpdateDto): Promise<Customer> {
-    return this.customerService.update(payload);
+  async update(@Body() payload: CustomerUpdateDto, @Res() response: Response): Promise<any> {
+    const customer = await this.customerService.update(payload);
+    response.send(customer);
   }
 
   @Delete(':id')
   @ApiResponse({ status: 200, description: 'Successful deletion' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  delete(@Param('id') id: number): Promise<any> {
-    return this.customerService.delete(id);
+  async delete(@Param('id') id: number, @Res() response: Response): Promise<any> {
+    const customer = await this.customerService.delete(id);
+    response.send(customer);
   }
 }

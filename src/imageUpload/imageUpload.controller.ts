@@ -25,7 +25,8 @@ export class ImageUploadController {
   @ApiResponse({ status: 200, description: 'Successful deletion' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  delete(@Param('id') id: number): Promise<any> {
-    return this.imageUploadService.delete(id);
+  async delete(@Param('id') id: number, @Res() response: Response): Promise<any> {
+    const image = await this.imageUploadService.delete(id);
+    response.send(image);
   }
 }

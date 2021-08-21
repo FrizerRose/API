@@ -23,8 +23,9 @@ export class DayOffsController {
   constructor(private readonly dayOffService: DayOffsService) {}
 
   @Get()
-  findAll(): Promise<DayOff[] | undefined> {
-    return this.dayOffService.getAll();
+  async findAll(@Res() response: Response): Promise<any> {
+    const dayOff = await this.dayOffService.getAll();
+    response.send(dayOff);
   }
 
   @Get(':id')
@@ -43,23 +44,26 @@ export class DayOffsController {
   @ApiResponse({ status: 201, description: 'Successful creation' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  create(@Body() payload: DayOffCreateDto): Promise<any> {
-    return this.dayOffService.create(payload);
+  async create(@Body() payload: DayOffCreateDto, @Res() response: Response): Promise<any> {
+    const dayOff = await this.dayOffService.create(payload);
+    response.send(dayOff);
   }
 
   @Put()
   @ApiResponse({ status: 200, description: 'Successful update' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  update(@Body() payload: DayOffUpdateDto): Promise<DayOff> {
-    return this.dayOffService.update(payload);
+  async update(@Body() payload: DayOffUpdateDto, @Res() response: Response): Promise<any> {
+    const dayOff = await this.dayOffService.update(payload);
+    response.send(dayOff);
   }
 
   @Delete(':id')
   @ApiResponse({ status: 200, description: 'Successful deletion' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  delete(@Param('id') id: number): Promise<any> {
-    return this.dayOffService.delete(id);
+  async delete(@Param('id') id: number, @Res() response: Response): Promise<any> {
+    const dayOff = await this.dayOffService.delete(id);
+    response.send(dayOff);
   }
 }

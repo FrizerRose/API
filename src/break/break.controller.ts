@@ -14,7 +14,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BreakCreateDto, BreakUpdateDto } from './dto/index';
 import { BreaksService } from './break.service';
 import { Break } from './break.entity';
-import { Response } from 'express';
+import { response, Response } from 'express';
 
 @Controller('break')
 @UseInterceptors(CacheInterceptor)
@@ -23,8 +23,9 @@ export class BreaksController {
   constructor(private readonly breakService: BreaksService) {}
 
   @Get()
-  findAll(): Promise<Break[] | undefined> {
-    return this.breakService.getAll();
+  async findAll(@Res() response: Response): Promise<any> {
+    const breaks = await this.breakService.getAll();
+    response.send(breaks);
   }
 
   @Get(':id')
@@ -43,23 +44,26 @@ export class BreaksController {
   @ApiResponse({ status: 201, description: 'Successful creation' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  create(@Body() payload: BreakCreateDto): Promise<any> {
-    return this.breakService.create(payload);
+  async create(@Body() payload: BreakCreateDto, @Res() response: Response): Promise<any> {
+    const breakItem = await this.breakService.create(payload);
+    response.send(breakItem);
   }
 
   @Put()
   @ApiResponse({ status: 200, description: 'Successful update' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  update(@Body() payload: BreakUpdateDto): Promise<Break> {
-    return this.breakService.update(payload);
+  async update(@Body() payload: BreakUpdateDto, @Res() response: Response): Promise<any> {
+    const breakItem = await this.breakService.update(payload);
+    response.send(breakItem);
   }
 
   @Delete(':id')
   @ApiResponse({ status: 200, description: 'Successful deletion' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  delete(@Param('id') id: number): Promise<any> {
-    return this.breakService.delete(id);
+  async delete(@Param('id') id: number, @Res() response: Response): Promise<any> {
+    const breakItem = await this.breakService.delete(id);
+    response.send(breakItem);
   }
 }
