@@ -23,14 +23,9 @@ export class CompanysController {
   constructor(private readonly companyService: CompanysService) {}
 
   @Get()
-  async findAll(): Promise<Company[] | undefined> {
-    try {
-      const aaa = await this.companyService.getAll();
-      console.log('cccccc', aaa);
-      return aaa;
-    } catch (error) {
-      console.log('ddddd', error);
-    }
+  async findAll(@Res() response: Response): Promise<void> {
+    const companies = await this.companyService.getAll();
+    response.send(companies);
   }
 
   @Get('stats/:id')
