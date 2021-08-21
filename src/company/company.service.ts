@@ -79,9 +79,11 @@ export class CompanysService {
         this.cacheStore.set('all_company', company, { ttl: 20 });
       }
 
+      console.log('aaaaaaaaa', company);
       this.logger.log('Querying all company!');
       return company;
     } catch (error) {
+      console.log('bbbb', error);
       this.logger.log(error);
     }
   }
