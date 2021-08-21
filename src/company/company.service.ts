@@ -66,20 +66,24 @@ export class CompanysService {
   }
 
   async getAll(): Promise<Company[] | undefined> {
-    let company: Company[] | undefined = await this.cacheStore.get('all_company');
+    try {
+      let company: Company[] | undefined = await this.cacheStore.get('all_company');
 
-    if (company) {
-      this.logger.log('Getting all company from cache.');
+      if (company) {
+        this.logger.log('Getting all company from cache.');
+        return company;
+      }
+
+      company = await this.companyRepository.find();
+      if (company) {
+        this.cacheStore.set('all_company', company, { ttl: 20 });
+      }
+
+      this.logger.log('Querying all company!');
       return company;
+    } catch (error) {
+      this.logger.log(error);
     }
-
-    company = await this.companyRepository.find();
-    if (company) {
-      this.cacheStore.set('all_company', company, { ttl: 20 });
-    }
-
-    this.logger.log('Querying all company!');
-    return company;
   }
 
   async get(id: number): Promise<Company | undefined> {
