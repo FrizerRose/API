@@ -1,4 +1,6 @@
 # Dolazim.hr API
+
+## The API powering Dolazim.hr, created using Typescript, Nest.js, PostgreSQL, Redis and Docker.
 ## Production Setup:
 
 ```
