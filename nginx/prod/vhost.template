@@ -2,6 +2,7 @@ server {
   listen 443;
   listen [::]:443;
   server_name ${APP_SERVER_NAME};
+  resolver 8.8.8.8;
 
   gzip            on;
   gzip_types text/plain text/css application/json application/x-javascript application/javascript application/x-font-ttf font/opentype; 
@@ -60,6 +61,7 @@ server {
   listen 80;
   listen [::]:80;
   server_name *.admin.${APP_SERVER_NAME};
+  resolver 8.8.8.8;
 
   gzip            on;
   gzip_types text/plain text/css application/json application/x-javascript application/javascript application/x-font-ttf font/opentype; 
@@ -84,6 +86,7 @@ server {
   listen 80;
   listen [::]:80;
   server_name *.${APP_SERVER_NAME};
+  resolver 8.8.8.8;
 
   gzip            on;
   gzip_types text/plain text/css application/json application/x-javascript application/javascript application/x-font-ttf font/opentype; 
