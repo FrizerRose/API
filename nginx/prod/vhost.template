@@ -1,6 +1,6 @@
 server {
-  listen 443;
-  listen [::]:443;
+  listen 80;
+  listen [::]:80;
   server_name ${APP_SERVER_NAME};
   resolver 8.8.8.8;
 
