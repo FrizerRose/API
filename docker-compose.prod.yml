@@ -17,6 +17,9 @@ services:
       context: .
       dockerfile: docker/prod/Dockerfile-nginx
     restart: unless-stopped
+    ports:
+      - 8081:80
+      - 4431:443
     environment:
       APP_SERVER_NAME: ${APP_SERVER_NAME}
       APP_PREFIX: ${APP_PREFIX}
