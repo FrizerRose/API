@@ -17,6 +17,9 @@ services:
     build:
       context: .
       dockerfile: docker/dev/Dockerfile-nginx
+    ports:
+      - 80:80
+      - 443:443
     environment:
       APP_SERVER_NAME: ${APP_SERVER_NAME}
       APP_PREFIX: ${APP_PREFIX}
