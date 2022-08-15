@@ -47,7 +47,7 @@ export class CompanysService {
           this.mailerService
             .sendMail({
               to: company.contactEmail,
-              subject: 'Podsjetnik za kraj probnog perioda na Dolazim.hr',
+              subject: 'Podsjetnik za kraj probnog perioda na Dolazim.info',
               template: './trial-reminder',
               context: {
                 company: company,
@@ -111,7 +111,7 @@ export class CompanysService {
           data: {
             amount: 200,
             purpose: 'BEXP',
-            description: 'Pretplata za Dolazim.hr',
+            description: 'Pretplata za Dolazim.info',
             sender: {
               name: '',
               street: '',
@@ -248,7 +248,7 @@ export class CompanysService {
     this.mailerService
       .sendMail({
         to: company.contactEmail,
-        subject: 'Dobrodošli na Dolazim.hr',
+        subject: 'Dobrodošli na Dolazim.info',
         template: './welcome',
         context: {
           company: company,

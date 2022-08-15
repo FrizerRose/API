@@ -74,7 +74,7 @@ import { ScheduleModule } from '@nestjs/schedule';
           },
         },
         defaults: {
-          from: '"Dolazim.hr " <' + configService.get<string>('email.default') + '>',
+          from: '"Dolazim.info " <' + configService.get<string>('email.default') + '>',
         },
         template: {
           dir: process.cwd() + '/templates',

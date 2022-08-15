@@ -53,7 +53,7 @@ export class AuthService {
       .sendMail({
         to: payload.email,
         from: this.configService.get<string>('email.default'),
-        subject: 'Nova lozinka za Dolazim.hr',
+        subject: 'Nova lozinka za Dolazim.info',
         template: './reset-password',
         context: {
           user: user,

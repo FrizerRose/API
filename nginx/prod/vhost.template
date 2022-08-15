@@ -14,14 +14,14 @@ server {
   error_log /var/log/nginx/front-error.log;
 
   location = /${APP_PREFIX}/ {
-    auth_basic "Dolazim.hr API admin";
+    auth_basic "Dolazim.info API admin";
     auth_basic_user_file /etc/nginx/htpasswd; 
 
     try_files $uri @api_container;
   }
 
   location /${APP_PREFIX}/# {
-    auth_basic "Dolazim.hr API admin";
+    auth_basic "Dolazim.info API admin";
     auth_basic_user_file /etc/nginx/htpasswd; 
 
     try_files $uri @api_container;

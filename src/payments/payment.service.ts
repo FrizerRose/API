@@ -48,7 +48,7 @@ export class PaymentsService {
     this.mailerService
       .sendMail({
         to: toEmail,
-        subject: 'Nova uplata sa Dolazim.hr',
+        subject: 'Nova uplata sa Dolazim.info',
         template: './new-payment',
         context: {
           payment: payment,
@@ -74,7 +74,7 @@ export class PaymentsService {
     //   this.mailerService
     //     .sendMail({
     //       to: updatedPayment.company.contactEmail,
-    //       subject: 'Hvala na uplati sa Dolazim.hr',
+    //       subject: 'Hvala na uplati sa Dolazim.info',
     //       template: './payment-confirmation',
     //       context: {
     //         payment: updatedPayment,

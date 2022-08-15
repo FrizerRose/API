@@ -55,9 +55,9 @@ export class ContactsService {
     } else {
       const toEmail = this.configService.get<string>('email.default');
 
-      let subject = 'Kontakt sa Dolazim.hr';
+      let subject = 'Kontakt sa Dolazim.info';
       if (payload.company) {
-        subject = 'Kontakt sa Dolazim.hr - Poslovni subjekt: ' + contact.company;
+        subject = 'Kontakt sa Dolazim.info - Poslovni subjekt: ' + contact.company;
       }
 
       this.mailerService

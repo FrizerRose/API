@@ -108,7 +108,7 @@ export class UsersService {
         .sendMail({
           to: payload.email,
           from: this.configService.get<string>('email.default'),
-          subject: 'Dobrodošli na Dolazim.hr',
+          subject: 'Dobrodošli na Dolazim.info',
           template: './staff-welcome',
           context: {
             user: userWithCompany,
