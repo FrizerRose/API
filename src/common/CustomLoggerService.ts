@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import * as winston from 'winston';
-import Sentry from 'winston-transport-sentry-node';
+// import Sentry from 'winston-transport-sentry-node';
 
 export class CustomLoggerService extends Logger {
   private logger: winston.Logger;
@@ -47,7 +47,7 @@ export class CustomLoggerService extends Logger {
     });
 
     if (process.env.NODE_ENV !== 'development') {
-      this.logger.add(new Sentry(options.sentry));
+      // this.logger.add(new Sentry(options.sentry));
     }
   }
 
